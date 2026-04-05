@@ -2,7 +2,7 @@
 
 ## Project
 
-Laravel + PostgreSQL web application
+Laravel + MySQL web application
 
 ## Required read order (start every task with these)
 

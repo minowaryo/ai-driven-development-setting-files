@@ -43,5 +43,5 @@ Laravel を採用する。
 - フレームワークの慣習に縛られる部分がある
 
 ## Related
-- ADR-0002: PostgreSQL採用
+- ADR-0002: MySQL採用
 - `docs/architecture/overview.md`

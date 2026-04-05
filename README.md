@@ -1,6 +1,6 @@
 # AI駆動開発 設定ファイルテンプレート
 
-Laravel + PostgreSQL を前提とした AI駆動開発（Claude Code / Codex 併用）のリポジトリテンプレートです。
+Laravel + MySQL を前提とした AI駆動開発（Claude Code / Codex 併用）のリポジトリテンプレートです。
 
 ## 概要
 
@@ -30,7 +30,7 @@ AI向け要約層      → docs/ai-context/
 │   ├── rules/
 │   │   ├── 00-global.md               # 全体方針・開発フロー
 │   │   ├── 10-laravel.md              # Laravel固有ルール
-│   │   ├── 20-postgresql.md           # PostgreSQL固有ルール
+│   │   ├── 20-mysql.md                # MySQL固有ルール
 │   │   ├── 30-testing.md              # テスト方針
 │   │   ├── 40-security.md             # セキュリティルール
 │   │   ├── 50-review.md               # レビュー観点
@@ -57,7 +57,7 @@ AI向け要約層      → docs/ai-context/
     │   └── authz-authn.md
     ├── adr/                           # 意思決定記録
     │   ├── ADR-0001-use-laravel.md
-    │   ├── ADR-0002-use-postgresql.md
+    │   ├── ADR-0002-use-mysql.md
     │   ├── ADR-0003-auth-strategy.md
     │   └── ADR-0004-ai-development-policy.md
     ├── development/                   # 開発プロセス

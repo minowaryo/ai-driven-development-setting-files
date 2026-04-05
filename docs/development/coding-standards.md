@@ -52,7 +52,7 @@ final class RegisterUserService
 
 ```php
 // OK: なぜを説明している
-// PostgreSQLのROW LOCK を使うのは、同一ユーザーの並行予約を防ぐため
+// MySQLのROW LOCK を使うのは、同一ユーザーの並行予約を防ぐため
 $booking->lockForUpdate()->find($id);
 
 // NG: 何をするか（コードを読めばわかる）

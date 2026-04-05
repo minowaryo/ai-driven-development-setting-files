@@ -2,7 +2,7 @@
 
 ## Project
 
-- **Stack**: Laravel + PostgreSQL
+- **Stack**: Laravel + MySQL
 - **Type**: Monolith web application
 - **Main domains**: [プロジェクト固有のドメインをここに記載]
 
@@ -39,7 +39,7 @@
 
 - `.claude/rules/00-global.md` - 全体方針
 - `.claude/rules/10-laravel.md` - Laravel固有ルール
-- `.claude/rules/20-postgresql.md` - PostgreSQL固有ルール
+- `.claude/rules/20-mysql.md` - MySQL固有ルール
 - `.claude/rules/30-testing.md` - テスト方針
 - `.claude/rules/40-security.md` - セキュリティ
 - `.claude/rules/50-review.md` - レビュー観点

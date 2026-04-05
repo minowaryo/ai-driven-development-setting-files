@@ -17,7 +17,7 @@
 | 層 | 技術 |
 |---|---|
 | Backend | Laravel [バージョン] |
-| DB | PostgreSQL [バージョン] |
+| DB | MySQL [バージョン] |
 | Frontend | [例: Blade / Vue / React] |
 | Auth | [例: Laravel Sanctum] |
 | Queue | [例: Laravel Horizon + Redis] |

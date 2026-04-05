@@ -18,7 +18,7 @@
    ├─ Services / Actions
    └─ Models (Eloquent)
         ↓
-[PostgreSQL]    [Redis (Cache / Queue)]    [S3 (Storage)]
+[MySQL]    [Redis (Cache / Queue)]    [S3 (Storage)]
         ↓
 [Queue Worker (Horizon)]
 ```
@@ -28,7 +28,7 @@
 | コンポーネント | 役割 | 技術 |
 |---|---|---|
 | Web Application | APIサーバー・フロントエンド | Laravel [version] |
-| Database | データ永続化 | PostgreSQL [version] |
+| Database | データ永続化 | MySQL [version] |
 | Cache | セッション・APIキャッシュ | Redis |
 | Queue | 非同期ジョブ | Laravel Horizon + Redis |
 | Storage | ファイル保管 | AWS S3 |

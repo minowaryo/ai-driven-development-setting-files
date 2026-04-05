@@ -47,7 +47,7 @@
 
 注意:
 - docs/architecture/data-model.md を確認してください
-- .claude/rules/20-postgresql.md のMigration方針に従ってください
+- .claude/rules/20-mysql.md のMigration方針に従ってください
 - 後方互換を意識してください
 - 危険な操作（DROP等）の場合は警告してください
 ```

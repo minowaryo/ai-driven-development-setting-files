@@ -17,6 +17,9 @@ AIはこれらのファイルが埋まっていない状態では正確な支援
 
 ### Step 1 — ai-context を埋める（最初に必ずやること）
 
+> 作成にあたっては `docs/original-docs/` に一次資料（要件メモ・画面スケッチ等）を置いてから参照すること。
+> Step 1 完了後は `docs/original-docs/` をデフォルト参照先としない。
+
 | ファイル | 内容 | 優先度 |
 |---|---|---|
 | `docs/ai-context/project-summary.md` | プロジェクト全体の概要・目的・技術スタック | 必須 |
@@ -67,6 +70,7 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 
 | Task type | Read this |
 |---|---|
+| requirements.md / use-cases.md 作成・更新 | `docs/original-docs/`（一次資料参照） + `docs/product/requirements.md` |
 | 要件確認・UC参照 | `docs/product/requirements.md` + `docs/product/use-cases.md` |
 | コード実装（機能開発） | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |
 | UI実装・モックベースの開発 | `docs/product/ui-guidelines.md` + `docs/product/mockups/` |
@@ -83,6 +87,7 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 - **Workflow**: Explore → Plan → Implement → Test の順で進める
 - セッション開始時は必ず `docs/ai-context/` を読む
 - **Gate 2（use-cases.md 承認）が完了するまでコード生成を行わない**
+- `docs/original-docs/` は参照のみ（編集・削除・ファイル作成禁止）
 - 先にドキュメントを確認してからコードに触る
 - 大規模変更の前は必ず `docs/adr/` を確認する
 - Authorization は Policy / Gate を必ず通す（バイパス禁止）

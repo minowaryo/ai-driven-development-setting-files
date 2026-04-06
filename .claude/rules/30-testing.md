@@ -6,12 +6,19 @@
 2. **Unit Test**: 複雑なビジネスロジック・計算ロジック
 3. **E2E Test**: クリティカルなユーザーフロー
 
+## テスト作成前に読むファイル
+
+- `docs/product/use-cases.md` — テストケース名・網羅範囲の導出元（UCが正常系/異常系/権限の基準）
+- `docs/architecture/data-model.md` — DBアサーション・Factoryの型・制約の確認
+- `docs/product/mockups/` — E2Eテストの画面構造・操作フローの確認（存在する場合）
+
 ## 基本ルール
 
 - 変更には必ずFeature Testを追加する
 - バグ修正時は再発防止テストを先に書く（TDD）
 - テストはDBをモックしない（実DBを使う）
 - Factoryを活用してテストデータを生成する
+- テストケース名は `use-cases.md` のUCタイトル・フローを基に命名する
 
 ## 命名規則
 

@@ -32,6 +32,10 @@ Explore → Plan → Implement → Test
     ↓
 [Gate 1] docs/product/requirements.md — レビュアー承認済み
     ↓  ※ AIによる use-cases.md 叩き台生成可
+use-cases.md 作成（AIたたき台 → 人間修正）
+    ↓  ※ AIによるモック生成可（/generate-mock）
+モック作成・ビジネス側レビュー（docs/product/mockups/）
+    ↓  モックフィードバックを use-cases.md に反映
 [Gate 2] docs/product/use-cases.md   — レビュアー最終承認済み ★
     ↓  ※ AIによる acceptance-criteria.md / data-model.md 叩き台生成可
 [Gate 3] docs/architecture/data-model.md — レビュアー承認済み
@@ -50,7 +54,7 @@ AI テスト生成
 | Gate | 条件 | 解禁されること |
 |---|---|---|
 | Gate 0 | `docs/ai-context/` の必須ファイルが記入済み | AI支援の開始 |
-| Gate 1 | `docs/product/requirements.md` レビュアー承認済み | use-cases.md 叩き台生成 |
+| Gate 1 | `docs/product/requirements.md` レビュアー承認済み | use-cases.md 叩き台生成・モック生成 |
 | Gate 2 ★ | `docs/product/use-cases.md` レビュアー最終承認済み | コード生成・acceptance-criteria / data-model 叩き台生成 |
 | Gate 3 | `docs/architecture/data-model.md` レビュアー承認済み | DB実装・マイグレーション作成 |
 

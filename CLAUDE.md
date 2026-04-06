@@ -32,9 +32,16 @@ AIはこれらのファイルが埋まっていない状態では正確な支援
 docs/product/requirements.md        ← ビジネスチーム・BAが作成
     ↓ Gate 1: レビュアー承認
 docs/product/use-cases.md           ← ビジネスチーム・BAが作成（AIによる叩き台生成可）
+    ↓
+docs/product/mockups/               ← AIによる叩き台生成可（/generate-mock コマンド利用）
+    ビジネス側レビュー → フィードバックを use-cases.md に反映
     ↓ Gate 2: レビュアー最終承認 ★ここを通過するまでコード生成禁止
 docs/product/acceptance-criteria.md ← AIによる叩き台生成可
 ```
+
+> **モック作成タイミングの原則**: モックはGate 1通過後〜Gate 2の間に作成する。
+> ビジネス側との要件認識合わせが目的であり、Gate 3（データモデル承認）を待つ必要はない。
+> モックフィードバックをuse-cases.mdに反映してからGate 2承認を行う。
 
 ### Step 3 — アーキテクチャ設計
 
@@ -61,10 +68,12 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 | Task type | Read this |
 |---|---|
 | 要件確認・UC参照 | `docs/product/requirements.md` + `docs/product/use-cases.md` |
+| コード実装（機能開発） | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |
+| UI実装・モックベースの開発 | `docs/product/ui-guidelines.md` + `docs/product/mockups/` |
 | Auth / authorization changes | `docs/architecture/authz-authn.md` |
 | DB schema changes | `docs/architecture/data-model.md` + `docs/adr/` |
 | Architecture / core design changes | `docs/adr/` |
-| Adding / modifying tests | `docs/development/testing-strategy.md` |
+| Adding / modifying tests | `docs/development/testing-strategy.md` + `docs/product/use-cases.md` + `docs/architecture/data-model.md` |
 | Security-related changes | `docs/security/secrets-handling.md` |
 | Release / deployment | `docs/operations/deployment.md` |
 | Change request (CR) 発生時 | `docs/rcid/traceability-matrix.md` |

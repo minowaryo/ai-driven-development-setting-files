@@ -14,6 +14,9 @@
 | 新ドメイン・モジュール追加 | `docs/ai-context/module-map.md` |
 | 用語追加 | `docs/ai-context/glossary.md` |
 | 触ってはいけない領域の変更 | `docs/ai-context/do-not-touch.md` |
+| UI/デザイン仕様変更 | `docs/product/ui-guidelines.md` |
+| モック追加・更新 | `docs/product/mockups/README.md`（画面一覧を更新） |
+| UCへのモックフィードバック反映 | `docs/product/use-cases.md` + `docs/product/mockups/README.md` |
 
 ## ドキュメント更新の原則
 

@@ -74,6 +74,7 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 | 要件確認・UC参照 | `docs/product/requirements.md` + `docs/product/use-cases.md` |
 | コード実装（機能開発） | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |
 | UI実装・モックベースの開発 | `docs/product/ui-guidelines.md` + `docs/product/mockups/` |
+| Frontend / Vue component changes | `.claude/rules/15-vue.md` |
 | Auth / authorization changes | `docs/architecture/authz-authn.md` |
 | DB schema changes | `docs/architecture/data-model.md` + `docs/adr/` |
 | Architecture / core design changes | `docs/adr/` |
@@ -101,6 +102,7 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 
 - `.claude/rules/00-global.md` - 全体方針・開発フロー・品質ゲート
 - `.claude/rules/10-laravel.md` - Laravel固有ルール
+- `.claude/rules/15-vue.md` - Vue.js + Inertia.js 固有ルール
 - `.claude/rules/20-mysql.md` - MySQL固有ルール
 - `.claude/rules/30-testing.md` - テスト方針
 - `.claude/rules/40-security.md` - セキュリティ

@@ -17,6 +17,9 @@
 | UI/デザイン仕様変更 | `docs/product/ui-guidelines.md` |
 | モック追加・更新 | `docs/product/mockups/README.md`（画面一覧を更新） |
 | UCへのモックフィードバック反映 | `docs/product/use-cases.md` + `docs/product/mockups/README.md` |
+| フロントエンド画面・コンポーネント追加 | `docs/ai-context/module-map.md` |
+| 状態管理（Pinia Store）の追加・変更 | `docs/architecture/overview.md` |
+| フロントエンド技術選定（ライブラリ変更等） | `docs/adr/ADR-XXXX-xxx.md`（新規作成） |
 
 ## ドキュメント更新の原則
 

@@ -19,6 +19,10 @@
 | ADR | Architecture Decision Record（意思決定記録） |
 | Gate | Laravel認可の仕組み（Policy経由で呼ぶ） |
 | RCID | Requirement Change ID（要件変更ID・トレーサビリティ用） |
+| Inertia.js | Laravel とフロントフレームワークをサーバー駆動でつなぐアダプター。SPA ライクなUXを API 設計なしで実現する |
+| Pinia | Vue 3 公式推奨の状態管理ライブラリ。Vuex の後継 |
+| Composable | `use~` 命名の関数。Composition API のロジックを再利用可能な形で切り出したもの（`resources/js/Composables/`） |
+| Page コンポーネント | Inertia のルートに対応する `Pages/` 配下の `.vue` ファイル。Controller の return で指定される |
 
 ## 略語
 

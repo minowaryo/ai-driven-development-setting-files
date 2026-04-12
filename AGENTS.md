@@ -20,6 +20,7 @@ Laravel + MySQL web application
 | Requirements / UC reference | `docs/product/requirements.md` + `docs/product/use-cases.md` |
 | Code implementation | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |
 | UI implementation / mock-based dev | `docs/product/ui-guidelines.md` + `docs/product/mockups/` |
+| Frontend / Vue changes | `.claude/rules/15-vue.md` |
 | Auth changes | `docs/architecture/authz-authn.md` |
 | DB changes | `docs/architecture/data-model.md` + `docs/adr/` |
 | Test changes | `docs/development/testing-strategy.md` + `docs/product/use-cases.md` + `docs/architecture/data-model.md` |

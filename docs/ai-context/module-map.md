@@ -15,6 +15,16 @@
 | `app/Listeners/` | イベントハンドラ | 重い処理はQueueに |
 | `app/Jobs/` | 非同期ジョブ | Horizon経由で実行 |
 
+## Frontend (Vue.js + Inertia.js)
+
+| パス | 役割 | 注意 |
+|---|---|---|
+| `resources/js/Pages/` | Inertia ページコンポーネント（ルート単位） | Controller の return で指定される |
+| `resources/js/Components/` | 汎用・共通コンポーネント | 単一責務・再利用可能に保つ |
+| `resources/js/Composables/` | ロジック分離用 Composable（`use~` 命名） | コンポーネントのロジックをここに集約 |
+| `resources/js/stores/` | Pinia Store（`useXxxStore` 命名） | ローカル状態は入れない |
+| `resources/js/app.js` | エントリポイント | Inertia の初期化処理 |
+
 ## Database
 
 | パス | 役割 |

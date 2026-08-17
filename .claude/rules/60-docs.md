@@ -69,3 +69,5 @@ YYYY-MM-DD
 ## Consequences
 [この決定による影響・トレードオフ]
 ```
+
+「検討したが今は採用しない（見送り）」という結論を記録する場合のタイトル・Status・Decisionの書き方は `.claude/commands/adr.md` の「見送り（不採用）を記録する場合のバリエーション」を参照する。

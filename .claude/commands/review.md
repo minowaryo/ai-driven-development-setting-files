@@ -38,6 +38,7 @@ bash .claude/hooks/review-score.sh
 - [ ] バリデーションが適切か
 - [ ] secrets・PII がコードに含まれていないか
 - [ ] ログに個人情報が出ていないか
+- [ ] 特権操作・破壊的操作が固定最小スキーマで `audit` チャンネルに記録されているか（`.claude/rules/40-security.md`）
 
 ### テスト（`.claude/rules/30-testing.md` 参照）
 - [ ] Feature Testが追加されているか

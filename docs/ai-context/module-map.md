@@ -10,6 +10,7 @@
 | `app/Services/` | ビジネスロジック | 1クラス1責務 |
 | `app/Actions/` | 単一操作のアクション | `execute()` メソッドに集約 |
 | `app/Models/` | Eloquentモデル・リレーション | ビジネスロジックを書かない |
+| `app/Concerns/` | Model横断で共有するトレイト（Actor Stamp等） | モデル単位のオプトイン。全モデル一律適用は禁止 |
 | `app/Policies/` | 認可ルール | 必ずGate経由で呼ぶ |
 | `app/Events/` | ドメインイベント | 過去形の名前 |
 | `app/Listeners/` | イベントハンドラ | 重い処理はQueueに |

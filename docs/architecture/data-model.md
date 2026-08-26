@@ -51,6 +51,7 @@
 - 主キーは `bigint` (auto increment)
 - タイムスタンプは `timestamp`（文字コードは utf8mb4 を使用）
 - 論理削除が必要なテーブルは `deleted_at` を追加
+- 監査証跡が必要なテーブルは `created_by` / `updated_by` / `deleted_by` を追加する（nullable FK → `users(id)`、テーブル単位のオプトイン。`.claude/rules/10-laravel.md` 参照）
 - 金額は `decimal(15, 2)`（float禁止）
 - 外部キーには必ずインデックスを作成
 

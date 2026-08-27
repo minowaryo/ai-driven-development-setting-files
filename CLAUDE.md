@@ -52,7 +52,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 - セッション開始時は必ず `docs/ai-context/` を読む
 - **Gate 2（use-cases.md 承認）が完了するまでコード生成を行わない**
 - **Gate 4（テストケース承認）が完了するまで実装（Greenフェーズ）に着手しない**（`.claude/rules/30-testing.md`）
-- `docs/original-docs/` は参照のみ（編集・削除・ファイル作成禁止）
+- `docs/original-docs/` は参照のみ（編集・削除・ファイル作成禁止）。ただし自身の `README.md` はAIが編集してよい
 - 先にドキュメントを確認してからコードに触る
 - 大規模変更の前は必ず `docs/adr/` を確認する
 - Authorization は Policy / Gate を必ず通す（バイパス禁止）

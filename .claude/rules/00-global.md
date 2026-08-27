@@ -68,7 +68,7 @@ Explore → Plan → Implement → Test
 - テストなし実装（バグ修正には再発防止テストを必ず追加）
 - スコープ外ファイルの編集
 - secrets・本番資格情報をプロンプトに含める
-- `docs/original-docs/` の編集・削除・ファイル新規作成（参照のみ可）
+- `docs/original-docs/` の編集・削除・ファイル新規作成（参照のみ可。ただし自身の `README.md` の編集は例外）
 
 ---
 

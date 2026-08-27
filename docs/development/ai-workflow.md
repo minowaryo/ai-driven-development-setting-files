@@ -35,10 +35,6 @@
 
 サブエージェント構成・スキル実行タイミング・`@nizos/probity` 導入判断など詳細は `.claude/rules/30-testing.md` を参照。
 
-### 効果的なプロンプト
-
-`docs/ai-context/prompt-patterns.md` を参照。
-
 ### Claude Code に読ませる文脈
 
 > 正式な一覧は `CLAUDE.md` の「Read first」「Read when relevant」を参照（本節はその要約であり、内容が食い違う場合は `CLAUDE.md` を正とする）。

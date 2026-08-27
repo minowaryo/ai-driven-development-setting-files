@@ -72,8 +72,7 @@ AI向け要約層        → docs/ai-context/
     │   ├── module-map.md              # ディレクトリ担当一覧
     │   ├── common-commands.md         # よく使うコマンド集
     │   ├── glossary.md                # 用語集
-    │   ├── do-not-touch.md            # 触ってはいけない領域
-    │   └── prompt-patterns.md         # プロンプト定型文
+    │   └── do-not-touch.md            # 触ってはいけない領域
     ├── original-docs/                 # 人間が持ち込む一次資料（AI編集禁止・参照のみ可）
     │   └── README.md                  # ファイル一覧・用途メモ
     ├── product/                       # ビジネス要件・UIデザイン

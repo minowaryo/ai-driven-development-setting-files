@@ -36,7 +36,6 @@ AIはこれらのファイルが埋まっていない状態では正確な支援
 | `docs/ai-context/module-map.md` | ディレクトリ構成と各モジュールの責務 | 必須 |
 | `docs/ai-context/do-not-touch.md` | AIが変更してはいけない領域・ファイル | 必須 |
 | `docs/ai-context/common-commands.md` | よく使うコマンド（migrate / test / lint 等） | 推奨 |
-| `docs/ai-context/prompt-patterns.md` | 定型プロンプト集 | 任意 |
 
 ### Step 2 — 要件定義ドキュメントを作成する
 

@@ -77,7 +77,7 @@ Explore → Plan → Implement → Test
 - [ ] 関連ADRを確認したか
 - [ ] use-cases.md に変更の影響はないか
 - [ ] Gate 4（テストケース承認）を得てから実装（Green）に着手したか
-- [ ] CR（Change Request）の場合、traceability-matrix.md を更新したか
+- [ ] CR（Change Request）の場合、`docs/rcid/traceability-matrix.md` を更新したか（手動更新、または次回再生成の対象としてフラグ付け — 同ファイルのMaintenance節を参照）
 - [ ] マイグレーション計画はあるか（DB変更の場合）
 - [ ] テストを追加したか
 - [ ] ドキュメントを更新したか

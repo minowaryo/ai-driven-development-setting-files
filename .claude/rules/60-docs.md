@@ -24,7 +24,7 @@
 | ユーザー向け機能・操作方法の変更 | `docs/product/user-guide.md` |
 | UATシナリオ・結果の追加（任意） | `docs/product/uat-scenarios.md` / `docs/product/uat-results/`（`.claude/rules/00-global.md` のUAT節を参照。非ブロッキング） |
 | ライブラリ/フレームワーク固有のハマりどころを解決した | `docs/ai-context/known-pitfalls.md`（常時読込ではないため、コード変更と同一PRである必要はない。解決した都度追記） |
-| Gate条件・品質ゲート運用の変更 | `.claude/rules/00-global.md`（詳細表・絶対禁止）+ `CLAUDE.md`（Step手順）+ `AGENTS.md`（Codex用。Gate定義を複製しているため3ファイル同期が必要） |
+| Gate条件・品質ゲート運用の変更 | `.claude/rules/00-global.md`（詳細表・絶対禁止）+ `SETUP.md`（Step手順）+ `AGENTS.md`（Codex用。Gate定義を複製しているため3ファイル同期が必要） |
 
 ## ドキュメント更新の原則
 
@@ -49,7 +49,7 @@
 `PLAN.md`はセッションをまたいで参照する現在進行中のタスク台帳であり、無制限に追記し続けると1ファイルが肥大化し逆に参照性が落ちる。以下のルールで一定サイズ以内に保つ。
 
 - **上限**: `PLAN.md`は**300行を超えないようにする**（250行を超えた時点でアーカイブ実施を検討する目安とする）
-- **アーカイブ先**: `docs/history/plan-archive.md`（プロジェクト内に存在しない場合は新規作成する）
+- **アーカイブ先**: `docs/history/plan-archive.md`(プロジェクト内に存在しない場合は新規作成する)
 - **退避対象の選び方**: `PLAN.md`は新しいエントリを先頭に追記する運用のため、**ファイル末尾（最も古い）のエントリから**、Statusが「完了」相当（例: 完了・Green確認完了・マージ済み・実装済み等、後続作業がぶら下がっていない状態）のものを退避する。ユーザーの承認待ち・作業中・次のアクションが明記されているエントリは残す
 - **手順**:
   1. 対象エントリ（`##`見出し単位、Decision/Files touched/Statusの3節セット）を丸ごと`docs/history/plan-archive.md`に移す。アーカイブ側も新しい順（＝`PLAN.md`から外れた直後のものが先頭）に並べる

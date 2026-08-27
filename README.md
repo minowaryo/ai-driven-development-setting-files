@@ -7,6 +7,7 @@ Laravel + MySQL を前提とした AI駆動開発（Claude Code / Codex 併用�
 このリポジトリは以下を含むテンプレートです:
 - **Claude Code 用ルールファイル** (`CLAUDE.md`, `.claude/rules/`, `.claude/commands/`)
 - **Codex 用指示ファイル** (`AGENTS.md`)
+- **プロジェクト初回セットアップガイド** (`SETUP.md`) — Gate 0〜4 のセットアップ手順。新規プロジェクト開始時に一度だけ読む
 - **AI向け要約ドキュメント** (`docs/ai-context/`)
 - **設計ドキュメントテンプレート** (`docs/product/`, `docs/architecture/`, `docs/adr/`)
 - **開発プロセスドキュメント** (`docs/development/`, `docs/security/`)
@@ -28,6 +29,7 @@ AI向け要約層        → docs/ai-context/
 .
 ├── CLAUDE.md                          # Claude Code エントリポイント
 ├── AGENTS.md                          # Codex エントリポイント
+├── SETUP.md                           # プロジェクト初回セットアップガイド（Gate 0〜4 のセットアップ手順）
 │
 ├── PLAN.md                            # 開発計画（進行中タスク管理）
 ├── .mcp.json                          # プロジェクトスコープMCP（Playwright等）
@@ -99,6 +101,8 @@ AI向け要約層        → docs/ai-context/
 ```
 
 ## 使い始め方
+
+詳細なGate 0〜4の手順は `SETUP.md` を参照。以下は概要:
 
 1. このリポジトリをテンプレートとして新しいプロジェクトにコピーする
 2. `[PROJECT_NAME]` などのプレースホルダーをプロジェクト固有の情報に置き換える

@@ -34,7 +34,7 @@ PRを出す前に自分で確認する:
 ### 機能・設計
 - [ ] 要件（use-cases.md）と実装が一致しているか
 - [ ] 既存の設計パターンに沿っているか
-- [ ] Fat Controller になっていないか
+- [ ] 各Controllerが `.claude/rules/10-laravel.md` のDomain Boundary契約を満たしているか（`DB::` を呼んでいない、Eloquentの書き込みをしていない、ロールのインラインチェックをしていない、複数エンティティにまたがる判断をしていない）？ `/review` のStep 0で実行される `.claude/hooks/domain-boundary-check.sh` が機械的に検出可能な部分を検知する——クリーンな実行結果は証拠にはならない。プレーンなPHPで書かれたクロスエンティティな判断はこのチェックには見えないため
 - [ ] Policy / Gate を通しているか
 
 ### DB・パフォーマンス

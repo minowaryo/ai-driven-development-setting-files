@@ -2,11 +2,39 @@
 
 ## アーキテクチャ方針
 
+### Domain Boundary（ドメイン境界）
+
+> 関連ADR: `meta/adr/ADR-0011-domain-boundary-contract.md`
+
+「Fat Controller禁止」だけでは曖昧で実行可能な基準にならないため、境界を明示的な契約として明文化する。**Domain Boundary（ドメイン境界）** とは Service/Action レイヤーと Policy レイヤーを指す。判断・認可・永続化を行うものはすべてこの境界の内側に置く。
+
+```
+Controller → FormRequest → Service / Action  (ビジネスルール・トランザクション)
+                         → Policy            (認可)
+                         → Eloquent Model    (スキーマ・リレーションのみ)
+```
+
+設計目標は「Controllerを正しく書くこと」ではなく、**「Controllerが誤っていてもシステムが正しさを保つこと」**である——想定外の値を送る、任意ステップを省略する、別のクライアントに置き換えられるといったHTTP層であっても、データを破壊したり認可を回避したりできてはならない。
+
 ### Controller
-- 薄く保つ（Fat Controller禁止）
-- バリデーションは `FormRequest` に委譲
-- ビジネスロジックは `Service` / `Action` に委譲
-- 直接 `DB::` を呼ばない
+
+Controllerが**行ってよいのは**以下のみ:
+
+- `FormRequest` によるリクエストのバリデーション
+- `authorize()` の呼び出し
+- `Service` / `Action` の呼び出し（**ちょうど1つ**）
+- レスポンスの整形（view / redirect / JSON）
+
+Controllerは**以下を行ってはならない**:
+
+- `DB::` の呼び出し、またはデータベースコンテナの解決（`app('db')`）——トランザクションはServiceレイヤーの責務
+- Eloquentの書き込みメソッドを直接呼び出す——`save` / `fill` / `update` / `updateOrCreate` / `firstOrCreate` / `create` / `insert` / `upsert` / `delete` / `forceDelete` / `restore` / `increment` / `decrement` / `attach` / `detach` / `sync` / `associate`
+- ロールのインラインチェック（`$user->role === 'admin'`、`$user->isAdmin()` など）——認可は `meta/adr/ADR-0003-auth-strategy.md` に従いPolicyを経由する
+- **複数のエンティティ**にまたがる判断を行う（例: 注文の数量と商品の在庫を比較する）——これはクロスエンティティな不変条件であり、Service / Actionの責務
+
+**これは下記の「Modelにビジネスロジックを書かない」と矛盾しない。** 実施（enforcement）はService/Actionレイヤーが担い、Modelはスキーマとリレーションのみを保持する。ここで意図的に「Model層」という語を避けているのは、フレームワークによって意味が異なるためである。
+
+`.claude/hooks/domain-boundary-check.sh` は、`/review` 実行時にこの契約のうち機械的に検出可能な部分を検知する。4つ目のルール——プレーンなPHPで書かれたクロスエンティティな判断には識別可能なトークンが存在しない——はこのスクリプトには見えないため、レビューに委ねる。
 
 ### Service / Action
 - 1クラス1責務を守る

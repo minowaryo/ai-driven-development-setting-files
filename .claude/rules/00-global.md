@@ -8,6 +8,7 @@
 - [ ] `docs/ai-context/glossary.md` が記入済みか
 - [ ] `docs/adr/` にフロントエンド技術選定のADRが存在するか（`meta/adr/ADR-0005-frontend-stack.md` の選定プロセスを経ているか）
 - [ ] `docs/product/use-cases.md` の承認状況はどうか
+- [ ] 既存コードベースへの導入である場合（`docs/ai-context/` はまだプレースホルダーだが、リポジトリには既に実質的なアプリケーションコードがある場合）、Step 1〜3の代わりに `SETUP.md` の既存コードベース導入パスに従ったか（この検知は本来 `docs/ai-context/project-summary.md` 自身のプレースホルダー本文が主として担う——本チェックは補助的な位置づけ）
 
 ---
 
@@ -53,6 +54,10 @@ Explore → Plan → Implement → Test
 | Gate 2 ★ | `docs/product/use-cases.md` レビュアー最終承認済み | コード生成・acceptance-criteria / data-model 叩き台生成 |
 | Gate 3 | `docs/architecture/data-model.md` レビュアー承認済み | DB実装・マイグレーション作成 |
 | Gate 4 | TDD Redフェーズのテストケース（Feature/Unit）がレビュアー承認済み | 実装（Greenフェーズ）着手 |
+
+> **既存コードベースへの導入**: 既にコードが存在するプロジェクトに本ハーネスを導入する場合、上記のGate 0〜3は
+> 4回の個別承認ではなく1回の統合レビューで満たされる——`SETUP.md` の既存コードベース導入パス、
+> `meta/adr/ADR-0012-existing-codebase-adoption.md` を参照。
 
 > **Gateの性質の違い**: Gate 0〜3 はプロジェクト単位で1度だけ通過するドキュメント承認ゲート。Gate 4 は機能・UC単位で、TDDサイクル（`/tdd`）を回すたびに繰り返す実装ゲート。
 > **モックレビューはGate番号を持たない**: `docs/product/mockups/` のビジネス側レビューは独立したGateではなく、Gate 2（use-cases.md最終承認）の前提条件として扱う（フィードバックをuse-cases.mdに反映してからGate 2承認を行う設計）。

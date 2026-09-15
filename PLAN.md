@@ -1,5 +1,25 @@
 # PLAN.md
 
+## 既存コードベース導入パスの追加（ENリポジトリからの移植） (2026-09-15)
+
+### Decision
+
+- 本ハーネスのGate 0〜4パイプラインはグリーンフィールド（新規開発。コードが存在する前に人間が白紙から `requirements.md` を書く）を前提としていた。既にコードが存在するプロジェクトへ本ハーネスを導入するための汎用的な「既存コードベース導入パス」を追加した: `SETUP.md` にStep 0の分岐を新設し（新規プロジェクト→従来のStep 1〜4のまま／既存コード→Step 1B〜3B、その後Step 4に合流）、`meta/adr/ADR-0012-existing-codebase-adoption.md` に記録した。単一リポジトリ・単一ファイル内でGate 0の内部に分岐を設ける構成であり、`ADR-0005`のフロントエンドスタック選定と同じパターンを踏襲した（フォークではない。Gate 1〜4と `.claude/rules/10〜60` はどちらのパスでも同一のため）。ENリポジトリの `ADR-0011` に相当する内容だが、本リポジトリでは0010番・0011番が既に別件（保留中のスキル化基準ADR／Domain Boundary契約）で使用済みのため、`ADR-0012`として採番した。
+- Step 1Bは、`ADR-0005`がフロントエンドに対してのみ行っている「検出する、決めつけない」という扱いを、バックエンド・DB・認証方式にも一般化した（`ADR-0001`/`ADR-0002`/`ADR-0003`との突き合わせ）。PHP/Laravel系ですらない根本的な不一致の場合は、無理に適用せずその場で導入対象外と判定する。
+- 出力は2本のリストに分離した: ブロッキングの**「要確認」**リスト（逆生成したドキュメント自体の信頼性に関わるものだけ。これを解消することが単一の統合Gate 0〜3承認になる）と、非ブロッキングの**「Backlog」**リスト（`domain-boundary-check.sh --audit-all` の指摘。`ADR-0011`自身の「積み残しであってブロッカーではない」という考え方をそのまま踏襲）。初期ドラフトではBacklogの指摘をブロッキング側に混ぜており、また組み込みスキル`security-review`をオンボーディングに組み込もうとしたが、いずれもレビューで修正・不採用とした——前者は`ADR-0011`の立場と矛盾し、後者はdiffスコープのため引き継いだアプリケーションコードを見られないことが判明したため。
+- `/onboard-existing-codebase` コマンドを新設し、Step 1B〜3Bを一気通貫で自動化する。Claude Code組み込みの `/init` の拡張版・専用版という位置づけとし、`/init` をこのテンプレートに実行することは非推奨とした（本テンプレート固有の`CLAUDE.md`を汎用形式で上書きしてしまうため）。
+- 分岐開始の検知は `.claude/rules/00-global.md` ではなく `docs/ai-context/project-summary.md` のプレースホルダー本文に持たせた——`00-global.md` は毎セッション読み込みリストに含まれておらず、後者のみが確実にセッション最初に読まれるため。
+- `docs/development/ai-workflow.md` の役割分担を新規/既存コードベースの2表構成にし、`meta/adr/ADR-0004` に既存の2026-07-15形式を踏襲した改訂注記を追加した。`docs/original-docs/README.md` にも、既存の「一次情報源」記述（グリーンフィールド前提）と新しい「コードが正」の原則が矛盾して見えないよう、両者とも既存の `.claude/rules/00-global.md`「ユーザー向け挙動変更には常に承認が必要」ルールに基づくことを明記した。
+- あえてルールブックにはしない設計とした——コードとドキュメントの食い違いのパターンを事前に網羅するのではなく、「迷ったら要確認リストに載せて必ず尋ねる」という一点のみを`SETUP.md`・新設コマンド・ADRの3箇所で明示した。
+
+### Files touched
+
+`meta/adr/ADR-0012-existing-codebase-adoption.md`（新規）、`SETUP.md`、`.claude/commands/onboard-existing-codebase.md`（新規）、`docs/development/ai-workflow.md`、`meta/adr/ADR-0004-ai-development-policy.md`、`docs/ai-context/project-summary.md`、`.claude/rules/00-global.md`、`AGENTS.md`、`README.md`、`docs/original-docs/README.md`、`.claude/rules/60-docs.md`、`meta/adr/README.md`。
+
+### Status
+
+完了。ドキュメントのみの変更（アプリケーションコードの変更なし、ビルド・テスト不要）。次のフォローアップなし。実際のドラフト挙動は、既存コードを持つプロジェクトで初めて本パスを使った際に検証される。
+
 ## Domain Boundaryの契約化と決定的なController検知（ENリポジトリからの移植） (2026-09-14)
 
 ### Decision

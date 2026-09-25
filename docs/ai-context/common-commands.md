@@ -1,5 +1,18 @@
 # common-commands.md — よく使うコマンド集
 
+## Claude Code コマンド（`.claude/commands/`）
+
+| コマンド | いつ実行するか | 実行の起点 |
+|---|---|---|
+| `/onboard-existing-codebase` | 既にコードが存在するプロジェクトへ導入する初回の1回のみ（Step 1B〜3B → Gate 0〜3の統合サインオフ） | 人間 |
+| `/generate-mock UC-XXX` | Gate 1通過後〜Gate 2の間。ビジネス側レビュー用のHTMLモックを生成 | 人間 |
+| `/adr` | 技術的な意思決定をしたとき。ADRのひな形を生成し、人間が決定を確定させる | 人間（AIが提案する） |
+| `/tdd UC-XXX 機能名` | 機能・UCの実装ごと。Red → Gate 4承認 → Green → Refactor | 人間 |
+| `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 自動 — 該当時に `/tdd` の手順6から実行される |
+| `/review` | Refactor完了後・マージ前。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
+
+> Green完了後の実挙動確認（`run` スキル）は自動実行せず推奨に留める——バンドルされたスキルは人間が明示的に呼び出した場合にのみ実行されるため。詳細は `.claude/rules/30-testing.md`。
+
 ## テスト
 
 ```bash

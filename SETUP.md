@@ -42,6 +42,10 @@ Step 0 — 導入タイプの判定
 /onboard-existing-codebase
 ```
 
+→ スタックを検出し、`docs/ai-context/*`・`use-cases.md`・`data-model.md` をドラフトし、最後に人間のレビュー用
+「要確認」リストとBacklogリストを出力する（`.claude/commands/onboard-existing-codebase.md` 参照）。
+「要確認」リストを解消したらStep 4に合流する。
+
 **基本原則**: 現在何が起きているかについては、動いているコードベースの方が正である。既存の社内ドキュメント（Wiki・古い仕様書・README等）は突き合わせのための参考資料にすぎず、実際のコードを読むことの代わりにはならず、コードがしていることを黙って上書きする根拠にもならない。
 **曖昧さやコードとドキュメントの食い違いを、どちらが正しいか推測で決めつけ、その推測の上にドラフトを書いてはならない——「要確認」リストに載せて尋ねること。**
 
@@ -87,6 +91,12 @@ Step 0 — 導入タイプの判定
 - `meta/adr/ADR-0005-frontend-stack.md` の選定基準・比較表を確認し、このプロジェクトのフロントエンドスタックを決定する
 - `/adr` コマンドで選定結果を `docs/adr/ADR-XXXX-frontend-stack-selection.md` として記録する（デフォルト推奨〔Vue 3 + Inertia.js + Pinia〕以外を選ぶ場合、または複数候補で迷った場合は理由と却下案を明記する）
 
+  ```
+  /adr
+  ```
+
+  → 意思決定の内容を対話形式で聞き取り、次の番号の `docs/adr/ADR-XXXX-[title].md` を作成する（記入するテンプレートは `.claude/commands/adr.md` 参照）
+
 **1b. 選定確定後のルールファイル反映**
 
 - `.claude/rules/15-frontend.md` の内容を選定結果に合わせて書き換える（Vue 3 + Inertia.js + Pinia を選定した場合はデフォルト内容のまま利用可）
@@ -119,6 +129,15 @@ docs/product/mockups/               ← AIによる叩き台生成可（/generat
 docs/product/acceptance-criteria.md ← AIによる叩き台生成可
 ```
 
+モック生成はUCごとに1回実行する:
+
+```
+/generate-mock UC-006
+```
+
+→ `docs/product/mockups/screen-UC006-[画面名].html` を生成し、`docs/product/mockups/README.md` の
+画面一覧に追加する（`.claude/commands/generate-mock.md` 参照）
+
 > **モック作成タイミングの原則**: モックはGate 1通過後〜Gate 2の間に作成する。
 > ビジネス側との要件認識合わせが目的であり、Gate 3（データモデル承認）を待つ必要はない。
 > モックフィードバックをuse-cases.mdに反映してからGate 2承認を行う。
@@ -141,6 +160,15 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 ```
 Red → [Gate 4: テストケース承認 ★実装(Green)着手禁止] → Green → Refactor → /review
 ```
+
+機能・UCごとにTDDサイクルを1回実行する:
+
+```
+/tdd UC-006 注文一覧フィルタ機能
+```
+
+→ Red（`test-writer` サブエージェントによる失敗するテスト作成）を実行し、Gate 4での承認を得るまで
+Green（`tdd-implementer` サブエージェントによる実装）とRefactorには進まない（`.claude/commands/tdd.md` 参照）
 
 > Gate 4 は Gate 0〜3（プロジェクトで1度だけ通過）と異なり、機能・UC単位でTDDサイクルのたびに繰り返す。
 > フェーズごとの手順・サブエージェント構成・スキル実行タイミングは `.claude/rules/30-testing.md` を参照。

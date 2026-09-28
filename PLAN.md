@@ -1,5 +1,115 @@
 # PLAN.md
 
+## サードパーティ製スキル概念の自社導入（Trial）+ 見送り記録（ENリポジトリからの移植） (2026-09-28)
+
+### Decision
+
+- ENリポジトリで実施済みの「Superpowers比較を踏まえたサードパーティ製スキル/プラグイン導入検討」を
+  本リポジトリに移植した。ENリポジトリ側では2回の調査パス（本リポジトリ自身の `.claude/` 構成の
+  棚卸しと、Superpowers・Laravel Boost・cc-sdd・`mattpocock/skills`・hookifyの実態確認）を経て
+  判断されており、その結論を翻訳・番号を付け替えて移植した。
+- **自社流用、まとめて一度に導入、Trialと明記**（`meta/adr/ADR-0014-third-party-skill-adoption-trial.md`）:
+  新規スキル `.claude/skills/systematic-debugging/SKILL.md`（不明瞭なバグへの再現・切り分け規律）と
+  `.claude/skills/verification-before-completion/SKILL.md`（このターンで実際に実行するまで「完了」と
+  言わない）、`.claude/rules/30-testing.md` への新規「テストの質に関するヒューリスティクス」節
+  （検証対象の振る舞いをモックしない、期待値を実装から逆算しない、意図した修正を戻しても失敗するか
+  サニティチェックする）、そして新規スキル `.claude/skills/grill-me/SKILL.md`（`mattpocock/skills` から
+  翻案・出典明記した、要件定義の一問一答インタビュー）。いずれもインストールするプラグインではない——
+  SuperpowersのSessionStart強制注入（`<EXTREMELY_IMPORTANT>` タグで約1,300トークン。GitHub Issue
+  #1480/#1456/#2377で検証済み）とTDDの非強制（Issue #384/#2372）が実際にリスクであることを検証した
+  上で、その根底にあるアイデアだけを自社で書き直した。ユーザーは4項目を段階導入せずまとめて一度に
+  導入することを明示的に選択した——3項目はAI自身の内部規律を厳しくするだけであり、`grill-me` だけが
+  人間とのやり取りのパターンを変えるため、その1点だけをロールアウト追跡表で個別に注視する。
+  `ADR-0014` はADR Statusに新しい値「Trial」を導入し、`.claude/commands/adr.md` と
+  `.claude/rules/60-docs.md` のテンプレートにも反映した。
+- **検討したが見送り、記録のみで機能変更なし**（`meta/adr/ADR-0015-third-party-integrations-deferred.md`）:
+  Laravel Boost（`laravel/boost`）——却下ではなく見送り。`php artisan boost:install` が
+  `CLAUDE.md`/`AGENTS.md` を上書きしてしまうため。導入する場合はMCPサーバーのみを手動登録し、
+  本テンプレートには絶対にフルインストーラを実行しないこと。cc-sdd（`gotalab/cc-sdd`）——本ハーネス
+  自身のGate 0〜3パイプラインと重複するため却下。hookify（Anthropic公式プラグイン）——見送り・様子見。
+  `ADR-0011` のスクリプト実行方式という意図的な選択があるため、実フック化の検討は別枠で行う。
+  Superpowers本体（プラグイン丸ごとの導入）——上記2つの検証済みリスクを理由に却下。
+
+### Files touched
+
+`meta/adr/ADR-0014-third-party-skill-adoption-trial.md`（新規）、
+`meta/adr/ADR-0015-third-party-integrations-deferred.md`（新規）、
+`.claude/skills/systematic-debugging/SKILL.md`（新規）、
+`.claude/skills/verification-before-completion/SKILL.md`（新規）、
+`.claude/skills/grill-me/SKILL.md`（新規）、`.claude/rules/30-testing.md`、
+`.claude/rules/00-global.md`、`CLAUDE.md`、`docs/ai-context/common-commands.md`、
+`README.md`、`meta/adr/README.md`、`.claude/commands/adr.md`、`.claude/rules/60-docs.md`。
+
+### Status
+
+実装済み。未コミット——明示的な指示を待つ。フォローアップ: `ADR-0014` のロールアウト追跡表を、
+バッチをしばらく使ってから見直す——Acceptedへ昇格させるか、個別にロールバックするか判断する
+（`grill-me` の人間側の摩擦を最優先で観察する）。
+
+## スキルとコマンドの使い分け基準 + /regenerate-traceability の追加（ENリポジトリからの移植） (2026-09-28)
+
+### Decision
+
+- ENリポジトリには存在するが本リポジトリにはまだなかった「スキル」という仕組み自体
+  （`.claude/skills/` ディレクトリ、AIが自己判断で発動できるエントリポイントという概念）を移植した。
+  これは今回の主目的（サードパーティ製スキル概念の導入）を行う前提として必要だったため、
+  先にキャッチアップした。
+- `meta/adr/ADR-0013-skills-vs-commands.md`（ENリポジトリの `ADR-0012` に相当。本リポジトリでは
+  0012番が既に別件（既存コードベース導入パス）で使用済みのため0013番として採番した）に、
+  スキル/コマンドの判断基準を記録した:「実行し忘れる」ことが失敗モードならスキル、
+  「タイミングを誤って実行する」ことが失敗モードならコマンド。既存6コマンドはいずれもコマンド側の
+  ままとした（移行のコストに見合う機能的な利点がないため）。
+- この基準の最初の適用例として `.claude/skills/regenerate-traceability/SKILL.md` を新規追加した——
+  `docs/rcid/traceability-matrix.md` の「マトリクス」表（「変更追跡」表は対象外）を、
+  `use-cases.md` と実際のコード・テストから再生成するスキル。JA版の見出し表記
+  （「マトリクス」「変更追跡」「最終再生成日:」）に合わせて内容を調整した。
+- 単体エクスポート（`dist/skills/<name>/SKILL.md`、`.gitignore` 対象）の慣行もADRに記録したが、
+  実際のエクスポートファイル自体は生成していない——ビルド成果物であり、共有したくなった時点で
+  再生成するものであるため。
+
+### Files touched
+
+`meta/adr/ADR-0013-skills-vs-commands.md`（新規）、
+`.claude/skills/regenerate-traceability/SKILL.md`（新規）、`.gitignore`、
+`docs/ai-context/common-commands.md`、`README.md`、`meta/adr/README.md`。
+
+### Status
+
+完了。フォローアップなし。
+
+## review-score / domain-boundary フックの堅牢化とドキュメント整合性の修正（ENリポジトリからの移植） (2026-09-28)
+
+### Decision
+
+- ENリポジトリのコミット `e076b6a`（"fix: harden review-score/domain-boundary hooks and doc
+  consistency"）で修正済みだった内容を本リポジトリに移植した。これらは本リポジトリのフック側には
+  未反映のバグ修正だった：
+  - `review-score.sh` / `domain-boundary-check.sh` の両方に、サブディレクトリから実行しても
+    動作するようリポジトリルートへ `cd` する処理を追加した
+  - 両スクリプトとも、コミット済みの差分だけでなく**未コミット・未追跡の変更もスコアリング/監査対象に
+    含める**よう変更した——`/tdd` 直後に `/review` を実行するとスコアがゼロになっていた問題を修正
+  - ベースブランチがローカルに存在しない場合、`origin/<base>` へフォールバックする処理を追加した
+  - `.claude/rules/50-review.md` と `meta/adr/ADR-0009-review-escalation-mechanism.md` にあった
+    ドキュメントとコードの不一致（ドキュメントは「閾値を超えたら」、コードは `>=`）を修正し、
+    両ファイルの文言を「閾値以上」に統一した
+  - `.claude/commands/onboard-existing-codebase.md` にあった壊れた相互参照（存在しない見出し名
+    「Claude Code組み込みの`/init`との関係」を参照していた）を、`SETUP.md` に実在する太字の
+    注記文言を参照するよう修正した
+  - `README.md` に前提条件（Bash必須、Windows Git Bash/WSLの案内）セクションを追加した
+  - あわせて `SETUP.md` の各Stepに、コマンド実行例とその結果の説明（`/onboard-existing-codebase`・
+    `/adr`・`/generate-mock UC-006`・`/tdd UC-006 ...`）を追加し、ENリポジトリの具体性に合わせた
+
+### Files touched
+
+`.claude/hooks/review-score.sh`、`.claude/hooks/domain-boundary-check.sh`、
+`.claude/commands/review.md`、`.claude/rules/50-review.md`、
+`meta/adr/ADR-0009-review-escalation-mechanism.md`、
+`.claude/commands/onboard-existing-codebase.md`、`README.md`、`SETUP.md`。
+
+### Status
+
+完了。フォローアップなし。
+
 ## 既存コードベース導入パスの追加（ENリポジトリからの移植） (2026-09-15)
 
 ### Decision
@@ -37,6 +147,21 @@
 ### Status
 
 完了。Gate関連のテーブル（`.claude/rules/00-global.md`、`SETUP.md`、`AGENTS.md`）はGate条件自体に変更がないため意図的に変更していない。保留とした不変条件宣言ループは、ADR-0011に記載した再検討条件が満たされた時点で見直す。
+
+## [ON HOLD] ADR-XXXX: skill-ification criteria and detection mechanism (2026-08-19)
+
+### Decision
+
+- Drafted `meta/adr/ADR-XXXX-skillification-criteria.md` (Status: Proposed) defining a checklist for when a repeated procedure should become a slash command / sub-agent, and deciding against full automatic detection (no cross-session log exists to measure "frequency" objectively) in favor of a lightweight AI self-check at `/review` time that only ever *suggests*, never auto-creates.
+- Paused before finalizing: the checklist was written speculatively, without having actually lived through the same manual procedure 2-3 times first. Decided to hold off on Accepted status, on assigning a real ADR number, and on any wiring (e.g. into `.claude/rules/50-review.md`) until there's real repeated-procedure experience to check the criteria against. Left as `ADR-XXXX` rather than a reserved number, since it's uncommitted and the resumption timing is unknown — this avoids permanently reserving a number for an indefinitely-paused draft.
+
+### Files touched (uncommitted, left in working tree — not stashed)
+
+`meta/adr/ADR-XXXX-skillification-criteria.md` (new, unnumbered pending resumption), `meta/adr/README.md` (added ADR-XXXX row).
+
+### Status
+
+On hold. Next action: resume once 2-3 real instances of a candidate repeated procedure have been observed, then revisit the checklist against that experience before moving Status to Accepted and wiring it into `.claude/rules/50-review.md`.
 
 ## Split one-time Gate 0 setup steps out of CLAUDE.md into SETUP.md (2026-08-27)
 

@@ -28,7 +28,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 
 | Task type | Read this |
 |---|---|
-| requirements.md / use-cases.md 作成・更新 | `docs/original-docs/`（一次資料参照） + `docs/product/requirements.md` |
+| requirements.md / use-cases.md 作成・更新 | `docs/original-docs/`（一次資料参照） + `docs/product/requirements.md`。曖昧な点は `.claude/skills/grill-me/SKILL.md`（一問一答インタビュー、Trial） |
 | テスト実行・マイグレーション・ビルド等のコマンド操作 | `docs/ai-context/common-commands.md` |
 | 要件確認・UC参照 | `docs/product/requirements.md` + `docs/product/use-cases.md` |
 | コード実装（機能開発） | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |
@@ -43,7 +43,8 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 | Change request (CR) 発生時 | `docs/rcid/traceability-matrix.md` |
 | ユーザー向け機能・操作方法の変更 | `docs/product/user-guide.md` |
 | UAT（受け入れテスト）実施時（任意） | `docs/product/uat-scenarios.md` + `docs/product/uat-results/`（`.claude/rules/00-global.md` のUAT節を参照。非ブロッキング） |
-| エラー・ライブラリ固有の詰まりに遭遇した時 | `docs/ai-context/known-pitfalls.md`（既知の事象がないか先に確認し、解決したら追記） |
+| エラー・ライブラリ固有の詰まりに遭遇した時 | `docs/ai-context/known-pitfalls.md`（既知の事象がないか先に確認し、解決したら追記）。不明瞭・非自明なバグには `.claude/skills/systematic-debugging/SKILL.md`（Trial） |
+| タスク・修正・機能の完了を宣言するとき | `.claude/skills/verification-before-completion/SKILL.md`（Trial）— 成功を報告する前に実際に実行して確認する |
 
 ## Global rules
 

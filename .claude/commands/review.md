@@ -14,7 +14,8 @@ bash .claude/hooks/review-score.sh
 
 - 出力末尾の `RECOMMENDATION=normal` の場合 → 通常レベルでレビューする（以下のチェックリストを1パスで確認）
 - 出力末尾の `RECOMMENDATION=enhanced` の場合 → 強化レベルでレビューする。以下のチェックリストに加えて、検出した各指摘事項（HIGH/MEDIUM）を「本当にリスクか？見落としている前提はないか？」という視点でもう一度懐疑的に見直すadversarialな再確認パスを追加する
-- `review-score.sh` が失敗する、または `main` ブランチが存在しない環境では、通常レベルとして扱ってよい
+- `review-score.sh` が失敗した場合は、通常レベルとして扱う（ベースブランチの設定は `.claude/rules/50-review.md` 参照）
+- 未コミットの変更もスコアリング対象に含まれる——実行前にコミットしないこと
 
 続いて、Domain Boundaryチェックを**別コマンドとして**実行する（指摘があるとexit 1を返すため、`&&` で繋ぐと失敗したように見えてしまう）。
 

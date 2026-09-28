@@ -15,6 +15,7 @@
 
 ## Status
 Proposed
+<!-- 他に使える値: Accepted / Deprecated / Superseded by ADR-XXXX / Trial（「まとめてTrial導入し項目ごとにロールバックする」パターンは meta/adr/ADR-0014 参照） -->
 
 ## Date
 [YYYY-MM-DD]

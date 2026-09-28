@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Gate 1前の docs/product/requirements.md の作成・更新のための一問一答インタビュー手法——曖昧なアクター・成功基準・エッジケース・非機能要件を、推測せず1つずつ表面化させる。requirements.md を新規作成する、または大幅に改訂するときに使う。mattpocock/skills の grill-me/grilling パターンを翻案したもの（出典は本文に記載）。Status: Trial（`meta/adr/ADR-0014` 参照）——やり取りの往復が増える摩擦が最も懸念される項目であり、要件が実際に曖昧な箇所にのみ使う。すべての行に対して使うものではない。
+description: Gate 1前の docs/product/requirements.md の作成・更新のための一問一答インタビュー手法——曖昧なアクター・成功基準・エッジケース・非機能要件を、推測せず1つずつ表面化させる。requirements.md を新規作成する、または大幅に改訂するときに使う。mattpocock/skills の grill-me/grilling パターンを翻案したもの（出典は本文に記載）。Status: Trial（`meta/adr/ADR-0013` 参照）——やり取りの往復が増える摩擦が最も懸念される項目であり、要件が実際に曖昧な箇所にのみ使う。すべての行に対して使うものではない。
 ---
 
 # Grill Me（要件を問い詰める）

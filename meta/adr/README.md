@@ -19,12 +19,12 @@ from `ADR-0001`.
 | ADR-0007 | TDD enforcement tooling (Probity) |
 | ADR-0008 | TDD/E2E harness tooling |
 | ADR-0009 | Review escalation mechanism (review-score) |
-| ADR-XXXX | Skill-ification criteria and detection mechanism (draft, uncommitted, on hold — see `PLAN.md`) |
-| ADR-0011 | Domain Boundary contract and deterministic Controller detection |
-| ADR-0012 | Existing-codebase adoption path (Gate 0-3 input authorship for projects with existing code) |
-| ADR-0013 | Skills vs. commands criterion, and the standalone-export convention |
-| ADR-0014 | Adopting selected skill concepts from third-party sources, in-house (Trial) |
-| ADR-0015 | Third-party integrations considered and deferred (Laravel Boost, cc-sdd, hookify, Superpowers) |
+| ADR-0010 | Domain Boundary contract and deterministic Controller detection |
+| ADR-0011 | Existing-codebase adoption path (Gate 0-3 input authorship for projects with existing code) |
+| ADR-0012 | Skills vs. commands criterion, and the standalone-export convention |
+| ADR-0013 | Adopting selected skill concepts from third-party sources, in-house (Trial) |
+| ADR-0014 | Third-party integrations considered and deferred (Laravel Boost, cc-sdd, hookify, Superpowers) |
+| ADR-XXXX | Skill-ification criteria and detection mechanism (draft, uncommitted, on hold — see `PLAN.md`). Left unnumbered rather than reserving a slot — now that 0010-0014 are all assigned, it will take whatever the next number is when resumed |
 
 ## Harness-design ADR patterns to copy from
 
@@ -36,10 +36,10 @@ template:
 | Pattern | Example | Use when... |
 |---|---|---|
 | Top-level policy | ADR-0004 | Defining overall AI-usage rules, role split, and workflow gates — the "constitution" a project adopts once. |
-| Multi-extension harness bundle | ADR-0008, ADR-0014 | Deciding on several related tooling additions together (subagents + slash commands + MCP server, etc.) as one coherent change, with a shared Rationale and a single "known limitations" callout. ADR-0014 additionally marks the whole batch **Trial** with a per-item rollout-tracking table, for a bundle whose real-world friction can't be judged until it's used. |
+| Multi-extension harness bundle | ADR-0008, ADR-0013 | Deciding on several related tooling additions together (subagents + slash commands + MCP server, etc.) as one coherent change, with a shared Rationale and a single "known limitations" callout. ADR-0013 additionally marks the whole batch **Trial** with a per-item rollout-tracking table, for a bundle whose real-world friction can't be judged until it's used. |
 | Single-technology selection | ADR-0006 | Choosing one tool/library for one job (E2E framework, ORM, etc.) with a comparison table of alternatives. |
 | Optional / deferred adoption | ADR-0007 | Offering a tool without mandating it (adopt-if-you-want). For a "not now, revisit later" decision instead, see the "見送り（不採用）" variant in [`.claude/commands/adr.md`](../../.claude/commands/adr.md) so the evaluation is recorded and not silently repeated later. |
-| Recurring-decision criterion | ADR-0013 | A question that will be re-argued every time something is added (which directory does this belong in, when does this rule apply). Record the discriminating rule and one worked application of it, rather than the individual answers. |
+| Recurring-decision criterion | ADR-0012 | A question that will be re-argued every time something is added (which directory does this belong in, when does this rule apply). Record the discriminating rule and one worked application of it, rather than the individual answers. |
 
 These five shapes are the ones worth copying directly rather than leaving new authors to
 infer them from a flat list — they cover the recurring cases of a project-level policy

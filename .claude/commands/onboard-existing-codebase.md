@@ -4,7 +4,7 @@
 `docs/ai-context/*` を逆生成し、`use-cases.md` をas-isでドラフトし、`data-model.md` を抽出し、
 人間向けに明確に分離した2本のリストを出力して終わる。
 
-> 関連ADR: `meta/adr/ADR-0012-existing-codebase-adoption.md`
+> 関連ADR: `meta/adr/ADR-0011-existing-codebase-adoption.md`
 > 関連ルール: `.claude/rules/00-global.md`、`docs/development/ai-workflow.md` の「役割分担」
 
 ## 実行前に
@@ -36,7 +36,7 @@
    - 検出したフロントエンド/バックエンドのスタックを `/adr` で記録する。Decisionの節には「選んだ」の
      ではなく「検出した」内容を書く。
 2. `.claude/hooks/domain-boundary-check.sh --audit-all` を実行する。その指摘は**Backlog**リストに
-   載せる——「要確認」リストには載せない（`meta/adr/ADR-0011-domain-boundary-contract.md` の
+   載せる——「要確認」リストには載せない（`meta/adr/ADR-0010-domain-boundary-contract.md` の
    「積み残しであってブロッカーではない」という考え方を参照）。
 3. 実際にそこにあるものから `docs/ai-context/project-summary.md`・`module-map.md`・`glossary.md`・
    `common-commands.md`・`do-not-touch.md` をドラフトする。「要確認」リストに載るのは用語の意味の推測と
@@ -76,7 +76,7 @@
 - スタック不一致・用語の意味の推測・コードとドキュメントの食い違いを、尋ねずに確定事項として扱っては
   ならない——上記「基本原則」を参照。
 - Backlogリストを新規ファイルとして永続化しない。チャット出力のみとする（理由は
-  `meta/adr/ADR-0012-existing-codebase-adoption.md` を参照）。
+  `meta/adr/ADR-0011-existing-codebase-adoption.md` を参照）。
 - 組み込みスキル `security-review` を本コマンドの一部として実行しない——diffのみのスコープであり、
   引き継いだアプリケーションコードをカバーできない（`SETUP.md` の既存コードベース導入パスを参照）。
 

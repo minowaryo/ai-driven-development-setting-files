@@ -1,5 +1,60 @@
 # PLAN.md
 
+## meta/adr のADR番号をENリポジトリに完全一致させる繰り下げ (2026-09-28)
+
+### Decision
+
+- 直前の3件の移植作業により、本リポジトリのADR番号がENリポジトリと1つずつズレていること
+  （EN 0010〜0014 = JA 0011〜0015）が判明した。ズレの原因はJA側のADR-0010が、保留中の
+  スキル化基準ドラフット（`ADR-XXXX-skillification-criteria.md`）のために空けられていた
+  ことにある——ただしそのドラフット自身が「番号を恒久的に予約しない」方針を明言しているため
+  （番号を確定させず `ADR-XXXX` のまま保留中）、0010番は実質的に空いていた。
+- そこで `meta/adr/ADR-0011`〜`ADR-0015` の5ファイルを `ADR-0010`〜`ADR-0014` へ一つずつ
+  繰り下げ、ENリポジトリの番号と完全一致させた:
+  - `ADR-0011-domain-boundary-contract.md` → `ADR-0010-...`
+  - `ADR-0012-existing-codebase-adoption.md` → `ADR-0011-...`
+  - `ADR-0013-skills-vs-commands.md` → `ADR-0012-...`
+  - `ADR-0014-third-party-skill-adoption-trial.md` → `ADR-0013-...`
+  - `ADR-0015-third-party-integrations-deferred.md` → `ADR-0014-...`
+- ファイル本体・タイトル行・相互参照は、`ADR-0011→0010→0011→0012→0013→0014`という
+  プレースホルダー経由の一括置換（循環置換によるカスケード事故を避けるため）で更新した。
+  対象は現在参照されている全ファイル（`.claude/rules/`・`.claude/commands/`・`.claude/skills/`・
+  `.claude/hooks/domain-boundary-check.sh`・`CLAUDE.md`・`AGENTS.md`・`README.md`・`SETUP.md`・
+  `docs/ai-context/common-commands.md`・`docs/development/ai-workflow.md`・`meta/adr/README.md`・
+  ADRファイル自身の相互参照）。
+- **`PLAN.md` の古い履歴エントリ（2026-09-15以前）はあえて書き換えていない**——本ファイル自身の
+  既存の方針（「過去のPLAN.mdエントリは書かれた時点のファイル構成を記述する歴史的記録であり、
+  書き換えない」）に従った。そのため古いエントリの一部は、今となっては存在しないファイルパス
+  （例: 旧`ADR-0012-existing-codebase-adoption.md`）を参照したままになる——これは既知・許容
+  済みの非対称性である。一方、**今回のセッションで直前に書いたばかりの3エントリ**（このエントリの
+  直後に続く3件）は歴史的記録として固定する前だったため、今回の繰り下げに合わせて番号を更新した。
+- `meta/adr/README.md` のADR一覧では、`ADR-XXXX`（スキル化基準ドラフット）の行を、
+  「0010番の空き枠」の位置から一覧の末尾（0010〜0014がすべて埋まった後）に移動した——
+  再開時には次の空き番号（0015以降）を使うことになる、というドラフット自身の方針とも整合する。
+
+### Files touched
+
+`meta/adr/ADR-0010-domain-boundary-contract.md`（旧ADR-0011からリネーム）、
+`meta/adr/ADR-0011-existing-codebase-adoption.md`（旧ADR-0012からリネーム）、
+`meta/adr/ADR-0012-skills-vs-commands.md`（旧ADR-0013からリネーム）、
+`meta/adr/ADR-0013-third-party-skill-adoption-trial.md`（旧ADR-0014からリネーム）、
+`meta/adr/ADR-0014-third-party-integrations-deferred.md`（旧ADR-0015からリネーム）、
+`meta/adr/README.md`、`meta/adr/ADR-0004-ai-development-policy.md`、
+`.claude/commands/adr.md`、`.claude/commands/onboard-existing-codebase.md`、
+`.claude/commands/review.md`、`.claude/hooks/domain-boundary-check.sh`、
+`.claude/rules/00-global.md`、`.claude/rules/10-laravel.md`、`.claude/rules/30-testing.md`、
+`.claude/rules/60-docs.md`、`.claude/skills/grill-me/SKILL.md`、
+`.claude/skills/systematic-debugging/SKILL.md`、
+`.claude/skills/verification-before-completion/SKILL.md`、`AGENTS.md`、
+`docs/ai-context/common-commands.md`、`docs/development/ai-workflow.md`、`README.md`、
+`SETUP.md`、`PLAN.md`（本ファイル冒頭の直前3エントリのみ）。
+
+### Status
+
+完了。全ての相互参照・ファイル名・タイトル行の整合性を機械的に検証済み（ENリポジトリの
+`meta/adr/` ファイル一覧と、`ADR-XXXX-skillification-criteria.md` を除いて完全一致）。
+フォローアップなし。
+
 ## サードパーティ製スキル概念の自社導入（Trial）+ 見送り記録（ENリポジトリからの移植） (2026-09-28)
 
 ### Decision
@@ -8,7 +63,7 @@
   本リポジトリに移植した。ENリポジトリ側では2回の調査パス（本リポジトリ自身の `.claude/` 構成の
   棚卸しと、Superpowers・Laravel Boost・cc-sdd・`mattpocock/skills`・hookifyの実態確認）を経て
   判断されており、その結論を翻訳・番号を付け替えて移植した。
-- **自社流用、まとめて一度に導入、Trialと明記**（`meta/adr/ADR-0014-third-party-skill-adoption-trial.md`）:
+- **自社流用、まとめて一度に導入、Trialと明記**（`meta/adr/ADR-0013-third-party-skill-adoption-trial.md`）:
   新規スキル `.claude/skills/systematic-debugging/SKILL.md`（不明瞭なバグへの再現・切り分け規律）と
   `.claude/skills/verification-before-completion/SKILL.md`（このターンで実際に実行するまで「完了」と
   言わない）、`.claude/rules/30-testing.md` への新規「テストの質に関するヒューリスティクス」節
@@ -20,20 +75,20 @@
   上で、その根底にあるアイデアだけを自社で書き直した。ユーザーは4項目を段階導入せずまとめて一度に
   導入することを明示的に選択した——3項目はAI自身の内部規律を厳しくするだけであり、`grill-me` だけが
   人間とのやり取りのパターンを変えるため、その1点だけをロールアウト追跡表で個別に注視する。
-  `ADR-0014` はADR Statusに新しい値「Trial」を導入し、`.claude/commands/adr.md` と
+  `ADR-0013` はADR Statusに新しい値「Trial」を導入し、`.claude/commands/adr.md` と
   `.claude/rules/60-docs.md` のテンプレートにも反映した。
-- **検討したが見送り、記録のみで機能変更なし**（`meta/adr/ADR-0015-third-party-integrations-deferred.md`）:
+- **検討したが見送り、記録のみで機能変更なし**（`meta/adr/ADR-0014-third-party-integrations-deferred.md`）:
   Laravel Boost（`laravel/boost`）——却下ではなく見送り。`php artisan boost:install` が
   `CLAUDE.md`/`AGENTS.md` を上書きしてしまうため。導入する場合はMCPサーバーのみを手動登録し、
   本テンプレートには絶対にフルインストーラを実行しないこと。cc-sdd（`gotalab/cc-sdd`）——本ハーネス
   自身のGate 0〜3パイプラインと重複するため却下。hookify（Anthropic公式プラグイン）——見送り・様子見。
-  `ADR-0011` のスクリプト実行方式という意図的な選択があるため、実フック化の検討は別枠で行う。
+  `ADR-0010` のスクリプト実行方式という意図的な選択があるため、実フック化の検討は別枠で行う。
   Superpowers本体（プラグイン丸ごとの導入）——上記2つの検証済みリスクを理由に却下。
 
 ### Files touched
 
-`meta/adr/ADR-0014-third-party-skill-adoption-trial.md`（新規）、
-`meta/adr/ADR-0015-third-party-integrations-deferred.md`（新規）、
+`meta/adr/ADR-0013-third-party-skill-adoption-trial.md`（新規）、
+`meta/adr/ADR-0014-third-party-integrations-deferred.md`（新規）、
 `.claude/skills/systematic-debugging/SKILL.md`（新規）、
 `.claude/skills/verification-before-completion/SKILL.md`（新規）、
 `.claude/skills/grill-me/SKILL.md`（新規）、`.claude/rules/30-testing.md`、
@@ -42,7 +97,7 @@
 
 ### Status
 
-実装済み。未コミット——明示的な指示を待つ。フォローアップ: `ADR-0014` のロールアウト追跡表を、
+実装済み。未コミット——明示的な指示を待つ。フォローアップ: `ADR-0013` のロールアウト追跡表を、
 バッチをしばらく使ってから見直す——Acceptedへ昇格させるか、個別にロールバックするか判断する
 （`grill-me` の人間側の摩擦を最優先で観察する）。
 
@@ -54,8 +109,9 @@
   （`.claude/skills/` ディレクトリ、AIが自己判断で発動できるエントリポイントという概念）を移植した。
   これは今回の主目的（サードパーティ製スキル概念の導入）を行う前提として必要だったため、
   先にキャッチアップした。
-- `meta/adr/ADR-0013-skills-vs-commands.md`（ENリポジトリの `ADR-0012` に相当。本リポジトリでは
-  0012番が既に別件（既存コードベース導入パス）で使用済みのため0013番として採番した）に、
+- `meta/adr/ADR-0012-skills-vs-commands.md`（ENリポジトリの `ADR-0011` に相当。番号が異なるのは、
+  導入した時点で本リポジトリ側の既存コードベース導入パスが `ADR-0012` を使用済みだったためで、
+  後日ADR-0011〜0015の付け番をEN版に合わせて1つずつ繰り下げ、最終的に一致させた）に、
   スキル/コマンドの判断基準を記録した:「実行し忘れる」ことが失敗モードならスキル、
   「タイミングを誤って実行する」ことが失敗モードならコマンド。既存6コマンドはいずれもコマンド側の
   ままとした（移行のコストに見合う機能的な利点がないため）。
@@ -69,7 +125,7 @@
 
 ### Files touched
 
-`meta/adr/ADR-0013-skills-vs-commands.md`（新規）、
+`meta/adr/ADR-0012-skills-vs-commands.md`（新規）、
 `.claude/skills/regenerate-traceability/SKILL.md`（新規）、`.gitignore`、
 `docs/ai-context/common-commands.md`、`README.md`、`meta/adr/README.md`。
 

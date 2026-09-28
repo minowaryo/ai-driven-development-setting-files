@@ -19,7 +19,7 @@
 
 ### 既存コードベース導入
 
-`SETUP.md` の既存コードベース導入パスおよび `meta/adr/ADR-0012-existing-codebase-adoption.md` を参照。
+`SETUP.md` の既存コードベース導入パスおよび `meta/adr/ADR-0011-existing-codebase-adoption.md` を参照。
 
 | 担当 | 作業 |
 |---|---|

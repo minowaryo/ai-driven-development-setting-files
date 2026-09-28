@@ -1,4 +1,4 @@
-# ADR-0015: サードパーティ連携の見送り記録（Laravel Boost、cc-sdd、hookify、Superpowers）— 不採用
+# ADR-0014: サードパーティ連携の見送り記録（Laravel Boost、cc-sdd、hookify、Superpowers）— 不採用
 
 ## Status
 Accepted（`.claude/commands/adr.md` の「見送り（不採用）を記録する場合のバリエーション」に基づく——
@@ -9,7 +9,7 @@ Accepted（`.claude/commands/adr.md` の「見送り（不採用）を記録す�
 
 ## Context
 
-`ADR-0014` と同じ検討過程（ユーザーから提供されたSuperpowers比較を、他のサードパーティ製
+`ADR-0013` と同じ検討過程（ユーザーから提供されたSuperpowers比較を、他のサードパーティ製
 Claude Codeツールへ広げたもの）で、さらに4つのツールが挙がった。それぞれ調査・検証を行ったが、
 今回はいずれも採用しない。同じ検討を後で無自覚に繰り返さないよう、`.claude/commands/adr.md` の
 見送り記録の慣行に従いここに記録する。
@@ -20,7 +20,7 @@ Claude Codeツールへ広げたもの）で、さらに4つのツールが挙�
 |---|---|---|
 | **Laravel Boost**（`laravel/boost`） | 見送り（却下ではない） | プロジェクトが実際にDBスキーマ/クエリ/ブラウザログのMCPツールと、バージョン固定のLaravel/Inertia/Pestドキュメント検索を欲しがったとき。導入する場合はMCPサーバーのみを手動登録すること（`claude mcp add -s local -t stdio laravel-boost php artisan boost:mcp`）——`php artisan boost:install` のガイドライン生成は本テンプレートのライブなコピーに対して**絶対に実行しない**こと。`CLAUDE.md`/`AGENTS.md`/`.mcp.json`/`boost.json` を上書きしてしまう |
 | **cc-sdd**（`gotalab/cc-sdd`） | 却下 | 本ハーネス自身のGate 0〜3パイプラインが将来再構成され、Kiro形式のspecがCodex/Cursor/Gemini CLI等をまたいだ可搬性の点で有用になった場合のみ——現時点でそのニーズは確認されていない |
-| **hookify**（Anthropic公式プラグイン） | 見送り・様子見 | 将来、別枠のスコープで安価なwarnレベルの実フックを `domain-boundary-check.sh` と並べて防御層として追加する価値があると分かった場合。これは `ADR-0011` のスクリプト実行方式という選択を**覆すのではなく拡張する**話になる |
+| **hookify**（Anthropic公式プラグイン） | 見送り・様子見 | 将来、別枠のスコープで安価なwarnレベルの実フックを `domain-boundary-check.sh` と並べて防御層として追加する価値があると分かった場合。これは `ADR-0010` のスクリプト実行方式という選択を**覆すのではなく拡張する**話になる |
 | **Superpowers**（`obra/superpowers`、プラグイン本体） | 却下 | SessionStartの強制注入（Issue #1480、#1456、#2377）と、TDDが非強制であること（Issue #384、#2372）が、本リポジトリのCLAUDE.md/Gate 4ルールと衝突しない形で上流で修正された場合のみ |
 
 ## Rationale
@@ -33,11 +33,11 @@ Claude Codeツールへ広げたもの）で、さらに4つのツールが挙�
 - **cc-sdd**: 構造的に、requirements → design → tasks というフェーズゲート方式は本ハーネス
   自身のGate 0〜3の再実装に近い。導入すると、明確な利点なく重複する2つのゲートシステムを
   維持することになる。
-- **hookify**: 公式かつ低リスクだが、`ADR-0011` はすでに（スクリプトを `/review` から呼び出す形で
+- **hookify**: 公式かつ低リスクだが、`ADR-0010` はすでに（スクリプトを `/review` から呼び出す形で
   実行し、登録済みのlifecycle hookにはしないという）意図的で理由のある選択を行っている——それを
   覆す・拡張するかどうかは、このADRへの付け足しではなく、それ自体で焦点を絞った検討に値する。
 - **Superpowers**: 上記2つの検証済みGitHub Issueに基づくリスクを参照。その根底にあるアイデアの
-  いくつかは、プラグインを導入する代わりに `ADR-0014` のもとで自社流用として取り込む価値があった。
+  いくつかは、プラグインを導入する代わりに `ADR-0013` のもとで自社流用として取り込む価値があった。
 
 ### 採用しなかった代替案
 
@@ -65,6 +65,6 @@ Claude Codeツールへ広げたもの）で、さらに4つのツールが挙�
 
 ## Related
 
-- ADR-0014（Superpowersから自社流用したアイデア）
+- ADR-0013（Superpowersから自社流用したアイデア）
 - ADR-0007（評価はしたが任意導入・見送りとした前例）
-- ADR-0011（hookifyが向き合う必要のある、意図的なスクリプト実行方式の設計）
+- ADR-0010（hookifyが向き合う必要のある、意図的なスクリプト実行方式の設計）

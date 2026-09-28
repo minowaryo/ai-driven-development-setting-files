@@ -23,7 +23,7 @@ bash .claude/hooks/review-score.sh
 bash .claude/hooks/domain-boundary-check.sh
 ```
 
-> 関連ADR: `meta/adr/ADR-0011-domain-boundary-contract.md`
+> 関連ADR: `meta/adr/ADR-0010-domain-boundary-contract.md`
 
 - exit 1は「確認すべき指摘がある」という意味であり、「チェック自体が失敗した」わけではない——指摘事項は以下のチェックリストに持ち込んで確認する
 - **まず `READ THESE FIRST` セクションから読む。** そこに挙げられたファイルはデータを変更しつつ手書きのロールチェックだけで保護しており、Policyを一切呼び出していない——オブジェクトレベルの認可チェック漏れが隠れやすい形である。各ファイルについて、すべての書き込みが**書き込み対象の当該レコードに対して**認可されているか（ネストした子レコードが実際に親に属しているかを含む）を確認する

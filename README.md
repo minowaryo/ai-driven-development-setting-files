@@ -56,12 +56,12 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── tdd.md                     # /tdd コマンド（Red→Green→Refactor）
 │   │   ├── generate-e2e-test.md       # /generate-e2e-test コマンド
 │   │   └── onboard-existing-codebase.md  # /onboard-existing-codebase コマンド（既存コードベース導入パス Step 1B〜3B）
-│   ├── skills/                        # AIが自己判断で発動できるエントリポイント（meta/adr/ADR-0013 参照）
+│   ├── skills/                        # AIが自己判断で発動できるエントリポイント（meta/adr/ADR-0012 参照）
 │   │   ├── regenerate-traceability/
 │   │   │   └── SKILL.md               # /regenerate-traceability — docs/rcid/ のマトリクスを再生成
-│   │   ├── systematic-debugging/      # Trial（meta/adr/ADR-0014）— 不明瞭なバグの調査規律
-│   │   ├── verification-before-completion/  # Trial（meta/adr/ADR-0014）— 「完了」と言う前に検証する
-│   │   └── grill-me/                  # Trial（meta/adr/ADR-0014）— 要件定義の一問一答インタビュー
+│   │   ├── systematic-debugging/      # Trial（meta/adr/ADR-0013）— 不明瞭なバグの調査規律
+│   │   ├── verification-before-completion/  # Trial（meta/adr/ADR-0013）— 「完了」と言う前に検証する
+│   │   └── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
 │   └── hooks/
 │       ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0で実行。--audit-all でリポジトリ全体監査）
 │       └── review-score.sh            # ブランチ差分をスコアリングしレビュー強度を決定（/review Step 0）
@@ -78,11 +78,11 @@ AI向け要約層        → docs/ai-context/
 │       ├── ADR-0007-tdd-enforcement-probity.md
 │       ├── ADR-0008-tdd-e2e-harness-tooling.md
 │       ├── ADR-0009-review-escalation-mechanism.md
-│       ├── ADR-0011-domain-boundary-contract.md      # ※0010はスキル化基準ADR（保留中の下書き）のため欠番
-│       ├── ADR-0012-existing-codebase-adoption.md
-│       ├── ADR-0013-skills-vs-commands.md
-│       ├── ADR-0014-third-party-skill-adoption-trial.md
-│       └── ADR-0015-third-party-integrations-deferred.md
+│       ├── ADR-0010-domain-boundary-contract.md      # ※0010はスキル化基準ADR（保留中の下書き）のため欠番
+│       ├── ADR-0011-existing-codebase-adoption.md
+│       ├── ADR-0012-skills-vs-commands.md
+│       ├── ADR-0013-third-party-skill-adoption-trial.md
+│       └── ADR-0014-third-party-integrations-deferred.md
 │
 └── docs/
     ├── ai-context/                    # AI向け要約層（最重要）
@@ -145,7 +145,7 @@ AI向け要約層        → docs/ai-context/
 2. `[PROJECT_NAME]` などのプレースホルダーをプロジェクト固有の情報に置き換える
 3. 手元の一次資料（要件メモ・画面スケッチ等）を `docs/original-docs/` に置く
 4. `docs/original-docs/` を参照しながら `docs/ai-context/` の必須ファイルを埋める（Gate 0）
-5. `docs/original-docs/` を参照しながら `docs/product/requirements.md`（曖昧な点は `grill-me` スキル — Trial、`meta/adr/ADR-0014` — が一問一答形式でインタビューできる）→ `docs/product/use-cases.md` の順で要件を定義する（Gate 1〜2の間）
+5. `docs/original-docs/` を参照しながら `docs/product/requirements.md`（曖昧な点は `grill-me` スキル — Trial、`meta/adr/ADR-0013` — が一問一答形式でインタビューできる）→ `docs/product/use-cases.md` の順で要件を定義する（Gate 1〜2の間）
 6. `/generate-mock` でHTMLモックを生成し、ビジネス側にレビューしてもらう
 7. フィードバックを `use-cases.md` に反映し、人間が最終承認する（Gate 2）
 8. `docs/architecture/data-model.md` を設計・承認してからAIコード生成を開始する（Gate 3）

@@ -2,7 +2,7 @@
 
 ## Claude Code エントリポイント（`.claude/commands/` と `.claude/skills/`）
 
-> どちらに置くかは `meta/adr/ADR-0013-skills-vs-commands.md` の基準に従う：AIが自己判断で
+> どちらに置くかは `meta/adr/ADR-0012-skills-vs-commands.md` の基準に従う：AIが自己判断で
 > 発動してよいならスキル、人間が明示的にタイプした時のみ実行すべきならコマンド。
 
 | エントリポイント | いつ実行するか | 実行の起点 |
@@ -14,9 +14,9 @@
 | `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 自動 — 該当時に `/tdd` の手順6から実行される |
 | `/review` | Refactor完了後・マージ前。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
 | `/regenerate-traceability` | コミット単位ではなく定期的に——`/review` 実行時やリリース前。`docs/rcid/traceability-matrix.md` のマトリクス表を再生成する（手動管理の変更追跡表は対象外） | 人間またはAI — スキルのため、マトリクスが陳腐化していればAIが提案してよい |
-| `systematic-debugging`（Trial） | 不明瞭・非自明なバグの調査時、または修正を試みてもうまくいかなかった時 | AI — `meta/adr/ADR-0014` 参照 |
-| `verification-before-completion`（Trial） | タスク/修正/機能を完了と報告する前 | AI — `meta/adr/ADR-0014` 参照 |
-| `grill-me`（Trial） | `docs/product/requirements.md` のドラフト作成・改訂時、本当に曖昧な点について | AI — `meta/adr/ADR-0014` 参照 |
+| `systematic-debugging`（Trial） | 不明瞭・非自明なバグの調査時、または修正を試みてもうまくいかなかった時 | AI — `meta/adr/ADR-0013` 参照 |
+| `verification-before-completion`（Trial） | タスク/修正/機能を完了と報告する前 | AI — `meta/adr/ADR-0013` 参照 |
+| `grill-me`（Trial） | `docs/product/requirements.md` のドラフト作成・改訂時、本当に曖昧な点について | AI — `meta/adr/ADR-0013` 参照 |
 
 > Green完了後の実挙動確認（`run` スキル）は自動実行せず推奨に留める——バンドルされたスキルは人間が明示的に呼び出した場合にのみ実行されるため。詳細は `.claude/rules/30-testing.md`。
 

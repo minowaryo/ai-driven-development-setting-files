@@ -218,7 +218,7 @@ REPORT=$(printf '%s\n' "${FILES[@]}" | awk \
     # checks, and never involves a Policy. That combination is where a missing
     # object-level check hides — the script cannot see an *absent* check, but it can
     # say which file to read first. Found a real IDOR on the one production codebase
-    # this was tested against (see ADR-0011).
+    # this was tested against (see ADR-0010).
     if (n_write > 0 && n_role > 0 && n_authz == 0) {
       priority++
       priority_report = priority_report sprintf("    %s\n      %d write(s) + %d inline role check(s), and no authorize()/Gate call anywhere in the file\n", \
@@ -271,7 +271,7 @@ else
   else
     echo "  >> $VIOLATIONS violation(s), $HEURISTICS heuristic warning(s), $PRIORITY priority file(s)."
     echo "  >> These are pattern matches, not verdicts — confirm each against .claude/rules/10-laravel.md."
-    echo "  >> This check cannot see business decisions written in plain PHP (see ADR-0011 limitations)."
+    echo "  >> This check cannot see business decisions written in plain PHP (see ADR-0010 limitations)."
   fi
 fi
 

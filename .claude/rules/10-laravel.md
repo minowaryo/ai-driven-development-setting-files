@@ -4,7 +4,7 @@
 
 ### Domain Boundary（ドメイン境界）
 
-> 関連ADR: `meta/adr/ADR-0011-domain-boundary-contract.md`
+> 関連ADR: `meta/adr/ADR-0010-domain-boundary-contract.md`
 
 「Fat Controller禁止」だけでは曖昧で実行可能な基準にならないため、境界を明示的な契約として明文化する。**Domain Boundary（ドメイン境界）** とは Service/Action レイヤーと Policy レイヤーを指す。判断・認可・永続化を行うものはすべてこの境界の内側に置く。
 

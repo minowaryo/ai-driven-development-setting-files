@@ -1,4 +1,4 @@
-# ADR-0011: Domain Boundary を列挙型の契約として明文化し、決定的な検知を導入する
+# ADR-0010: Domain Boundary を列挙型の契約として明文化し、決定的な検知を導入する
 
 ## Status
 Accepted

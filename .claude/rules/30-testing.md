@@ -65,7 +65,7 @@ Claude Code / Codex は「実装を先に書いてからテストを後付けす
 3. Refactor完了後、マージ前に **`/review`** を実行する（`.claude/rules/50-review.md` 参照）
    - `/review` 実行時にStep 0として自動計算される review-score の結果（`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照）に従って通常レベル/強化レベルが自動選択される
 
-## テストの質に関するヒューリスティクス（Trial — `meta/adr/ADR-0014` 参照）
+## テストの質に関するヒューリスティクス（Trial — `meta/adr/ADR-0013` 参照）
 
 Red → Green → Refactor のサイクル自体に加えて、「通ってはいるが実質何も検証していない」
 テストにも注意する:

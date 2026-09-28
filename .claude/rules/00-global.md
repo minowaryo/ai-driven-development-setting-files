@@ -57,7 +57,7 @@ Explore → Plan → Implement → Test
 
 > **既存コードベースへの導入**: 既にコードが存在するプロジェクトに本ハーネスを導入する場合、上記のGate 0〜3は
 > 4回の個別承認ではなく1回の統合レビューで満たされる——`SETUP.md` の既存コードベース導入パス、
-> `meta/adr/ADR-0012-existing-codebase-adoption.md` を参照。
+> `meta/adr/ADR-0011-existing-codebase-adoption.md` を参照。
 
 > **Gateの性質の違い**: Gate 0〜3 はプロジェクト単位で1度だけ通過するドキュメント承認ゲート。Gate 4 は機能・UC単位で、TDDサイクル（`/tdd`）を回すたびに繰り返す実装ゲート。
 > **モックレビューはGate番号を持たない**: `docs/product/mockups/` のビジネス側レビューは独立したGateではなく、Gate 2（use-cases.md最終承認）の前提条件として扱う（フィードバックをuse-cases.mdに反映してからGate 2承認を行う設計）。
@@ -107,4 +107,4 @@ Gate 0〜4とは独立して: **アプリのユーザー向けの挙動を実質
 - [ ] マイグレーション計画はあるか（DB変更の場合）
 - [ ] テストを追加したか
 - [ ] ドキュメントを更新したか
-- [ ] これを完了と言う前に、コードを読んで推測するのではなく、このターンで実際に関連するコマンド/テストを実行したか（`.claude/skills/verification-before-completion/SKILL.md`、Trial — `meta/adr/ADR-0014`）
+- [ ] これを完了と言う前に、コードを読んで推測するのではなく、このターンで実際に関連するコマンド/テストを実行したか（`.claude/skills/verification-before-completion/SKILL.md`、Trial — `meta/adr/ADR-0013`）

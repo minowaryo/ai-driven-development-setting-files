@@ -8,5 +8,5 @@ docs/credentials/*
 # Build output: standalone entry points extracted for sharing outside this repo, with the
 # harness-specific references (Gate numbers, meta/adr paths) stripped. The in-repo version
 # stays the source of truth — this is regenerated when someone asks for the file, never
-# edited in place (see meta/adr/ADR-0013-skills-vs-commands.md)
+# edited in place (see meta/adr/ADR-0012-skills-vs-commands.md)
 dist/

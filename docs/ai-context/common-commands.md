@@ -12,7 +12,9 @@
 | `/adr` | 技術的な意思決定をしたとき。ADRのひな形を生成し、人間が決定を確定させる | 人間（AIが提案する） |
 | `/tdd UC-XXX 機能名` | 機能・UCの実装ごと。Red → Gate 4承認 → Green → Refactor | 人間 |
 | `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 自動 — 該当時に `/tdd` の手順6から実行される |
-| `/review` | Refactor完了後・マージ前。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
+| `/review` | マージ前、マージ前チェックで求められた場合（`.claude/rules/70-git.md` §6）。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` と `prepare-merge` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
+| `/commit` | 作業をコミットできる状態になったとき——コミット分割とメッセージを提案し、承認1回でコミットする。pushはしない | 人間 |
+| `prepare-merge`（Trial） | ブランチの作業が完了したとき（「merge this」/「マージして」）——マージ前チェック、マージメッセージの起草、指示があった場合のみ `--no-ff` マージ | AIまたは人間 — スキルのため。`meta/adr/ADR-0015` 参照 |
 | `/regenerate-traceability` | コミット単位ではなく定期的に——`/review` 実行時やリリース前。`docs/rcid/traceability-matrix.md` のマトリクス表を再生成する（手動管理の変更追跡表は対象外） | 人間またはAI — スキルのため、マトリクスが陳腐化していればAIが提案してよい |
 | `systematic-debugging`（Trial） | 不明瞭・非自明なバグの調査時、または修正を試みてもうまくいかなかった時 | AI — `meta/adr/ADR-0013` 参照 |
 | `verification-before-completion`（Trial） | タスク/修正/機能を完了と報告する前 | AI — `meta/adr/ADR-0013` 参照 |

@@ -23,7 +23,7 @@
 | 権限・ロールのビジネス方針変更 | `docs/product/org-permission-philosophy.md` + `docs/architecture/authz-authn.md` |
 | ユーザー向け機能・操作方法の変更 | `docs/product/user-guide.md` |
 | UATシナリオ・結果の追加（任意） | `docs/product/uat-scenarios.md` / `docs/product/uat-results/`（`.claude/rules/00-global.md` のUAT節を参照。非ブロッキング） |
-| ライブラリ/フレームワーク固有のハマりどころを解決した | `docs/ai-context/known-pitfalls.md`（常時読込ではないため、コード変更と同一PRである必要はない。解決した都度追記） |
+| ライブラリ/フレームワーク固有のハマりどころを解決した | `docs/ai-context/known-pitfalls.md`（常時読込ではないため、コード変更と同一コミットである必要はない。解決した都度追記） |
 | 新しいデータモデル追加（CRUD網羅） | `.claude/rules/30-testing.md`（CRUD網羅ルール）参照 |
 | 開発/テスト用credentialやAPIキーの保管場所を新たに記録した | `docs/credentials/README.md`（実際のsecret値はコミットしない） |
 | エラーハンドリング・レスポンス形式の規約変更 | `docs/development/coding-standards.md` |
@@ -33,7 +33,7 @@
 
 ## ドキュメント更新の原則
 
-1. **コード変更と同じPRでドキュメントも更新する**
+1. **コード変更と同じコミットでドキュメントも更新する**
 2. 仕様変更はドキュメント先行（コード前に文書化）
 3. ADRは「なぜそう決めたか」を必ず書く（Whatだけでなく Why）
 4. `docs/ai-context/` は短く・正確に保つ（AIが読む要約層）
@@ -54,7 +54,7 @@
 `PLAN.md`はセッションをまたいで参照する現在進行中のタスク台帳であり、無制限に追記し続けると1ファイルが肥大化し逆に参照性が落ちる。以下のルールで一定サイズ以内に保つ。
 
 - **上限**: `PLAN.md`は**300行を超えないようにする**（250行を超えた時点でアーカイブ実施を検討する目安とする）
-- **アーカイブ先**: `docs/history/plan-archive.md`(プロジェクト内に存在しない場合は新規作成する)
+- **アーカイブ先**: `docs/history/plan-archive.md`(プロジェクト内に存在しない場合は新規作成する)。ハーネステンプレートのリポジトリ自身では代わりに `meta/history/plan-archive.md` を使う（テンプレート内部用で、導入先には決してコピーされない — `APPLY_TEMPLATE.md` の class X）
 - **退避対象の選び方**: `PLAN.md`は新しいエントリを先頭に追記する運用のため、**ファイル末尾（最も古い）のエントリから**、Statusが「完了」相当（例: 完了・Green確認完了・マージ済み・実装済み等、後続作業がぶら下がっていない状態）のものを退避する。ユーザーの承認待ち・作業中・次のアクションが明記されているエントリは残す
 - **手順**:
   1. 対象エントリ（`##`見出し単位、Decision/Files touched/Statusの3節セット）を丸ごと`docs/history/plan-archive.md`に移す。アーカイブ側も新しい順（＝`PLAN.md`から外れた直後のものが先頭）に並べる

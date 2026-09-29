@@ -45,7 +45,8 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── 31-e2e-testing.md          # E2Eテスト方針（Playwright。/generate-e2e-test 実行時のみ読む）
 │   │   ├── 40-security.md             # セキュリティルール
 │   │   ├── 50-review.md               # レビュー観点
-│   │   └── 60-docs.md                 # ドキュメント更新ルール
+│   │   ├── 60-docs.md                 # ドキュメント更新ルール
+│   │   └── 70-git.md                  # Gitワークフロー（ブランチ・コミット単位・マージ・マージ前チェック — Gitルールはここにだけ置く）
 │   ├── agents/
 │   │   ├── test-writer.md             # TDD Redフェーズ専用サブエージェント
 │   │   └── tdd-implementer.md         # TDD Greenフェーズ専用サブエージェント
@@ -55,34 +56,40 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── generate-mock.md           # /generate-mock コマンド
 │   │   ├── tdd.md                     # /tdd コマンド（Red→Green→Refactor）
 │   │   ├── generate-e2e-test.md       # /generate-e2e-test コマンド
+│   │   ├── commit.md                  # /commit コマンド（コミット分割を提案し、承認1回でコミット）
 │   │   └── onboard-existing-codebase.md  # /onboard-existing-codebase コマンド（既存コードベース導入パス Step 1B〜3B）
 │   ├── skills/                        # AIが自己判断で発動できるエントリポイント（meta/adr/ADR-0012 参照）
 │   │   ├── regenerate-traceability/
 │   │   │   └── SKILL.md               # /regenerate-traceability — docs/rcid/ のマトリクスを再生成
 │   │   ├── systematic-debugging/      # Trial（meta/adr/ADR-0013）— 不明瞭なバグの調査規律
 │   │   ├── verification-before-completion/  # Trial（meta/adr/ADR-0013）— 「完了」と言う前に検証する
-│   │   └── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
-│   └── hooks/
-│       ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0で実行。--audit-all でリポジトリ全体監査）
-│       └── review-score.sh            # ブランチ差分をスコアリングしレビュー強度を決定（/review Step 0）
+│   │   ├── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
+│   │   └── prepare-merge/             # Trial（meta/adr/ADR-0015）— マージ前チェック + 指示時のみ --no-ff マージ
+│   ├── hooks/
+│   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0で実行。--audit-all でリポジトリ全体監査）
+│   │   └── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
+│   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（.claude/rules/70-git.md §4 参照）
 │
 ├── meta/
-│   └── adr/                           # テンプレート/ハーネス自身のADR（プロジェクトのADRとは別管理。編集・リナンバリング不要）
-│       ├── README.md
-│       ├── ADR-0001-use-laravel.md
-│       ├── ADR-0002-use-mysql.md
-│       ├── ADR-0003-auth-strategy.md
-│       ├── ADR-0004-ai-development-policy.md
-│       ├── ADR-0005-frontend-stack.md
-│       ├── ADR-0006-e2e-testing-playwright.md
-│       ├── ADR-0007-tdd-enforcement-probity.md
-│       ├── ADR-0008-tdd-e2e-harness-tooling.md
-│       ├── ADR-0009-review-escalation-mechanism.md
-│       ├── ADR-0010-domain-boundary-contract.md      # ※0010はスキル化基準ADR（保留中の下書き）のため欠番
-│       ├── ADR-0011-existing-codebase-adoption.md
-│       ├── ADR-0012-skills-vs-commands.md
-│       ├── ADR-0013-third-party-skill-adoption-trial.md
-│       └── ADR-0014-third-party-integrations-deferred.md
+│   ├── adr/                           # テンプレート/ハーネス自身のADR（プロジェクトのADRとは別管理。編集・リナンバリング不要）
+│   │   ├── README.md
+│   │   ├── ADR-0001-use-laravel.md
+│   │   ├── ADR-0002-use-mysql.md
+│   │   ├── ADR-0003-auth-strategy.md
+│   │   ├── ADR-0004-ai-development-policy.md
+│   │   ├── ADR-0005-frontend-stack.md
+│   │   ├── ADR-0006-e2e-testing-playwright.md
+│   │   ├── ADR-0007-tdd-enforcement-probity.md
+│   │   ├── ADR-0008-tdd-e2e-harness-tooling.md
+│   │   ├── ADR-0009-review-escalation-mechanism.md
+│   │   ├── ADR-0010-domain-boundary-contract.md      # ※0010はスキル化基準ADR（保留中の下書き）のため欠番
+│   │   ├── ADR-0011-existing-codebase-adoption.md
+│   │   ├── ADR-0012-skills-vs-commands.md
+│   │   ├── ADR-0013-third-party-skill-adoption-trial.md
+│   │   ├── ADR-0014-third-party-integrations-deferred.md
+│   │   └── ADR-0015-git-workflow.md
+│   ├── history/                       # テンプレート自身の PLAN.md のアーカイブ — 対象プロジェクトには決してコピーしない
+│   └── tests/                         # テンプレート自身のスクリプトのテスト（例: review-score.test.sh）— 対象プロジェクトには決してコピーしない
 │
 └── docs/
     ├── ai-context/                    # AI向け要約層（最重要）

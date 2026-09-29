@@ -43,11 +43,11 @@
 
 | Class | パス | 対象リポジトリでの扱い |
 |---|---|---|
-| **A** — そのままコピー | `git ls-files` のうち、R / C / D / X に挙げていないすべてのパス。現時点では: `.claude/agents/`、`.claude/commands/`、`.claude/hooks/`、`.claude/rules/`、`.claude/skills/`、`meta/adr/`、`docs/`（すべて）、`SETUP.md`、`GLOBAL_CLAUDE.md`、`.mcp.json` | 対象リポジトリにそのパスが存在しなければ、バイト単位でそのままコピーする。存在すれば → class E（ただし `.mcp.json` は → class C）。今後本テンプレートに追加されたファイルは自動的にclass Aに入る。コピーすべきでないものはXに挙げること。 |
+| **A** — そのままコピー | `git ls-files` のうち、R / C / D / X に挙げていないすべてのパス。現時点では: `.claude/agents/`、`.claude/commands/`、`.claude/hooks/`、`.claude/rules/`、`.claude/skills/`、`meta/adr/`、`docs/`（すべて）、`SETUP.md`、`GLOBAL_CLAUDE.md`、`.mcp.json`、`.claude/settings.json` | 対象リポジトリにそのパスが存在しなければ、バイト単位でそのままコピーする。存在すれば → class E（ただし `.mcp.json` / `.claude/settings.json` は → class C）。今後本テンプレートに追加されたファイルは自動的にclass Aに入る。コピーすべきでないものはXに挙げること。 |
 | **R** — 別名でコピー | `README.md` → `README_harness.md` | 対象リポジトリの `README.md` には一切触れない。`README_harness.md` はハーネス概要の読み取り専用の参照用コピーであり、対象リポジトリのどのルールもそれを読んだり保守したりしない（対象リポジトリの `.claude/rules/60-docs.md` にある「`README.md`（ディレクトリツリー）」の行は、本テンプレートリポジトリ自身のREADMEを指しており、対象リポジトリのどちらのファイルでもない）。`README_harness.md` が既に存在すれば → class E。 |
-| **C** — 追記マージ | `.gitignore`、`.gitattributes`、および対象リポジトリに既に `.mcp.json` がある場合のみ `.mcp.json` | 既存の行はすべて残す。本テンプレートのルール行のうち未記載のもの（行単位の完全一致で判定）を、マーク付きのブロック1つの中に追記する（形式は下記）——コメント行と空行はコピーしない。ブロックのヘッダーが既にここを参照しているためである。本テンプレートの `.gitignore` のうち、このリポジトリでしか意味を持たないエントリ——現時点では `dist/`——はスキップする。対象リポジトリでは、実際にコミットしているファイルを隠してしまう可能性があるためである。`.mcp.json` については、本テンプレートの `mcpServers` のエントリをキーとして追加する。既に存在するキー → class E。本テンプレートの行が既存のルールと*矛盾する*場合（例: 対象リポジトリが `*.sh` に別の `eol` を既に設定している）→ class E。 |
-| **D** — 新規作成 | `CLAUDE.md`、`AGENTS.md`、`PLAN.md` | `CLAUDE.md`: 本テンプレートのファイルをコピーし、**Repository** の行を対象リポジトリの `git remote get-url origin`（リモートがなければ `[REPOSITORY_URL]`）に設定する。それ以外の `[...]` プレースホルダーはすべてPhase 4で埋めるため残しておく。対象リポジトリに既に `CLAUDE.md` がある場合は、それを残し、用意した内容（`# CLAUDE.md` のタイトルを除く）を末尾に、class Cと同じマーク付きブロックの中で追記する。本テンプレートと矛盾する指示（例: 既存ファイルが自律的なコミットを許可している）がないかをPhase 0で確認する。矛盾があれば → class E。`PLAN.md`: ヘッダーブロック（最初の `##` エントリより上のすべて）だけで作成する——その下のエントリは本テンプレート自身の履歴であり、対象リポジトリのものではない。`AGENTS.md`（Codexのエントリポイント）: 本テンプレートのファイルをコピーする。対象リポジトリに既にある場合は、`CLAUDE.md` と同じ方法で追記し、同じ矛盾チェックを行う。`PLAN.md` が既に存在すれば → class E。 |
-| **X** — 決してコピーしない | `.git/`、`.claude/settings.local.json`、`dist/`（本テンプレートの `.gitignore` で無視しているビルド出力）、`APPLY_TEMPLATE.md`（このファイル）、および `git ls-files` に含まれないその他すべて | マシン固有の設定、テンプレート内部のビルド出力、テンプレート側の手順。単純な再帰コピー（`cp -r`）ではこれらも拾ってしまうが、`git ls-files` では拾わない。これらがなくてもハーネスには影響しない：Claude Codeが読み込むのは `CLAUDE.md`・`.claude/`・`.mcp.json` であり、`settings.local.json` は権限が承認されたときにClaude Code自身が作り直す。 |
+| **C** — 追記マージ | `.gitignore`、`.gitattributes`、および対象リポジトリに既にある場合のみ `.mcp.json` と `.claude/settings.json` | 既存の行はすべて残す。本テンプレートのルール行のうち未記載のもの（行単位の完全一致で判定）を、マーク付きのブロック1つの中に追記する（形式は下記）——コメント行と空行はコピーしない。ブロックのヘッダーが既にここを参照しているためである。本テンプレートの `.gitignore` のうち、このリポジトリでしか意味を持たないエントリ——現時点では `dist/`——はスキップする。対象リポジトリでは、実際にコミットしているファイルを隠してしまう可能性があるためである。`.mcp.json` については、本テンプレートの `mcpServers` のエントリをキーとして追加する。既に存在するキー → class E。`.claude/settings.json` については、本テンプレートの `permissions` のエントリのうち未記載のものを追加する。対象リポジトリ側と矛盾するエントリ（例: 本テンプレートが拒否しているものを対象リポジトリが許可している）→ class E。本テンプレートの行が既存のルールと*矛盾する*場合（例: 対象リポジトリが `*.sh` に別の `eol` を既に設定している）→ class E。 |
+| **D** — 新規作成 | `CLAUDE.md`、`AGENTS.md`、`PLAN.md` | `CLAUDE.md`: 本テンプレートのファイルをコピーし、**Repository** の行を対象リポジトリの `git remote get-url origin`（リモートがなければ `[REPOSITORY_URL]`）に設定する。それ以外の `[...]` プレースホルダーはすべてPhase 4で埋めるため残しておく。対象リポジトリに既に `CLAUDE.md` がある場合は、それを残し、用意した内容（`# CLAUDE.md` のタイトルを除く）を末尾に、class Cと同じマーク付きブロックの中で追記する。本テンプレートと矛盾する指示（例: 既存ファイルが自律的なコミットを許可している）がないかをPhase 0で確認する。矛盾があれば → class E。`PLAN.md`: まっさらな状態で作成する——`# PLAN.md` のタイトル行のみ。本テンプレート自身の `PLAN.md` からは何もコピーしない（冒頭の注記（アーカイブ範囲など）もエントリも、本テンプレートの履歴であり対象リポジトリのものではない）。`AGENTS.md`（Codexのエントリポイント）: 本テンプレートのファイルをコピーする。対象リポジトリに既にある場合は、`CLAUDE.md` と同じ方法で追記し、同じ矛盾チェックを行う。`PLAN.md` が既に存在すれば → class E。 |
+| **X** — 決してコピーしない | `.git/`、`.claude/settings.local.json`、`dist/`（本テンプレートの `.gitignore` で無視しているビルド出力）、`APPLY_TEMPLATE.md`（このファイル）、`meta/tests/` と `meta/history/`（本テンプレート自身のスクリプトのテストと、本テンプレート自身の `PLAN.md` のアーカイブ——ここでは追跡しているが、決してコピーしない）、および `git ls-files` に含まれないその他すべて | マシン固有の設定、テンプレート内部のビルド出力、テンプレート側の手順。単純な再帰コピー（`cp -r`）ではこれらも拾ってしまうが、`git ls-files` では拾わない。これらがなくてもハーネスには影響しない：Claude Codeが読み込むのは `CLAUDE.md`・`.claude/`・`.mcp.json` であり、`settings.local.json` は権限が承認されたときにClaude Code自身が作り直す。 |
 | **E** — 衝突: 止まって尋ねる | 対象リポジトリに既に存在するclass A / R / Dのパス、およびclass Cで矛盾する行・キー | 止まる。人間に両方のバージョン（またはdiff）と選択肢——対象リポジトリの方を残す / テンプレートの方を採る / 手でマージする——を示し、選ばれたものだけを適用する。自分でどちらかを選んで解消することは決してしない。 |
 
 class Cのブロック形式（`.gitignore` / `.gitattributes`）:
@@ -77,16 +77,18 @@ Bashのスニペットは、Windowsの場合Git BashまたはWSLが必要であ�
 4. 衝突の一覧を作る:
 
    ```bash
-   git -C "$TPL" ls-files | while read -r f; do [ -e "$f" ] && echo "EXISTS: $f"; done
+   git -C "$TPL" ls-files | grep -Ev '^meta/(tests|history)/' | while read -r f; do [ -e "$f" ] && echo "EXISTS: $f"; done
    [ -e README_harness.md ] && echo "EXISTS: README_harness.md"
    ```
 
-   `README.md`（class R）、`.gitignore` / `.gitattributes`（class C）、`.mcp.json`（class C）、
+   `README.md`（class R）、`.gitignore` / `.gitattributes`（class C）、`.mcp.json` / `.claude/settings.json`（class C）、
    `CLAUDE.md` / `AGENTS.md`（class Dの追記）がヒットするのは想定どおりである。
    **それ以外のヒットはすべてclass Eである**——既存の `CLAUDE.md` や `AGENTS.md` で見つかった矛盾と
    あわせて列挙する。
    対象リポジトリに既に `.claude/` がある場合は、既存のルールとコマンドも同様に確認する——両方が
    読み込まれるため、ファイル名が異なっていても本テンプレートとの矛盾はclass Eである。
+   `.claude/rules/70-git.md` と矛盾する既存のGit運用（例: squashのみのマージ、`develop`
+   ブランチ、`main` 以外のベースブランチ）もclass Eである。
 5. class Eの一覧が空なら、そのままPhase 1に進む。空でなければ**止まる**：class Eの各項目を示して
    人間とすべて解消してから進む。
 
@@ -94,7 +96,7 @@ Bashのスニペットは、Windowsの場合Git BashまたはWSLが必要であ�
 
 ```bash
 git -C "$TPL" ls-files \
-  | grep -vxE 'README\.md|PLAN\.md|CLAUDE\.md|AGENTS\.md|\.gitignore|\.gitattributes|APPLY_TEMPLATE\.md' \
+  | grep -vxE 'README\.md|PLAN\.md|CLAUDE\.md|AGENTS\.md|\.gitignore|\.gitattributes|APPLY_TEMPLATE\.md|meta/(tests|history)/.*' \
   | while read -r f; do
       [ -e "$f" ] && continue   # already exists: handled in Phase 0 (class E) or Phase 2 (class C)
       mkdir -p "$(dirname "$f")" && cp "$TPL/$f" "$f"
@@ -111,7 +113,7 @@ cp "$TPL/README.md" README_harness.md
 ### Phase 2 — class Cのマージとclass Dの作成
 
 1. `.gitignore` と `.gitattributes` にclass Cのブロックを追記する（対象リポジトリに独自の
-   `.mcp.json` があれば、そのキーもマージする）。
+   `.mcp.json` / `.claude/settings.json` があれば、そのキーもマージする）。
 2. class Dの説明どおりに `CLAUDE.md` と `AGENTS.md` を作成（または既存のものに追記）し、`PLAN.md` を
    作成する。
 3. 確認: 変更した既存ファイルそれぞれの `git diff` に、追記したブロック・追加したキーだけが含まれていること。
@@ -128,7 +130,7 @@ cp "$TPL/README.md" README_harness.md
 
    ```bash
    git -C "$TPL" ls-files \
-     | grep -vxE 'README\.md|PLAN\.md|CLAUDE\.md|AGENTS\.md|\.gitignore|\.gitattributes|\.mcp\.json|APPLY_TEMPLATE\.md' \
+     | grep -vxE 'README\.md|PLAN\.md|CLAUDE\.md|AGENTS\.md|\.gitignore|\.gitattributes|\.mcp\.json|\.claude/settings\.json|APPLY_TEMPLATE\.md|meta/(tests|history)/.*' \
      | while read -r f; do cmp -s "$TPL/$f" "$f" || echo "DIFFERS: $f"; done
    cmp -s "$TPL/README.md" README_harness.md || echo "DIFFERS: README_harness.md"
    ```

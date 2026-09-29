@@ -1,4 +1,4 @@
-# 50-review.md — PRレビュー観点
+# 50-review.md — レビュー観点
 
 ## レビュー強度の自動判定（review-score）
 
@@ -16,7 +16,7 @@
 
 ## レビュー前確認（作成者）
 
-PRを出す前に自分で確認する:
+マージ前に自分で確認する:
 
 - [ ] `docs/product/use-cases.md` の要件に紐づいているか
 - [ ] Feature Testがあるか

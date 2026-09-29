@@ -34,8 +34,9 @@ Accepted — マージ前チェックの閾値と `prepare-merge` スキルは *
    リファクタ / 整形を分ける、テストはそのコードと一緒。`/tdd` では Red + Green で1コミット、
    Refactorは別コミット。マイグレーションは単独のコミット。
 3. **メッセージ** — 既存の `[type]: [summary]` 形式を、Conventional Commitsの最小サブセットとして
-   扱う（`feat/fix/refactor/style/test/docs/chore`、破壊的変更には `!`）。本（日本語版）テンプレートは
-   日本語チーム向けのため、件名・本文は日本語または英語で書いてよい（英語版テンプレートは英語のみ）。
+   扱う（`feat/fix/refactor/style/test/docs/chore`、破壊的変更には `!`）。件名・本文は英語のみ
+   （日本語版テンプレートでも同じ。`git log` の検索性と、英語版・日本語版の間で履歴の書式を揃えるため。
+   `GLOBAL_CLAUDE.md` の「コミットメッセージは英語」とも一致する）。
 4. **権限** — AIは提案した分割案に対する人間の承認1回を得てからのみコミットする
    （`/commit`）。pushは明示的な指示があった場合のみ（`ask`）。force pushは拒否。マージは
    `prepare-merge` が準備し、明示的な指示があった場合のみ実行する。

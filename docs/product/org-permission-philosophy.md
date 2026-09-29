@@ -34,5 +34,5 @@
 
 ## 変更時のルール
 
-- ロール・権限モデルを変更する場合は、このファイルと `docs/architecture/authz-authn.md` を同じPRで更新する
+- ロール・権限モデルを変更する場合は、このファイルと `docs/architecture/authz-authn.md` を同じコミットで更新する
 - 権限まわりの変更は必ずADR（`docs/adr/`）の作成を検討する（`.claude/rules/60-docs.md` 参照）

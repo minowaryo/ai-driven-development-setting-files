@@ -1,9 +1,9 @@
-# review-checklist.md — PRレビューチェックリスト
+# review-checklist.md — レビューチェックリスト
 
 > `/review` コマンドと合わせて使用する。
 > 詳細は `.claude/rules/50-review.md` を参照。
 
-## 作成者セルフチェック（PR作成前）
+## 作成者セルフチェック（マージ前）
 
 ### 要件・設計
 - [ ] `docs/product/use-cases.md` の対応ユースケースに紐づいているか

@@ -89,6 +89,17 @@ Step 0 — 導入タイプの判定
 > 以下のStep 1〜3は Step 1B〜3B を白紙から行う版である——AIが動いているコードから逆生成する
 > 代わりに、人間が同じGate 0〜3の入力を作成する。
 
+#### Step 1 の前に — テンプレート自身のファイルを片付ける（テンプレートをコピーした直後に1回）
+
+テンプレートからコピーしたプロジェクトには、テンプレート自身の履歴とツールが含まれている。
+まっさらな状態で始めるために削除する（既存コードベース導入パスでは、これらを決してコピーしない
+`APPLY_TEMPLATE.md` によって同じ結果になる）:
+
+```bash
+rm -rf meta/tests meta/history APPLY_TEMPLATE.md
+printf '# PLAN.md\n' > PLAN.md   # blank ledger — the template's entries are not this project's
+```
+
 #### Step 1 — フロントエンド技術選定 → ai-context を埋める（最初に必ずやること）
 
 **1a. フロントエンド技術選定**

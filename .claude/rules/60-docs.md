@@ -23,17 +23,18 @@
 | 権限・ロールのビジネス方針変更 | `docs/product/org-permission-philosophy.md` + `docs/architecture/authz-authn.md` |
 | ユーザー向け機能・操作方法の変更 | `docs/product/user-guide.md` |
 | UATシナリオ・結果の追加（任意） | `docs/product/uat-scenarios.md` / `docs/product/uat-results/`（`.claude/rules/00-global.md` のUAT節を参照。非ブロッキング） |
-| ライブラリ/フレームワーク固有のハマりどころを解決した | `docs/ai-context/known-pitfalls.md`（常時読込ではないため、コード変更と同一PRである必要はない。解決した都度追記） |
+| ライブラリ/フレームワーク固有のハマりどころを解決した | `docs/ai-context/known-pitfalls.md`（常時読込ではないため、コード変更と同一コミットである必要はない。解決した都度追記） |
 | 新しいデータモデル追加（CRUD網羅） | `.claude/rules/30-testing.md`（CRUD網羅ルール）参照 |
 | 開発/テスト用credentialやAPIキーの保管場所を新たに記録した | `docs/credentials/README.md`（実際のsecret値はコミットしない） |
 | エラーハンドリング・レスポンス形式の規約変更 | `docs/development/coding-standards.md` |
 | Gate条件・品質ゲート運用の変更 | `.claude/rules/00-global.md`（詳細表・絶対禁止）+ `SETUP.md`（Step手順）+ `AGENTS.md`（Codex用。Gate定義を複製しているため3ファイル同期が必要） |
 | 人間/AIの役割分担の変更（新しい導入パス・新しいAI機能等） | `docs/development/ai-workflow.md`（役割分担）+ ポリシーレベルの変更であれば `meta/adr/ADR-0004` への一行の改訂注記（2026-07-15 / 2026-09-15の改訂注記のスタイルを参照） |
 | 新しいAIエントリポイントの追加（スキルまたはコマンド） | `docs/ai-context/common-commands.md`（エントリポイント表）+ `README.md`（ディレクトリツリー）。`.claude/skills/` か `.claude/commands/` かは `meta/adr/ADR-0012-skills-vs-commands.md` の基準で判断する |
+| Gitワークフローの変更（ブランチ・コミット・push・マージ・マージ前チェック） | `.claude/rules/70-git.md` のみ——他のファイルは1行のポインタまで（ポリシーレベルの変更なら ADR も。`meta/adr/ADR-0015` 参照） |
 
 ## ドキュメント更新の原則
 
-1. **コード変更と同じPRでドキュメントも更新する**
+1. **コード変更と同じコミットでドキュメントも更新する**
 2. 仕様変更はドキュメント先行（コード前に文書化）
 3. ADRは「なぜそう決めたか」を必ず書く（Whatだけでなく Why）
 4. `docs/ai-context/` は短く・正確に保つ（AIが読む要約層）
@@ -54,14 +55,14 @@
 `PLAN.md`はセッションをまたいで参照する現在進行中のタスク台帳であり、無制限に追記し続けると1ファイルが肥大化し逆に参照性が落ちる。以下のルールで一定サイズ以内に保つ。
 
 - **上限**: `PLAN.md`は**300行を超えないようにする**（250行を超えた時点でアーカイブ実施を検討する目安とする）
-- **アーカイブ先**: `docs/history/plan-archive.md`(プロジェクト内に存在しない場合は新規作成する)
+- **アーカイブ先**: `docs/history/plan-archive.md`(プロジェクト内に存在しない場合は新規作成する)。ハーネステンプレートのリポジトリ自身（`APPLY_TEMPLATE.md` を含むリポジトリ）でのみ、代わりに `meta/history/plan-archive.md` を使う（テンプレート内部用で、導入先には決して届かない — `APPLY_TEMPLATE.md` の class X、`SETUP.md` で削除）
 - **退避対象の選び方**: `PLAN.md`は新しいエントリを先頭に追記する運用のため、**ファイル末尾（最も古い）のエントリから**、Statusが「完了」相当（例: 完了・Green確認完了・マージ済み・実装済み等、後続作業がぶら下がっていない状態）のものを退避する。ユーザーの承認待ち・作業中・次のアクションが明記されているエントリは残す
 - **手順**:
-  1. 対象エントリ（`##`見出し単位、Decision/Files touched/Statusの3節セット）を丸ごと`docs/history/plan-archive.md`に移す。アーカイブ側も新しい順（＝`PLAN.md`から外れた直後のものが先頭）に並べる
+  1. 対象エントリ（`##`見出し単位、Decision/Files touched/Statusの3節セット）を丸ごと上記のアーカイブ先に移す。アーカイブ側も新しい順（＝`PLAN.md`から外れた直後のものが先頭）に並べる
   2. アーカイブファイル冒頭の説明文（何〜何までの記録か）を更新する
-  3. `PLAN.md`冒頭の「アーカイブ済み」注記（範囲・日付）を更新する
+  3. `PLAN.md`冒頭の「アーカイブ済み」注記（範囲・日付）を追加（初回のアーカイブ時）または更新する
   4. エントリ本文・ファイルパス等は要約・省略せず原文のまま移す（後で経緯を追えなくなるため）
-- **このルール自体の位置づけ**: `PLAN.md`本文には手順を書かず、本ファイル（`.claude/rules/60-docs.md`）を正本とする。`PLAN.md`側は「300行を超えないよう保つ」旨と本ファイルへの参照のみ記載する
+- **このルール自体の位置づけ**: `PLAN.md`本文には手順を書かず、本ファイル（`.claude/rules/60-docs.md`）を正本とする。`PLAN.md` はまっさらな状態で始まり、載せるのは「アーカイブ済み」注記（範囲・日付・本ファイルへの参照）までとする
 
 ## ADRテンプレート
 

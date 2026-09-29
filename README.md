@@ -88,8 +88,8 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── ADR-0013-third-party-skill-adoption-trial.md
 │   │   ├── ADR-0014-third-party-integrations-deferred.md
 │   │   └── ADR-0015-git-workflow.md
-│   ├── history/                       # テンプレート自身の PLAN.md のアーカイブ — 対象プロジェクトには決してコピーしない
-│   └── tests/                         # テンプレート自身のスクリプトのテスト（例: review-score.test.sh）— 対象プロジェクトには決してコピーしない
+│   ├── history/                       # テンプレート自身の PLAN.md のアーカイブ — テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
+│   └── tests/                         # テンプレート自身のスクリプトのテスト（例: review-score.test.sh）— テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
 │
 └── docs/
     ├── ai-context/                    # AI向け要約層（最重要）
@@ -148,7 +148,7 @@ AI向け要約層        → docs/ai-context/
 
 詳細なGate 0〜4の手順は `SETUP.md` を参照。以下は概要:
 
-1. このリポジトリをテンプレートとして新しいプロジェクトにコピーする
+1. このリポジトリをテンプレートとして新しいプロジェクトにコピーし、テンプレート自身のファイルを片付ける（`PLAN.md` をまっさらにし、`meta/tests/`・`meta/history/`・`APPLY_TEMPLATE.md` を削除——`SETUP.md`「Step 1 の前に」）
 2. `[PROJECT_NAME]` などのプレースホルダーをプロジェクト固有の情報に置き換える
 3. 手元の一次資料（要件メモ・画面スケッチ等）を `docs/original-docs/` に置く
 4. `docs/original-docs/` を参照しながら `docs/ai-context/` の必須ファイルを埋める（Gate 0）

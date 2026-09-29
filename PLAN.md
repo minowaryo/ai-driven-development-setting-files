@@ -47,8 +47,10 @@
 
 ### Status
 
-実装済み（未コミット）。ブランチ `feat/git-workflow-rules`。`bash meta/tests/review-score.test.sh` →
-21 passed, 0 failed。コミットは明示的な指示待ち。
+完了。`feat/git-workflow-rules` でコミットし、`/review`（強化レベル）の指摘を修正したうえで、
+`prepare-merge` により `main` へ `--no-ff` でマージ。`bash meta/tests/review-score.test.sh` → 27/27。
+テンプレートからコピーした新規プロジェクトも `SETUP.md`「Step 1 の前に」で `PLAN.md` をまっさらにし、
+`meta/tests/`・`meta/history/`・`APPLY_TEMPLATE.md` を削除する。フォローアップ: Trial の閾値を実運用後に見直す（ADR-0015）。
 あわせて、テンプレート自身の PLAN.md のアーカイブ先を `meta/history/plan-archive.md`（class X、導入先に
 コピーしない）と定め、300行超過のため 2026-08-03 / 2026-08-15 の完了エントリを原文のまま移動した
 （`.claude/rules/60-docs.md`、`APPLY_TEMPLATE.md`、`README.md` も更新）。

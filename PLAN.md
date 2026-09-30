@@ -1,6 +1,44 @@
 # PLAN.md
 
-> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-08-15 → `meta/history/plan-archive.md`（2026-09-29）
+> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-14（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30）
+
+## Gitワークフロー: `lite` プロファイル（デフォルト）と `standard` の併設、1行で切り替え（ENリポジトリからの移植） (2026-09-30)
+
+### Decision
+
+- ENリポジトリ（`C:\workspace\ai-driven-development-setting-files-en`、`1107126..cca4b36`）で実装済みの
+  変更を本リポジトリに移植した。根拠は `meta/adr/ADR-0015-git-workflow.md` の2026-09-30更新注記に記録。
+- プロファイルの切り替え: `.claude/rules/70-git.md` の `Profile: lite`（デフォルト）または `standard` の
+  1行を編集する（ユーザーが自然文で依頼し、AIが編集・コミットする。AIが自発的に切り替えることはない）。
+  違いは `docs/development/git-workflow.md` §0 プロファイル の表の行だけで、安全ルールを含むそれ以外は共通。
+- `lite`: AIがブランチ名を決めて待たずに作成する。`/tdd` 1サイクルにつき1コミット。`/review` は機密パスに
+  触れた場合のみ尋ねる（規模は情報として示す）。コミット・ファイル・スコア・区分・テストを示した計画への
+  1回の承認で commit → merge → push を実行してよい——いずれかが失敗したら残りは行わない。
+- `standard`: 2026-09-29 のルールセットそのまま。選択基準: 実データを扱う本番システム、または2人以上の
+  並行開発なら `standard`、それ以外は `lite`。
+- `docs/ai-context/common-commands.md` に「Gitで困ったとき」（状況 → AIへの依頼）を追加した。
+- 読み込みコスト: 全ルールを `docs/development/git-workflow.md`（Git操作の前に読む）に移し、
+  `.claude/rules/70-git.md` は19行の常時読み込みコア（プロファイル行 + 全ルールを読まなくても適用する
+  安全ルール）にした。コアのコミットメッセージ規定は英語のみ（2026-09-30 の決定を維持）。すべての
+  ポインタを `docs/development/git-workflow.md` §N <日本語見出し> に付け替えた。CLAUDE.md の
+  「Read when relevant」行は追加しない（ENと同じく、コア自身がいつ読むかを示すため）。
+- `.claude/hooks/review-score.sh` はコメントのみの変更のため、ENからそのままコピーした。
+
+### Files touched
+
+新規: `docs/development/git-workflow.md`。
+変更: `.claude/rules/70-git.md`、`.claude/commands/commit.md`、`.claude/commands/tdd.md`、
+`.claude/skills/prepare-merge/SKILL.md`、`.claude/hooks/review-score.sh`（ENからそのままコピー）、
+`.claude/rules/00-global.md`、`.claude/rules/30-testing.md`、`.claude/rules/50-review.md`、
+`.claude/rules/60-docs.md`、`.gitignore`、`AGENTS.md`、`APPLY_TEMPLATE.md`、`CLAUDE.md`、`README.md`、
+`SETUP.md`、`docs/ai-context/common-commands.md`、`docs/development/ai-workflow.md`、
+`docs/development/coding-standards.md`、`meta/adr/ADR-0015-git-workflow.md`、`PLAN.md`、
+`meta/history/plan-archive.md`（300行超過のため最も古い完了エントリを原文のまま移動。保留中の
+ADR-XXXX エントリは移動しない）。
+
+### Status
+
+実装済み（未コミット）。`feat/git-lite-profile` 上。次: 明示的な指示を受けてコミット・マージする。
 
 ## Gitワークフローのルール: ブランチ・コミット単位・権限・--no-ff マージ記録・マージ前チェック区分（ENリポジトリからの移植） (2026-09-29)
 
@@ -243,24 +281,6 @@
 
 完了。ドキュメントのみの変更（アプリケーションコードの変更なし、ビルド・テスト不要）。次のフォローアップなし。実際のドラフト挙動は、既存コードを持つプロジェクトで初めて本パスを使った際に検証される。
 
-## Domain Boundaryの契約化と決定的なController検知（ENリポジトリからの移植） (2026-09-14)
-
-### Decision
-
-- ENリポジトリ（`ai-driven-development-setting-files-en`）で実施済みのDomain Boundary対応を本リポジトリに移植した。`.claude/rules/10-laravel.md` に **Domain Boundary**（Service/Actionレイヤー + Policyレイヤー）を、「Fat Controller禁止」という抽象的なラベルではなく明示的なMAY / MUST NOTリストとして明文化した。Controllerが行ってよいのはFormRequestによるバリデーション、`authorize()` の呼び出し、Service/Actionの呼び出し（ちょうど1つ）、レスポンスの整形のみであり、`DB::` の呼び出し、Eloquentの書き込みメソッドの呼び出し、ロールのインラインチェック、複数エンティティにまたがる判断は行ってはならない。
-- `.claude/hooks/domain-boundary-check.sh`（決定的なgit + awkチェック、AI呼び出しなし）を新規追加し、`/review` のStep 0で `review-score.sh` と並べて実行するようにした。`db-access` / `eloquent-write` / `role-check` の指摘と、メソッド単位の分岐密度ヒューリスティックに加え、「書き込みあり + インラインロールチェックあり + `authorize()`/`Gate` 呼び出しが一切ない」ファイルを優先的に読むべきものとして報告するpriorityシグナルを実装している。`--audit-all` でリポジトリ全体を走査、`--stats` でトレンド計測用の件数のみを出力、指摘があればexit 1を返しCIでのゲートにも使える。
-- 当初提案されていたスキーマ/権限DSLではなくこの形を採用した理由: ENリポジトリ側ですでにこのハーネスを使っている実プロジェクトを計測したところ、21個のControllerに対して103件の指摘（Controller内での `DB::transaction()` 呼び出しや、12個のPolicyクラスが存在するにもかかわらず手書きの `isAdmin()` / `abort(403)` 認可が行われている等）が見つかり、プローズによるルールだけでは境界を維持できないことが実証された一方、フルDSL＋コンパイラはドキュメント・ルールを配布するだけの本リポジトリには不釣り合いに大きい。詳細は `meta/adr/ADR-0011-domain-boundary-contract.md`（EN側のADR-0010に相当。本リポジトリでは0010番が別件のADRですでに使用されているため0011番として採番した）に記録した。
-- 不変条件宣言ループ（`data-model.md` に宣言 → Redフェーズでのテストカバレッジ要求 → Gate 4承認）は、却下ではなく**保留（deferred）**とし、その理由・再検討条件をADR-0011に記録した。コストは変更のたびに発生する一方、恩恵はずっと後にしか現れないこと、Feature Testは振る舞いの存在は強制できてもレイヤーの遵守は強制できないことが理由である。
-- パフォーマンスは設計上の制約として扱った。ファイルリストを1ファイルごとに `grep` でフィルタする初期案はWindows/Git Bashで300Controllerに対して15.8秒かかったが、1パスでのフィルタに変更した結果1.1秒（実プロジェクトの21Controllerでは0.59秒）に短縮された。
-
-### Files touched
-
-`meta/adr/ADR-0011-domain-boundary-contract.md`（新規）、`meta/adr/README.md`、`.claude/hooks/domain-boundary-check.sh`（新規）、`.claude/rules/10-laravel.md`、`.claude/rules/50-review.md`、`.claude/commands/review.md`、`PLAN.md`。
-
-### Status
-
-完了。Gate関連のテーブル（`.claude/rules/00-global.md`、`SETUP.md`、`AGENTS.md`）はGate条件自体に変更がないため意図的に変更していない。保留とした不変条件宣言ループは、ADR-0011に記載した再検討条件が満たされた時点で見直す。
-
 ## [ON HOLD] ADR-XXXX: skill-ification criteria and detection mechanism (2026-08-19)
 
 ### Decision
@@ -275,19 +295,3 @@
 ### Status
 
 On hold. Next action: resume once 2-3 real instances of a candidate repeated procedure have been observed, then revisit the checklist against that experience before moving Status to Accepted and wiring it into `.claude/rules/50-review.md`.
-
-## Split one-time Gate 0 setup steps out of CLAUDE.md into SETUP.md (2026-08-27)
-
-### Decision
-
-- Ported the SETUP.md split from the EN template repo (`ai-driven-development-setting-files-en`) into this JP repo. `CLAUDE.md`'s Gate 0 Step 1-4 section (frontend stack selection, ai-context fill-in, requirements docs, architecture design, TDD pipeline diagram) was moved verbatim (translated to Japanese) into a new top-level `SETUP.md`, read once at project kickoff. `CLAUDE.md` now only keeps a short pointer to it plus the steady-state per-session rules.
-- Cross-references to `CLAUDE.md`'s Step 1-4 procedure were repointed to `SETUP.md` in `.claude/rules/00-global.md`, `.claude/rules/60-docs.md`, `meta/adr/ADR-0005-frontend-stack.md`, and `README.md`. `AGENTS.md` was left unchanged, matching the EN repo's treatment (it never duplicated the Step 1-4 procedure).
-- Also added `.gitattributes` (`* text=auto`) and a `.gitignore` entry for `.claude/settings.local.json`, mirroring the EN repo's changes, to stop line-ending diff noise and personal local settings from being tracked.
-
-### Files touched
-
-`SETUP.md` (new), `CLAUDE.md`, `.claude/rules/00-global.md`, `.claude/rules/60-docs.md`, `meta/adr/ADR-0005-frontend-stack.md`, `README.md`, `.gitattributes` (new), `.gitignore`.
-
-### Status
-
-Completed. No open follow-ups.

@@ -87,8 +87,12 @@ Bashのスニペットは、Windowsの場合Git BashまたはWSLが必要であ�
    あわせて列挙する。
    対象リポジトリに既に `.claude/` がある場合は、既存のルールとコマンドも同様に確認する——両方が
    読み込まれるため、ファイル名が異なっていても本テンプレートとの矛盾はclass Eである。
-   `.claude/rules/70-git.md` と矛盾する既存のGit運用（例: squashのみのマージ、`develop`
+   `docs/development/git-workflow.md` と矛盾する既存のGit運用（例: squashのみのマージ、`develop`
    ブランチ、`main` 以外のベースブランチ）もclass Eである。
+   あわせて、提案するGitプロファイルを決める（`docs/development/git-workflow.md` §0 プロファイル）:
+   対象が本番環境で実データを扱っている、または `git log` に最近の作者が複数いるなら `standard`、
+   それ以外は `lite`。これはPhase 3の引き継ぎ報告に記載する。`.claude/rules/70-git.md` の
+   `Profile:` 行を変更するのは引き継ぎの後のみ（Phase 3でclass Aのファイルをバイト単位で比較するため）。
 5. class Eの一覧が空なら、そのままPhase 1に進む。空でなければ**止まる**：class Eの各項目を示して
    人間とすべて解消してから進む。
 

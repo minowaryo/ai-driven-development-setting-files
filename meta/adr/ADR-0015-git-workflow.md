@@ -1,7 +1,25 @@
 # ADR-0015: Gitワークフロー — 短命ブランチ、`--no-ff` マージによる記録、マージ前チェックの区分
 
 ## Status
-Accepted — マージ前チェックの閾値と `prepare-merge` スキルは **Trial**（`meta/adr/ADR-0013` 参照）
+Accepted — マージ前チェックの閾値、`prepare-merge` スキル、`lite` プロファイルは **Trial**（`meta/adr/ADR-0013` 参照）
+
+> 2026-09-30 更新: 2つのプロファイルを設け、1行（`.claude/rules/70-git.md` の `Profile:`）で切り替える。
+> `lite`（デフォルト）はすべての安全ルール——承認済みのコミット、force pushなし、pushは指示時のみ、
+> マージ結果に対するテスト——を維持したまま、待ちを減らす: AIがブランチ名を自分で決め、`/tdd` の
+> 1サイクルにつき1回コミットし、`/review` については機密パスの場合のみ尋ね、提示した計画への1回の
+> 承認で commit → merge → push を実行してよい（いずれかが失敗したら止まる）。
+> `standard` は以下のルールセットそのままである。実データを扱う本番システム、または2人以上が並行して
+> 開発する場合は `standard` を選ぶ。理由: 1機能あたりの承認待ちの回数を数えると、`standard` では
+> 最大6〜7回、`lite` では約3回だった。1人開発や本番稼働前の作業では、追加の待ちに見合う効果が
+> 小さかった。最初の完全な設計は `standard` として残しているため、プロジェクトは何も決め直さずに
+> 後から切り替えられる。
+>
+> 2026-09-30 更新（読み込みコスト）: 全ルールを `docs/development/git-workflow.md` に移し、Git操作の前に
+> のみ読むようにした。`.claude/rules/70-git.md` には、常時読み込まれる約20行のコア（プロファイル行 +
+> 全ルールのファイルを読まなくても適用すべき安全ルール）を残す。これにより、このファイルの毎セッションの
+> 読み込み量は約6,400文字から約1,800文字に減った。受け入れたリスク: 全ルールのファイルが読まれない
+> 可能性がある。その場合、コミットの分割やマージメッセージの整い方は落ちうるが、安全ルール——
+> 「マージ/pushの依頼は承認ではない。提示した計画を承認する」を含む——はコアに残るため引き続き適用される。
 
 ## Date
 2026-09-29
@@ -24,7 +42,8 @@ Accepted — マージ前チェックの閾値と `prepare-merge` スキルは *
 
 ## Decision
 
-ルールは `.claude/rules/70-git.md` に一度だけ記述し、他のすべてのファイルはそこを参照する。
+ルールは `docs/development/git-workflow.md`（必要時に読む）に一度だけ記述し、常時読み込まれるコアを
+`.claude/rules/70-git.md`（プロファイル + 安全ルール）に置く。他のすべてのファイルはそこを参照する。
 手順は `/commit`（`.claude/commands/commit.md`）と `prepare-merge` スキル
 （`.claude/skills/prepare-merge/SKILL.md`）に置く。要約:
 
@@ -109,10 +128,10 @@ Accepted — マージ前チェックの閾値と `prepare-merge` スキルは *
 - 人間が直接 `git merge` を実行した場合、区分の自動警告は出ない。それでもルールは適用される。
 - `settings.json` のパーミッションルールはガードレールであってセキュリティ境界ではない。
 - `GLOBAL_CLAUDE.md` と `.claude/agents/*` は、それぞれ独自の短いcommit/push禁止の記述を残す
-  （それらの読み手は `70-git.md` を読み込まないため）。
+  （それらの読み手はGitのルールファイルを読み込まないため）。
 
 ## Related
-- `.claude/rules/70-git.md`
+- `.claude/rules/70-git.md`（コア）と `docs/development/git-workflow.md`（全ルール）
 - `.claude/commands/commit.md`
 - `.claude/skills/prepare-merge/SKILL.md`
 - `.claude/hooks/review-score.sh`（テスト: `meta/tests/review-score.test.sh` — テンプレート内部用、`APPLY_TEMPLATE.md` のクラスX）

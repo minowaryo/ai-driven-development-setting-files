@@ -12,7 +12,7 @@
 | `/adr` | 技術的な意思決定をしたとき。ADRのひな形を生成し、人間が決定を確定させる | 人間（AIが提案する） |
 | `/tdd UC-XXX 機能名` | 機能・UCの実装ごと。Red → Gate 4承認 → Green → Refactor | 人間 |
 | `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 自動 — 該当時に `/tdd` の手順6から実行される |
-| `/review` | マージ前、マージ前チェックで求められた場合（`.claude/rules/70-git.md` §6）。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` と `prepare-merge` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
+| `/review` | マージ前、マージ前チェックで求められた場合（`docs/development/git-workflow.md` §6 マージ前チェック）。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` と `prepare-merge` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
 | `/commit` | 作業をコミットできる状態になったとき——コミット分割とメッセージを提案し、承認1回でコミットする。pushはしない | 人間 |
 | `prepare-merge`（Trial） | ブランチの作業が完了したとき（「merge this」/「マージして」）——マージ前チェック、マージメッセージの起草、指示があった場合のみ `--no-ff` マージ | AIまたは人間 — スキルのため。`meta/adr/ADR-0015` 参照 |
 | `/regenerate-traceability` | コミット単位ではなく定期的に——`/review` 実行時やリリース前。`docs/rcid/traceability-matrix.md` のマトリクス表を再生成する（手動管理の変更追跡表は対象外） | 人間またはAI — スキルのため、マトリクスが陳腐化していればAIが提案してよい |
@@ -21,6 +21,22 @@
 | `grill-me`（Trial） | `docs/product/requirements.md` のドラフト作成・改訂時、本当に曖昧な点について | AI — `meta/adr/ADR-0013` 参照 |
 
 > Green完了後の実挙動確認（`run` スキル）は自動実行せず推奨に留める——バンドルされたスキルは人間が明示的に呼び出した場合にのみ実行されるため。詳細は `.claude/rules/30-testing.md`。
+
+## Gitで困ったとき
+
+Gitを自分で直す必要はない——AIに説明と提案を求め、判断する。AIはforce pushもpush済み履歴の
+書き換えも行わない（`docs/development/git-workflow.md` §4 権限）。
+
+| 状況 | AIへの依頼 |
+|---|---|
+| どのブランチにいるのか、何が未コミットなのか分からない | 「現在のgitの状態（ブランチ、未コミットの変更、未pushのコミット）を説明して」 |
+| マージ中に `git merge --ff-only` が失敗した | 「ローカルのmainがoriginと分岐している。理由を説明し、解消方法を提案して」 |
+| マージでコンフリクトが発生した | 「このコンフリクトを説明し、解消案を提案して。承認するまで解消しないで」 |
+| マージ結果でテストが失敗した | 「マージを中止して、失敗したテストを示して」（その後ブランチ側で修正する） |
+| 誤ってコミットした（まだpushしていない） | 「直前のコミットを取り消して、変更は残して」（`git reset --soft HEAD~1`） |
+| 誤ってコミットした（push済み） | 「そのコミットをrevertして」——取り消し用の新しいコミットを作る。push済み履歴は書き換えない |
+| mainにマージした機能を取り消したい | 「`<branch>` のマージコミットをrevertして」（`git revert -m 1 <merge>`） |
+| 古いブランチが溜まってきた | 「mainにマージ済みのローカルブランチを一覧にして削除して」 |
 
 ## テスト
 

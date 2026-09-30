@@ -30,7 +30,7 @@
 | Gate条件・品質ゲート運用の変更 | `.claude/rules/00-global.md`（詳細表・絶対禁止）+ `SETUP.md`（Step手順）+ `AGENTS.md`（Codex用。Gate定義を複製しているため3ファイル同期が必要） |
 | 人間/AIの役割分担の変更（新しい導入パス・新しいAI機能等） | `docs/development/ai-workflow.md`（役割分担）+ ポリシーレベルの変更であれば `meta/adr/ADR-0004` への一行の改訂注記（2026-07-15 / 2026-09-15の改訂注記のスタイルを参照） |
 | 新しいAIエントリポイントの追加（スキルまたはコマンド） | `docs/ai-context/common-commands.md`（エントリポイント表）+ `README.md`（ディレクトリツリー）。`.claude/skills/` か `.claude/commands/` かは `meta/adr/ADR-0012-skills-vs-commands.md` の基準で判断する |
-| Gitワークフローの変更（ブランチ・コミット・push・マージ・マージ前チェック） | `.claude/rules/70-git.md` のみ——他のファイルは1行のポインタまで（ポリシーレベルの変更なら ADR も。`meta/adr/ADR-0015` 参照） |
+| Gitワークフローの変更（ブランチ・コミット・push・マージ・マージ前チェック） | `docs/development/git-workflow.md`（常時適用のコアのみ `.claude/rules/70-git.md` も）——他のファイルは1行のポインタまで（ポリシーレベルの変更なら ADR も。`meta/adr/ADR-0015` 参照） |
 
 ## ドキュメント更新の原則
 

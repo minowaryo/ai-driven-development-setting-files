@@ -1,7 +1,7 @@
 # review-checklist.md — レビューチェックリスト
 
 > `/review` コマンドと合わせて使用する。
-> 詳細は `.claude/rules/50-review.md` を参照。
+> 詳細は `docs/development/review-guidelines.md` を参照。
 
 ## 作成者セルフチェック（マージ前）
 

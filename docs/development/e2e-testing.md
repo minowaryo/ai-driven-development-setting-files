@@ -1,8 +1,8 @@
-# 31-e2e-testing.md — E2E Test（Playwright）
+# e2e-testing.md — E2E Test（Playwright）
 
 > 関連ADR: `meta/adr/ADR-0006-e2e-testing-playwright.md`
 > Feature Test / Unit Test / TDDワークフローの方針は `.claude/rules/30-testing.md` を参照。
-> このファイルは `/generate-e2e-test` 実行時など、E2Eテストを実装する時にのみ読む（通常のTDDサイクルでは読まない）。
+> このファイルは `/generate-e2e-test` 実行時など、E2Eテストを実装する時にのみ読む（毎セッション読み込まれるファイルではなく、通常のTDDサイクルでも読まない）。
 
 ## 対象範囲
 

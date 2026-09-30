@@ -6,6 +6,7 @@
 > Gitのルールを記述するのはこのファイルとコアだけである。他のファイルはここを参照する。
 > 手順は `/commit`（`.claude/commands/commit.md`）と `prepare-merge` スキルに置く。
 > 関連ADR: `meta/adr/ADR-0015-git-workflow.md`（根拠・不採用案）
+> Gitで困ったとき（コンフリクト、`--ff-only` の失敗、誤コミット）: `docs/development/git-troubleshooting.md`
 
 ## §0 プロファイル
 

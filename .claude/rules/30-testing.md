@@ -4,7 +4,7 @@
 
 1. **Feature Test（最優先）**: HTTPリクエスト〜レスポンスの統合テスト
 2. **Unit Test**: 複雑なビジネスロジック・計算ロジック
-3. **E2E Test（Playwright）**: クリティカルなユーザーフロー（詳細は `.claude/rules/31-e2e-testing.md` を参照。通常のTDDサイクルでは読まなくてよい）
+3. **E2E Test（Playwright）**: クリティカルなユーザーフロー（詳細は `docs/development/e2e-testing.md` を参照。通常のTDDサイクルでは読まなくてよい）
 
 ## テスト作成前に読むファイル
 
@@ -117,7 +117,7 @@ test('example', function () {
 - 提供される操作について、モデル単位で最低1本ずつテストケースを用意する（1本の統合テストで一連の流れを検証してもよい）
 - 認可（Policy）が絡む操作は、提供される操作それぞれで「権限あり/なし」の両方を確認する
 - 網羅状況は `docs/architecture/data-model.md` のモデル定義と `docs/product/use-cases.md` の操作範囲を突き合わせて漏れがないか確認する
-- `/review` 実行時にこの網羅ルールを満たしているか必ず確認する（`.claude/rules/50-review.md` 参照）
+- `/review` 実行時にこの網羅ルールを満たしているか必ず確認する（`docs/development/review-guidelines.md` 参照）
 
 ## コマンド
 
@@ -132,4 +132,4 @@ php artisan test tests/Feature/UserTest.php
 php artisan test --coverage
 ```
 
-> E2E Test（Playwright）の方針・配置規約・実行コマンドは `.claude/rules/31-e2e-testing.md` に分離した（`/generate-e2e-test` 実行時のみ参照すればよく、通常のTDDサイクルでは読まない）。
+> E2E Test（Playwright）の方針・配置規約・実行コマンドは `docs/development/e2e-testing.md` に分離した（`/generate-e2e-test` 実行時のみ参照すればよく、通常のTDDサイクルでは読まない）。

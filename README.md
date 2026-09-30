@@ -42,9 +42,8 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── 15-frontend.md             # フロントエンド固有ルール（ADR-0005の選定結果で内容が決まる。デフォルトはVue.js+Inertia.js）
 │   │   ├── 20-mysql.md                # MySQL固有ルール
 │   │   ├── 30-testing.md              # テスト方針（Feature/Unit・TDD）
-│   │   ├── 31-e2e-testing.md          # E2Eテスト方針（Playwright。/generate-e2e-test 実行時のみ読む）
 │   │   ├── 40-security.md             # セキュリティルール
-│   │   ├── 50-review.md               # レビュー観点
+│   │   ├── 50-review.md               # レビュー観点のコア（全文: docs/development/review-guidelines.md）
 │   │   ├── 60-docs.md                 # ドキュメント更新ルール
 │   │   └── 70-git.md                  # Gitコア、常時読み込み: プロファイル行 + 安全ルール（全ルール: docs/development/git-workflow.md）
 │   ├── agents/
@@ -122,8 +121,12 @@ AI向け要約層        → docs/ai-context/
     ├── development/                   # 開発プロセス
     │   ├── coding-standards.md
     │   ├── testing-strategy.md
+    │   ├── e2e-testing.md             # E2Eテスト方針（Playwright。/generate-e2e-test 実行時のみ読む）
     │   ├── review-checklist.md
+    │   ├── review-guidelines.md       # レビュー観点の全文（/review が読む）
     │   ├── git-workflow.md            # Gitワークフローの全ルール（ブランチ作成・コミット・マージの前に読む）
+    │   ├── git-troubleshooting.md     # Gitで困ったとき——AIへ何を依頼するか（人向け）
+    │   ├── plan-archiving.md          # PLAN.md のアーカイブ手順（PLAN.md が300行に近づいたら読む）
     │   └── ai-workflow.md
     ├── security/
     │   └── secrets-handling.md

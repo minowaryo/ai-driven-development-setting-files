@@ -38,6 +38,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 | DB schema changes | `docs/architecture/data-model.md` + `docs/adr/` |
 | Architecture / core design changes | `docs/adr/` |
 | Adding / modifying tests | `docs/development/testing-strategy.md` + `docs/product/use-cases.md` + `docs/architecture/data-model.md` |
+| E2Eテストの作成（`/generate-e2e-test`） | `docs/development/e2e-testing.md`（毎セッションは読み込まれない） |
 | Security-related changes | `docs/security/secrets-handling.md` |
 | 認証情報・APIキー等の作成 | `docs/credentials/`（`.claude/rules/40-security.md` の取り扱いルールに従う） |
 | Change request (CR) 発生時 | `docs/rcid/traceability-matrix.md` |
@@ -69,8 +70,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 - `.claude/rules/15-frontend.md` - フロントエンド固有ルール（内容は `meta/adr/ADR-0005-frontend-stack.md` の選定結果に応じてプロジェクトごとに書き換わる。デフォルト内容は Vue.js + Inertia.js）
 - `.claude/rules/20-mysql.md` - MySQL固有ルール
 - `.claude/rules/30-testing.md` - テスト方針（Feature/Unit・TDD）
-- `.claude/rules/31-e2e-testing.md` - E2Eテスト方針（Playwright。`/generate-e2e-test` 実行時のみ参照）
 - `.claude/rules/40-security.md` - セキュリティ
-- `.claude/rules/50-review.md` - レビュー観点
+- `.claude/rules/50-review.md` - レビュー観点（コア。全文は `docs/development/review-guidelines.md`）
 - `.claude/rules/60-docs.md` - ドキュメント更新ルール
 - `.claude/rules/70-git.md` - Gitコア（プロファイル + 安全ルール。全ルールは `docs/development/git-workflow.md`）

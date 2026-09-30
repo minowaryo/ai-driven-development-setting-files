@@ -62,7 +62,7 @@ Claude Code / Codex は「実装を先に書いてからテストを後付けす
 
 1. **`run` スキル**の実行をユーザーに推奨する。実際にアプリを起動して機能が期待通りに動作するか確認するためのものである——Claude Code v2.1.215時点で、バンドルされたスキルは人間が明示的に呼び出した場合にのみ実行されるため、自動的に実行するのではなく推奨する旨を伝える
 2. 対象がUCのクリティカルフロー（`docs/product/use-cases.md`）かつUI変更を含む場合、**`/generate-e2e-test`** でPlaywright E2Eテストを追加する
-3. Refactor完了後、マージ前チェックで求められた場合はマージ前に **`/review`** を実行する（`.claude/rules/70-git.md` §6 マージ前チェック）
+3. Refactor完了後、マージ前チェックで求められた場合はマージ前に **`/review`** を実行する（`docs/development/git-workflow.md` §6 マージ前チェック）
    - `/review` 実行時にStep 0として自動計算される review-score の結果（`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照）に従って通常レベル/強化レベルが自動選択される
 
 ## テストの質に関するヒューリスティクス（Trial — `meta/adr/ADR-0013` 参照）

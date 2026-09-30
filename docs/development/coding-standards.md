@@ -99,4 +99,4 @@ $user = User::find($id);
 
 ## Git
 
-`.claude/rules/70-git.md` の §2 コミット単位 と §3 コミットメッセージ を参照。
+`docs/development/git-workflow.md` の §2 コミット単位 と §3 コミットメッセージ を参照。

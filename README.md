@@ -46,7 +46,7 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── 40-security.md             # セキュリティルール
 │   │   ├── 50-review.md               # レビュー観点
 │   │   ├── 60-docs.md                 # ドキュメント更新ルール
-│   │   └── 70-git.md                  # Gitワークフロー（ブランチ・コミット単位・マージ・マージ前チェック — Gitルールはここにだけ置く）
+│   │   └── 70-git.md                  # Gitコア、常時読み込み: プロファイル行 + 安全ルール（全ルール: docs/development/git-workflow.md）
 │   ├── agents/
 │   │   ├── test-writer.md             # TDD Redフェーズ専用サブエージェント
 │   │   └── tdd-implementer.md         # TDD Greenフェーズ専用サブエージェント
@@ -68,7 +68,7 @@ AI向け要約層        → docs/ai-context/
 │   ├── hooks/
 │   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0で実行。--audit-all でリポジトリ全体監査）
 │   │   └── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
-│   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（.claude/rules/70-git.md §4 参照）
+│   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（docs/development/git-workflow.md §4 権限 参照）
 │
 ├── meta/
 │   ├── adr/                           # テンプレート/ハーネス自身のADR（プロジェクトのADRとは別管理。編集・リナンバリング不要）
@@ -123,6 +123,7 @@ AI向け要約層        → docs/ai-context/
     │   ├── coding-standards.md
     │   ├── testing-strategy.md
     │   ├── review-checklist.md
+    │   ├── git-workflow.md            # Gitワークフローの全ルール（ブランチ作成・コミット・マージの前に読む）
     │   └── ai-workflow.md
     ├── security/
     │   └── secrets-handling.md

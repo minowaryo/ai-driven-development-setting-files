@@ -57,7 +57,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 - 大規模変更の前は必ず `docs/adr/` を確認する
 - Authorization は Policy / Gate を必ず通す（バイパス禁止）
 - DBスキーマ変更はマイグレーション計画なしに行わない
-- ブランチ・コミット・push・マージは `.claude/rules/70-git.md` に従う（§2 コミット単位: 小さく意味のあるコミット）
+- Git（ブランチ・コミット・push・マージ）: `.claude/rules/70-git.md`
 - 設計意図が変わるときはドキュメントも更新する
 
 ## Detailed rules
@@ -73,4 +73,4 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 - `.claude/rules/40-security.md` - セキュリティ
 - `.claude/rules/50-review.md` - レビュー観点
 - `.claude/rules/60-docs.md` - ドキュメント更新ルール
-- `.claude/rules/70-git.md` - Gitワークフロー（ブランチ・コミット・マージ・マージ前チェック）
+- `.claude/rules/70-git.md` - Gitコア（プロファイル + 安全ルール。全ルールは `docs/development/git-workflow.md`）

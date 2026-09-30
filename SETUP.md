@@ -100,6 +100,10 @@ rm -rf meta/tests meta/history APPLY_TEMPLATE.md
 printf '# PLAN.md\n' > PLAN.md   # blank ledger — the template's entries are not this project's
 ```
 
+続いてGitプロファイルを選ぶ: `.claude/rules/70-git.md` の `Profile: lite` をそのまま使うか、
+本番環境で実データを扱う、または2人以上が並行して開発するプロジェクトなら `standard` に設定する
+（`docs/development/git-workflow.md` §0 プロファイル）。
+
 #### Step 1 — フロントエンド技術選定 → ai-context を埋める（最初に必ずやること）
 
 **1a. フロントエンド技術選定**

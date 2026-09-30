@@ -5,7 +5,7 @@ docs/credentials/*
 # Local Claude Code settings (personal, machine-specific — never share team-wide permissions here)
 .claude/settings.local.json
 
-# Worktrees for parallel AI sessions (see .claude/rules/70-git.md §7)
+# Worktrees for parallel AI sessions (see docs/development/git-workflow.md §7)
 .claude/worktrees/
 
 # Build output: standalone entry points extracted for sharing outside this repo, with the

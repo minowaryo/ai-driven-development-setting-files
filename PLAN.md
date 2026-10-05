@@ -1,6 +1,22 @@
 # PLAN.md
 
-> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 の最も古いエントリ（フック堅牢化）まで（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01）
+> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまで（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05）
+
+## Domain Boundaryチェック: 検出精度の改善 + 専用テスト、prepare-merge での毎回実行（ENリポジトリからの移植） (2026-10-05)
+
+### Decision
+
+- EN `84f26bc`（精度改善）と `7f3c107`（prepare-merge で実行）を移植。JP版のスクリプトと `review-score.test.sh` は
+  EN版の変更前と同一だったため、`.claude/hooks/domain-boundary-check.sh` と `meta/tests/domain-boundary-check.test.sh`
+  （新規）はそのままコピーする。理由・残っている課題は ADR-0010 の 2026-10-03 更新メモ2件。
+- 文書は日本語に訳して反映: ADR-0010・ADR-0015 の更新メモ、`docs/development/git-workflow.md` §5/§6、
+  `.claude/skills/prepare-merge/SKILL.md` ステップ2〜5、`.claude/rules/10-laravel.md`、`README.md`。
+- 対象外: EN版の Loop Engineering（段階4で移植予定）と spec-lint など（EN `9406ae7`）。
+
+### Status
+
+ブランチ `feat/domain-boundary-port` で移植済み。テスト: `domain-boundary-check.test.sh` 31/31、`review-score.test.sh` 27/27。
+300行を超えたため、完了済みの 2026-09-28 スキル/コマンド使い分け基準エントリを `meta/history/plan-archive.md` に移した。
 
 ## ADR-0016番号確保: Loop Engineering 段階1（EN版は番号衝突回避のみ） (2026-10-03)
 
@@ -241,38 +257,6 @@ ADR-XXXX エントリは移動しない）。
 実装済み。未コミット——明示的な指示を待つ。フォローアップ: `ADR-0013` のロールアウト追跡表を、
 バッチをしばらく使ってから見直す——Acceptedへ昇格させるか、個別にロールバックするか判断する
 （`grill-me` の人間側の摩擦を最優先で観察する）。
-
-## スキルとコマンドの使い分け基準 + /regenerate-traceability の追加（ENリポジトリからの移植） (2026-09-28)
-
-### Decision
-
-- ENリポジトリには存在するが本リポジトリにはまだなかった「スキル」という仕組み自体
-  （`.claude/skills/` ディレクトリ、AIが自己判断で発動できるエントリポイントという概念）を移植した。
-  これは今回の主目的（サードパーティ製スキル概念の導入）を行う前提として必要だったため、
-  先にキャッチアップした。
-- `meta/adr/ADR-0012-skills-vs-commands.md`（ENリポジトリの `ADR-0011` に相当。番号が異なるのは、
-  導入した時点で本リポジトリ側の既存コードベース導入パスが `ADR-0012` を使用済みだったためで、
-  後日ADR-0011〜0015の付け番をEN版に合わせて1つずつ繰り下げ、最終的に一致させた）に、
-  スキル/コマンドの判断基準を記録した:「実行し忘れる」ことが失敗モードならスキル、
-  「タイミングを誤って実行する」ことが失敗モードならコマンド。既存6コマンドはいずれもコマンド側の
-  ままとした（移行のコストに見合う機能的な利点がないため）。
-- この基準の最初の適用例として `.claude/skills/regenerate-traceability/SKILL.md` を新規追加した——
-  `docs/rcid/traceability-matrix.md` の「マトリクス」表（「変更追跡」表は対象外）を、
-  `use-cases.md` と実際のコード・テストから再生成するスキル。JA版の見出し表記
-  （「マトリクス」「変更追跡」「最終再生成日:」）に合わせて内容を調整した。
-- 単体エクスポート（`dist/skills/<name>/SKILL.md`、`.gitignore` 対象）の慣行もADRに記録したが、
-  実際のエクスポートファイル自体は生成していない——ビルド成果物であり、共有したくなった時点で
-  再生成するものであるため。
-
-### Files touched
-
-`meta/adr/ADR-0012-skills-vs-commands.md`（新規）、
-`.claude/skills/regenerate-traceability/SKILL.md`（新規）、`.gitignore`、
-`docs/ai-context/common-commands.md`、`README.md`、`meta/adr/README.md`。
-
-### Status
-
-完了。フォローアップなし。
 
 ## [ON HOLD] ADR-XXXX: skill-ification criteria and detection mechanism (2026-08-19)
 

@@ -65,7 +65,7 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
 │   │   └── prepare-merge/             # Trial（meta/adr/ADR-0015）— マージ前チェック + 指示時のみ --no-ff マージ
 │   ├── hooks/
-│   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0で実行。--audit-all でリポジトリ全体監査）
+│   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0 と prepare-merge で実行。--audit-all でリポジトリ全体監査）
 │   │   └── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
 │   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（docs/development/git-workflow.md §4 権限 参照）
 │
@@ -88,7 +88,7 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── ADR-0014-third-party-integrations-deferred.md
 │   │   └── ADR-0015-git-workflow.md
 │   ├── history/                       # テンプレート自身の PLAN.md のアーカイブ — テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
-│   └── tests/                         # テンプレート自身のスクリプトのテスト（例: review-score.test.sh）— テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
+│   └── tests/                         # テンプレート自身のスクリプトのテスト（review-score.test.sh、domain-boundary-check.test.sh）— テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
 │
 └── docs/
     ├── ai-context/                    # AI向け要約層（最重要）

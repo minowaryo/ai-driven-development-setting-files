@@ -97,7 +97,7 @@ Step 0 — 導入タイプの判定
 `APPLY_TEMPLATE.md` によって同じ結果になる）:
 
 ```bash
-rm -rf meta/tests meta/history APPLY_TEMPLATE.md
+rm -rf meta/tests meta/history meta/traceability-matrix.md APPLY_TEMPLATE.md
 printf '# PLAN.md\n' > PLAN.md   # blank ledger — the template's entries are not this project's
 ```
 

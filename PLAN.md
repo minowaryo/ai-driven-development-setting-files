@@ -2,6 +2,20 @@
 
 > 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 の最も古いエントリ（フック堅牢化）まで（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01）
 
+## ADR-0016番号確保: Loop Engineering 段階1（EN版は番号衝突回避のみ） (2026-10-03)
+
+### Decision
+
+- EN版 ADR-0016「Loop Engineering ロードマップと段階1（機械によるTDDの強制）」は EN版で Trial として承認済み。
+  JP版への本格移植は EN版の段階4（`meta/design/loop-stage4-design.md` の Porting plan）で行う方針のため、
+  今回は番号衝突を避けるべく `meta/adr/ADR-0016-loop-engineering-stage1.md` を仮ファイルとして作成し、
+  `meta/adr/README.md` に1行追加した。内容はEN版へのポインタのみ（Trial中・JP未適用）。
+- 保留中のADR-XXXX（skillification-criteria）の草案および関連するPLAN/README行には触れていない。
+
+### Status
+
+番号確保のみ完了（未コミット）。`docs/reserve-adr-0016` ブランチ上。次: ユーザー承認後にコミットする。
+
 ## セッションごとの読み込み量削減: 必要な時だけ読む内容を常時読み込みファイルから移動（ENリポジトリからの移植） (2026-10-01)
 
 ### Decision

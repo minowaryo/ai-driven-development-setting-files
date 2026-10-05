@@ -5,7 +5,7 @@
 ## 運用ルール
 
 - 最終確認は人間（レビュアー・ビジネス側）が行う
-- ファイル名は `{UC番号}-uat-result.md` 形式を推奨（例: `uc001-uat-result.md`）
+- ファイル名は `uc{UC番号}-uat-result.md` 形式を推奨（例: `uc001-uat-result.md`）
 - UATの実施・承認状況を理由に、他機能の開発やTDDサイクルを止める必要はない（`.claude/rules/00-global.md` 参照）
 
 ## 結果一覧

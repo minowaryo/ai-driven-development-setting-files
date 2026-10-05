@@ -55,7 +55,7 @@ npx playwright install
 npx playwright test
 
 # 特定ファイルのみ
-npx playwright test tests/e2e/uc01-user-registration.spec.ts
+npx playwright test tests/e2e/uc001-user-registration.spec.ts
 
 # UIモード（デバッグ用）
 npx playwright test --ui
@@ -96,8 +96,18 @@ npx probity check
 # チェックのみ（修正なし）
 ./vendor/bin/pint --test
 
-# 静的解析
+# 静的解析（Larastan 導入済みの場合のみ——docs/development/ai-workflow.md の「品質ゲート」参照）
 ./vendor/bin/phpstan analyse
+```
+
+## 仕様チェック
+
+```bash
+# Gate 2 の前: 要件定義 + ユースケース + モック（構造のみ。指摘はレビュアーへの参考情報）
+bash .claude/hooks/spec-lint.sh
+
+# Gate 1 の前: requirements.md のみ
+bash .claude/hooks/spec-lint.sh --requirements
 ```
 
 ## データベース

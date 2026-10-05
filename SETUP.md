@@ -76,6 +76,7 @@ Step 0 — 導入タイプの判定
 - 実際のコードパス（routes → controllers → policies に加え、コンソールコマンド、スケジュール実行のタスク、キューのジョブ、イベントリスナー）から `use-cases.md` をドラフトする。これは現状の挙動の記述であり、望ましい挙動の仕様ではないと明記する
 - `requirements.md` はここでは任意——「まだ存在しないものをなぜ作るか」という本来の目的が、既に動いているコードには当てはまらない。プレースホルダーは `use-cases.md` を指す1行の注記に置き換える
 - コードが既存の社内ドキュメントと食い違う場合は、「要確認」リストに**食い違いメモ**を追加する。どちらか一方を黙って解消してはならない——コードか仕様のどちらを変えるかは、`.claude/rules/00-global.md` の既存ルールに従い人間が判断する
+- レビューの前に `bash .claude/hooks/spec-lint.sh` でドラフトをチェックし、承認の前にもう一度実行する（未解消の `[inferred]` マーカーが残っていないこと）
 
 #### Step 3B — 実スキーマから `data-model.md` を抽出する
 - 実際のマイグレーション・DBスキーマから `data-model.md` を生成する。ほぼ完全に機械的な抽出作業であるため「要確認」リストに載ることは稀であり、Step 1Bで確認したDBエンジンが前提となる
@@ -149,6 +150,12 @@ docs/product/mockups/               ← AIによる叩き台生成可（/generat
 docs/product/acceptance-criteria.md ← AIによる叩き台生成可
 ```
 
+Gate 1 の承認を求める前に `bash .claude/hooks/spec-lint.sh --requirements` を、Gate 2 の前に
+`bash .claude/hooks/spec-lint.sh`（要件定義・ユースケース・モック）を実行する。チェックするのは構造だけ
+——ID、ユースケースの必須セクション、要件へのリンク、残ったプレースホルダー、モックのファイル名、
+曖昧な語——であり、レビュアーは内容のレビューに時間を使える。指摘は承認依頼と一緒に示す。このチェックは
+何かを承認することもブロックすることもなく、要件がまるごと欠けていることには気づけない。
+
 モック生成はUCごとに1回実行する:
 
 ```
@@ -174,6 +181,24 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 ### Step 4（両パス共通）— コード生成・実装（Gate 2・3 通過後のみ）
 
 > どちらのパスを通ってきた場合も手順は同じ。
+
+**初回のみのテスト設定（最初の `/tdd` サイクルの前に）** — ルール（`.claude/rules/10-laravel.md`、`30-testing.md`）が
+記述しているだけのミスを、テストが失敗として検出できるようにする:
+
+```php
+// app/Providers/AppServiceProvider.php — boot(): N+1, unfillable attributes, unloaded attributes throw
+Model::shouldBeStrict(! $this->app->isProduction());
+
+// tests/TestCase.php — setUp(), after parent::setUp(): unfaked outbound HTTP fails the test
+Http::preventStrayRequests();
+```
+
+- `phpunit.xml`: Laravelのデフォルトはインメモリ SQLite（`DB_CONNECTION=sqlite`、
+  `DB_DATABASE=:memory:`）でテストを実行する。専用の MySQL テストデータベース（例:
+  `DB_CONNECTION=mysql`、`DB_DATABASE=<app>_test`。一度だけ作成する——開発用・本番用のデータベースは
+  決して使わない）に向け、strict mode・照合順序・`decimal` が本番と同じように振る舞うようにする
+- 既存コードベース導入パス: これらは既存テストを失敗させたりステージング環境で例外を発生させたりしうるため、
+  `/onboard-existing-codebase` が出力する Backlog 項目として扱う——有効にするのは人間が決めたときだけである
 
 実装は `/tdd` コマンドで **TDD（Red → Green → Refactor）** で進める。
 

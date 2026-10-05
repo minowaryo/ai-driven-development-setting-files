@@ -2,6 +2,22 @@
 
 > 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまで（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05）
 
+## 決定論的チェック 第1群: テストの厳格モード、spec-lint、文書の整合（ENリポジトリからの移植） (2026-10-05)
+
+### Decision
+
+- EN `9406ae7` を移植。`.claude/hooks/spec-lint.sh` と `meta/tests/spec-lint.test.sh` は EN と同一ファイル
+  （EN `feat/spec-lint-bilingual` で英語・日本語の両方の見出し・ラベルを受け付けるようにしたもの。全角コロンも可）。
+- 文書は日本語に訳して反映: テストの厳格モード（`Model::shouldBeStrict`、`Http::preventStrayRequests()`、
+  MySQL のテストDB）、Gate 1 / Gate 2 前の spec-lint 実行、生SQLのルールを `20-mysql.md` に一本化（バインディング必須）、
+  PHPStan は Larastan 導入時のみ、作成者セルフチェックを `review-guidelines.md` に一本化、UC ID の表記、`ValidateCsrfToken`。
+- 移植しないもの: `meta/design/`（JP には Loop の設計草案を置いていない）、EN の `PLAN.md` アーカイブ操作。
+
+### Status
+
+`feat/deterministic-checks-port` で実装。spec-lint テスト 43/43。未確認: `SETUP.md` Step 4 のコードは実際の
+Laravel アプリでは未実行 — 最初のプロジェクトで確認する。未コミット。
+
 ## Domain Boundaryチェック: 検出精度の改善 + 専用テスト、prepare-merge での毎回実行（ENリポジトリからの移植） (2026-10-05)
 
 ### Decision

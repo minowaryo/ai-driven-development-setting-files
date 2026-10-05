@@ -66,7 +66,8 @@ AI向け要約層        → docs/ai-context/
 │   │   └── prepare-merge/             # Trial（meta/adr/ADR-0015）— マージ前チェック + 指示時のみ --no-ff マージ
 │   ├── hooks/
 │   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0 と prepare-merge で実行。--audit-all でリポジトリ全体監査）
-│   │   └── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
+│   │   ├── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
+│   │   └── spec-lint.sh               # 要件定義・ユースケース・モックの構造チェック（Gate 1 / Gate 2 の前に実行）
 │   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（docs/development/git-workflow.md §4 権限 参照）
 │
 ├── meta/

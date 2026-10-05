@@ -92,6 +92,6 @@ AIがモックを生成する際の指示：
 
 ```
 docs/product/use-cases.md の [UC-XXX] と docs/product/ui-guidelines.md を読み、
-[画面名]のHTMLモックを docs/product/mockups/screen-[UC-XXX]-[screen-name].html として生成してください。
+[画面名]のHTMLモックを docs/product/mockups/screen-UC[XXX]-[screen-name].html（例: screen-UC006-order-list.html）として生成してください。
 実データは不要です。ダミーデータを使用してください。
 ```

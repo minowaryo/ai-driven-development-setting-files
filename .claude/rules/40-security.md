@@ -27,12 +27,12 @@
 - 認証: Laravel Sanctum / Passport を使う
 - 認可: **Policy / Gate を必ず使う**（直接ロールチェック禁止）
 - セッション: HttpOnly + Secure cookie を設定
-- CSRF: `VerifyCsrfToken` ミドルウェアを必ず有効にする
+- CSRF: `ValidateCsrfToken` ミドルウェア（Laravel 11以降。旧 `VerifyCsrfToken`）を有効のままにする。除外するのは、トークンを送れないルート（例: Webhook）に限る
 
 ## 入力バリデーション
 
 - ユーザー入力は必ずFormRequestでバリデーション
-- SQLインジェクション対策: Eloquentを使う（生SQL禁止）
+- SQLインジェクション対策: Eloquent / Query Builder を使う。生SQLは `.claude/rules/20-mysql.md` のクエリ方針に従い、パラメータバインディングを使う場合に限る
 - XSS対策: Bladeの `{{ }}` を使う（`{!! !!}` は最小限）
 - ファイルアップロード: MIMEタイプ・サイズ・拡張子を検証
 

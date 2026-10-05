@@ -1,6 +1,20 @@
 # PLAN.md
 
-> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまで（保留中の 2026-08-19 エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05）
+> 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまでと、2026-09-28 のADR番号繰り下げエントリ（保留中の 2026-08-19 エントリと 2026-09-28 のサードパーティ製スキル概念エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05、2026-10-06）
+
+## ハーネスのトレーサビリティマトリクス + spec-lint の ADR-0018（ENリポジトリからの移植） (2026-10-06)
+
+### Decision
+
+- EN `7de0532` を移植。`meta/traceability-matrix.md`（テンプレート内部用、class X）は JP にある3つのスクリプト
+  （`review-score.sh`、`domain-boundary-check.sh`、`spec-lint.sh`）だけを載せる。Loop 段階1のスクリプトは未移植。
+- `meta/adr/ADR-0018-spec-lint.md`（Trial）は EN と同じ番号を使う。0017 は EN の Loop 段階2a 用に予約済み。
+  保留中の ADR-XXXX 草案は、再開時に次の空き番号（0019以降）を使う。
+- 専用テストは置かない（ユーザーの決定: スクリプトを守るテストだけを残す）。
+
+### Status
+
+`docs/harness-traceability-port` で実装。未コミット。
 
 ## 決定論的チェック 第1群: テストの厳格モード、spec-lint、文書の整合（ENリポジトリからの移植） (2026-10-05)
 
@@ -172,61 +186,6 @@ ADR-XXXX エントリは移動しない）。
 （`.claude/rules/60-docs.md`、`APPLY_TEMPLATE.md`、`README.md` も更新）。
 `APPLY_TEMPLATE.md` の class D で、対象リポジトリの `PLAN.md` はタイトル行のみのまっさらな状態で作成するよう変更
 （テンプレート側の冒頭注記が漏れないように）。
-
-## meta/adr のADR番号をENリポジトリに完全一致させる繰り下げ (2026-09-28)
-
-### Decision
-
-- 直前の3件の移植作業により、本リポジトリのADR番号がENリポジトリと1つずつズレていること
-  （EN 0010〜0014 = JA 0011〜0015）が判明した。ズレの原因はJA側のADR-0010が、保留中の
-  スキル化基準ドラフット（`ADR-XXXX-skillification-criteria.md`）のために空けられていた
-  ことにある——ただしそのドラフット自身が「番号を恒久的に予約しない」方針を明言しているため
-  （番号を確定させず `ADR-XXXX` のまま保留中）、0010番は実質的に空いていた。
-- そこで `meta/adr/ADR-0011`〜`ADR-0015` の5ファイルを `ADR-0010`〜`ADR-0014` へ一つずつ
-  繰り下げ、ENリポジトリの番号と完全一致させた:
-  - `ADR-0011-domain-boundary-contract.md` → `ADR-0010-...`
-  - `ADR-0012-existing-codebase-adoption.md` → `ADR-0011-...`
-  - `ADR-0013-skills-vs-commands.md` → `ADR-0012-...`
-  - `ADR-0014-third-party-skill-adoption-trial.md` → `ADR-0013-...`
-  - `ADR-0015-third-party-integrations-deferred.md` → `ADR-0014-...`
-- ファイル本体・タイトル行・相互参照は、`ADR-0011→0010→0011→0012→0013→0014`という
-  プレースホルダー経由の一括置換（循環置換によるカスケード事故を避けるため）で更新した。
-  対象は現在参照されている全ファイル（`.claude/rules/`・`.claude/commands/`・`.claude/skills/`・
-  `.claude/hooks/domain-boundary-check.sh`・`CLAUDE.md`・`AGENTS.md`・`README.md`・`SETUP.md`・
-  `docs/ai-context/common-commands.md`・`docs/development/ai-workflow.md`・`meta/adr/README.md`・
-  ADRファイル自身の相互参照）。
-- **`PLAN.md` の古い履歴エントリ（2026-09-15以前）はあえて書き換えていない**——本ファイル自身の
-  既存の方針（「過去のPLAN.mdエントリは書かれた時点のファイル構成を記述する歴史的記録であり、
-  書き換えない」）に従った。そのため古いエントリの一部は、今となっては存在しないファイルパス
-  （例: 旧`ADR-0012-existing-codebase-adoption.md`）を参照したままになる——これは既知・許容
-  済みの非対称性である。一方、**今回のセッションで直前に書いたばかりの3エントリ**（このエントリの
-  直後に続く3件）は歴史的記録として固定する前だったため、今回の繰り下げに合わせて番号を更新した。
-- `meta/adr/README.md` のADR一覧では、`ADR-XXXX`（スキル化基準ドラフット）の行を、
-  「0010番の空き枠」の位置から一覧の末尾（0010〜0014がすべて埋まった後）に移動した——
-  再開時には次の空き番号（0015以降）を使うことになる、というドラフット自身の方針とも整合する。
-
-### Files touched
-
-`meta/adr/ADR-0010-domain-boundary-contract.md`（旧ADR-0011からリネーム）、
-`meta/adr/ADR-0011-existing-codebase-adoption.md`（旧ADR-0012からリネーム）、
-`meta/adr/ADR-0012-skills-vs-commands.md`（旧ADR-0013からリネーム）、
-`meta/adr/ADR-0013-third-party-skill-adoption-trial.md`（旧ADR-0014からリネーム）、
-`meta/adr/ADR-0014-third-party-integrations-deferred.md`（旧ADR-0015からリネーム）、
-`meta/adr/README.md`、`meta/adr/ADR-0004-ai-development-policy.md`、
-`.claude/commands/adr.md`、`.claude/commands/onboard-existing-codebase.md`、
-`.claude/commands/review.md`、`.claude/hooks/domain-boundary-check.sh`、
-`.claude/rules/00-global.md`、`.claude/rules/10-laravel.md`、`.claude/rules/30-testing.md`、
-`.claude/rules/60-docs.md`、`.claude/skills/grill-me/SKILL.md`、
-`.claude/skills/systematic-debugging/SKILL.md`、
-`.claude/skills/verification-before-completion/SKILL.md`、`AGENTS.md`、
-`docs/ai-context/common-commands.md`、`docs/development/ai-workflow.md`、`README.md`、
-`SETUP.md`、`PLAN.md`（本ファイル冒頭の直前3エントリのみ）。
-
-### Status
-
-完了。全ての相互参照・ファイル名・タイトル行の整合性を機械的に検証済み（ENリポジトリの
-`meta/adr/` ファイル一覧と、`ADR-XXXX-skillification-criteria.md` を除いて完全一致）。
-フォローアップなし。
 
 ## サードパーティ製スキル概念の自社導入（Trial）+ 見送り記録（ENリポジトリからの移植） (2026-09-28)
 

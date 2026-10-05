@@ -16,7 +16,8 @@
 
 - 変更には必ずFeature Testを追加する
 - バグ修正時は再発防止テストを先に書く（TDD）
-- テストはDBをモックしない（実DBを使う）
+- テストはDBをモックしない（実DBを使う——Laravelのデフォルト `phpunit.xml` が設定するインメモリSQLiteではなくMySQL。`SETUP.md` Step 4 を参照）
+- テストは実際の外部HTTP通信を行わない：`tests/TestCase.php` の `Http::preventStrayRequests()` により、fakeされていないリクエストはすべてテスト失敗になる
 - Factoryを活用してテストデータを生成する
 - テストケース名は `use-cases.md` のUCタイトル・フローを基に命名する
 

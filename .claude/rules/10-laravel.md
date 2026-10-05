@@ -43,6 +43,7 @@ Controllerは**以下を行ってはならない**:
 
 ### Model
 - `$fillable` を明示する（`$guarded = []` 禁止）
+- 本番以外ではEloquentを厳格モードにする：`AppServiceProvider::boot()` に `Model::shouldBeStrict(! $this->app->isProduction())` を書くと、遅延ロード（N+1）、`$fillable` にない属性、未ロード属性の読み取りが例外になり、テストで検出できる（`isLocal()` は使わない——`APP_ENV=testing` では false になる）
 - スコープはModelに定義する
 - リレーションは積極的に定義する
 - ビジネスロジックをModelに書かない
@@ -80,7 +81,7 @@ Controllerは**以下を行ってはならない**:
 
 ## 禁止事項
 
-- `DB::statement()` での生SQL（必要な場合はADRを書く）
+- `.claude/rules/20-mysql.md`（クエリ方針）のルールに反する生SQL
 - `$guarded = []`
 - Controllerでのビジネスロジック
-- N+1クエリ（`with()` で積極的にEager Loading）
+- N+1クエリ（`with()` で積極的にEager Loading。上記の厳格モードによりテストで失敗する）

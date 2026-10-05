@@ -28,7 +28,7 @@ AIはそこに列挙されたファイルが埋まっていない状態では正
 
 | Task type | Read this |
 |---|---|
-| requirements.md / use-cases.md 作成・更新 | `docs/original-docs/`（一次資料参照） + `docs/product/requirements.md`。曖昧な点は `.claude/skills/grill-me/SKILL.md`（一問一答インタビュー、Trial） |
+| requirements.md / use-cases.md 作成・更新 | `docs/original-docs/`（一次資料参照） + `docs/product/requirements.md`。曖昧な点は `.claude/skills/grill-me/SKILL.md`（一問一答インタビュー、Trial）。承認を求める前に `bash .claude/hooks/spec-lint.sh` を実行する（Gate 1 の前は `--requirements`） |
 | テスト実行・マイグレーション・ビルド等のコマンド操作 | `docs/ai-context/common-commands.md` |
 | 要件確認・UC参照 | `docs/product/requirements.md` + `docs/product/use-cases.md` |
 | コード実装（機能開発） | `docs/product/use-cases.md` + `docs/architecture/data-model.md` + `docs/product/mockups/` |

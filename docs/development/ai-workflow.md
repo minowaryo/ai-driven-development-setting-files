@@ -94,6 +94,8 @@ AIがドラフトした内容を実システムと突き合わせる**検証・�
 AIが生成したコードは以下を満たすこと:
 1. `php artisan test` が通る
 2. `./vendor/bin/pint --test` がパス
-3. `./vendor/bin/phpstan analyse` がパス
+3. `./vendor/bin/phpstan analyse` がパス——Larastan が導入されている場合（Laravel の Vue スターターキットは
+   レベル7で同梱しているが、素の `laravel/laravel` スケルトンには含まれない）。プロジェクトへの追加はADRで
+   決める事項であり、新しいコードだけが対象になるよう `--generate-baseline` 付きで導入する
 4. クリティカルフローに変更がある場合、`npx playwright test` が通る
-5. `docs/development/review-checklist.md` のレビューが完了
+5. `docs/development/review-guidelines.md` の作成者セルフチェック（「レビュー前確認（作成者）」）が完了

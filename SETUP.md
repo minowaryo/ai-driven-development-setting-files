@@ -196,7 +196,10 @@ Http::preventStrayRequests();
 - `phpunit.xml`: Laravelのデフォルトはインメモリ SQLite（`DB_CONNECTION=sqlite`、
   `DB_DATABASE=:memory:`）でテストを実行する。専用の MySQL テストデータベース（例:
   `DB_CONNECTION=mysql`、`DB_DATABASE=<app>_test`。一度だけ作成する——開発用・本番用のデータベースは
-  決して使わない）に向け、strict mode・照合順序・`decimal` が本番と同じように振る舞うようにする
+  決して使わない）に向け、strict mode・照合順序・`decimal` が本番と同じように振る舞うようにする。
+  MySQL のテストデータベースを用意できない場合は SQLite の既定のままでよい——テストは動き、上の2行も効くが、
+  MySQL 固有の差は検出できない。専用のテストデータベースなしに MySQL へ向けてはならない：`RefreshDatabase` が
+  開発用のデータを消してしまう
 - 既存コードベース導入パス: これらは既存テストを失敗させたりステージング環境で例外を発生させたりしうるため、
   `/onboard-existing-codebase` が出力する Backlog 項目として扱う——有効にするのは人間が決めたときだけである
 

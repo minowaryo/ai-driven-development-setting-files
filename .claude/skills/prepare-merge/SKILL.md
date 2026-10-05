@@ -25,6 +25,17 @@ description: 完了したフィーチャーブランチの main へのマージ�
    `MERGE_CHECK=` 行とスコアを読む。スクリプトが0以外で終了した場合、または `MERGE_CHECK=` 行を
    出力しなかった場合は、区分を `required` として扱い、エラーを提示する。ベースブランチが
    見つからないと報告された場合は、`REVIEW_SCORE_BASE_BRANCH` を設定するようユーザーに伝える。
+
+   続いて Domain Boundary チェック（§6）を**別のコマンドとして**実行する——終了コード1は
+   「検出あり」の意味で、失敗ではない:
+
+   ```bash
+   bash "${CLAUDE_PLUGIN_ROOT:-.claude}/hooks/domain-boundary-check.sh"
+   ```
+
+   `>> N violation(s), H heuristic warning(s), P priority file(s).` の行を読む（「No Domain Boundary
+   violations」または「nothing to check」の行は、すべて0を意味する）。それ以外の終了コードや
+   「skipping」の行が出ても止まらない: ステップ5の計画に書き留めて続行する。
 3. **区分によるゲート**（§6）— `/review` を「実行済み」とみなすのは、このセッションでブランチの
    最後のコミットより後に実行された場合か、ユーザーが実行済みと確認した場合だけ——推測で判断しない。
    - `standard`:
@@ -37,9 +48,18 @@ description: 完了したフィーチャーブランチの main へのマージ�
      スクリプトが失敗した場合**（ステップ2）は、平易な言葉で1回だけ尋ね（例：「DBマイグレーションに
      触れているので、先に `/review` を実行しますか？」）、
      その回答に従う（断られた場合は `Review: skipped`）
+   - Domain Boundary（両プロファイル）— 検出結果で区分が変わることも、`/review` が必須になることもない。
+     違反または優先ファイルがあり、`/review` が未実行なら、各Controllerの名前と何をしているかを挙げて
+     平易な言葉で1回だけ尋ねる（例：「OrderController が DB に直接書き込んでいる箇所が2件あります」）——
+     先に直す、`/review` する、このままマージする。「直す」なら止まる——修正はブランチ側で行い、最初から
+     やり直す。「レビュー」なら止まり、人間に `/review` の実行を依頼して（`/review` は人間が呼び出すもの——
+     ADR-0009）、最初からやり直す。`lite` の機密パスの質問と重なる場合は、1つの質問にまとめる。`standard` で
+     `required` 区分のためにすでに止まる場合は、別に尋ねず、その停止メッセージで検出結果に触れる。それ以外
+     （またはヒューリスティック警告だけ）の場合は、検出結果をステップ5の計画に列挙するだけにする
 4. **マージメッセージを起草する** — §5 の形式に従う。gitのデフォルト件名
    （`Merge branch '<branch>'`）、1〜2文の「なぜ」（UC-IDがあれば含める。`light` の場合は任意）、
-   トレーラー `Merge-Check:`（区分・スコア・機密パス）、`Review:`（`normal` / `enhanced` / `skipped`）、
+   トレーラー `Merge-Check:`（区分・スコア・機密パス、Domain Boundary チェックが違反をN件（N > 0）報告した
+   場合は `boundary N`）、`Review:`（`normal` / `enhanced` / `skipped`）、
    `Tests:`（ステップ6で埋める）。区分とスコアは `Merge-Check:` トレーラーにだけ入れ、ユーザーには
    見せない（`docs/development/git-workflow.md` §6「ユーザーへの伝え方」）。
 5. **計画を提示して待つ** — メッセージと、以下の正確なコマンドを提示する（`<base>` はプロジェクトの
@@ -49,6 +69,8 @@ description: 完了したフィーチャーブランチの main へのマージ�
    `lite` の一括実行（§4 権限）では、1つの計画に作成するコミットと——ユーザーが依頼した場合のみ——
    最後の `git push origin <base>` も含め、変更ファイルとテストコマンドを示す。
    その1回の承認で一連の操作全体をカバーする。
+   Domain Boundary チェックで何か見つかった場合、または失敗・スキップした場合は、計画の中で平易な言葉で
+   伝える（ファイルと何をしているか、またはエラー内容）。
 
    ```bash
    git checkout <base>

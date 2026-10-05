@@ -2,7 +2,39 @@
 
 > Template-internal archive of this repository's own `PLAN.md` entries (newest first). Moved verbatim per `.claude/rules/60-docs.md`.
 > Not copied into target projects (`APPLY_TEMPLATE.md` class X).
-> Covers: 2026-08-03 – 2026-09-28 (through the oldest 2026-09-28 entry, the review-score / domain-boundary hook hardening), except the on-hold 2026-08-19 entry, which stays in `PLAN.md` (archived 2026-09-29, 2026-09-30, 2026-10-01).
+> Covers: 2026-08-03 – 2026-09-28 (through the 2026-09-28 skills-vs-commands / `/regenerate-traceability` entry), except the on-hold 2026-08-19 entry, which stays in `PLAN.md` (archived 2026-09-29, 2026-09-30, 2026-10-01, 2026-10-05).
+
+## スキルとコマンドの使い分け基準 + /regenerate-traceability の追加（ENリポジトリからの移植） (2026-09-28)
+
+### Decision
+
+- ENリポジトリには存在するが本リポジトリにはまだなかった「スキル」という仕組み自体
+  （`.claude/skills/` ディレクトリ、AIが自己判断で発動できるエントリポイントという概念）を移植した。
+  これは今回の主目的（サードパーティ製スキル概念の導入）を行う前提として必要だったため、
+  先にキャッチアップした。
+- `meta/adr/ADR-0012-skills-vs-commands.md`（ENリポジトリの `ADR-0011` に相当。番号が異なるのは、
+  導入した時点で本リポジトリ側の既存コードベース導入パスが `ADR-0012` を使用済みだったためで、
+  後日ADR-0011〜0015の付け番をEN版に合わせて1つずつ繰り下げ、最終的に一致させた）に、
+  スキル/コマンドの判断基準を記録した:「実行し忘れる」ことが失敗モードならスキル、
+  「タイミングを誤って実行する」ことが失敗モードならコマンド。既存6コマンドはいずれもコマンド側の
+  ままとした（移行のコストに見合う機能的な利点がないため）。
+- この基準の最初の適用例として `.claude/skills/regenerate-traceability/SKILL.md` を新規追加した——
+  `docs/rcid/traceability-matrix.md` の「マトリクス」表（「変更追跡」表は対象外）を、
+  `use-cases.md` と実際のコード・テストから再生成するスキル。JA版の見出し表記
+  （「マトリクス」「変更追跡」「最終再生成日:」）に合わせて内容を調整した。
+- 単体エクスポート（`dist/skills/<name>/SKILL.md`、`.gitignore` 対象）の慣行もADRに記録したが、
+  実際のエクスポートファイル自体は生成していない——ビルド成果物であり、共有したくなった時点で
+  再生成するものであるため。
+
+### Files touched
+
+`meta/adr/ADR-0012-skills-vs-commands.md`（新規）、
+`.claude/skills/regenerate-traceability/SKILL.md`（新規）、`.gitignore`、
+`docs/ai-context/common-commands.md`、`README.md`、`meta/adr/README.md`。
+
+### Status
+
+完了。フォローアップなし。
 
 ## review-score / domain-boundary フックの堅牢化とドキュメント整合性の修正（ENリポジトリからの移植） (2026-09-28)
 

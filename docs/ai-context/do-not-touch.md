@@ -14,7 +14,7 @@
 
 | 対象 | 理由 |
 |---|---|
-| `app/Http/Middleware/Authenticate.php` | 認証バイパスのリスク |
+| 認証ミドルウェアの設定（Laravel 11以降は `bootstrap/app.php` の `withMiddleware()`、Laravel 10以前は `app/Http/Middleware/Authenticate.php`） | 認証バイパスのリスク |
 | `app/Policies/` 全体 | 権限昇格のリスク |
 | `routes/api.php` の認証ミドルウェア設定 | API認証の破壊リスク |
 

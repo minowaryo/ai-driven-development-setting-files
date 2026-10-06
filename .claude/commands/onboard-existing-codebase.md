@@ -169,7 +169,7 @@
 どの項目が自然に再浮上し、どの項目が再浮上しないかを伝える：ドメイン境界の指摘は今後の `/review` の
 たびに再浮上するが、それ以外のコードの欠陥は今回一度しか表示されないため、残しておきたいものは人間が
 記録する（例: 課題管理ツールに登録する）。また、`SETUP.md` Step 4 の初回のみのテスト設定
-（`Model::shouldBeStrict`、`Http::preventStrayRequests()`、SQLiteではなくMySQLでのテスト実行）が
+（`Model::shouldBeStrict`、`DB::prohibitDestructiveCommands`、`Http::preventStrayRequests()`、SQLiteではなくMySQLでのテスト実行）が
 未導入であれば、それも列挙する：既存テストが失敗したりステージング環境で例外が発生したりしうるため、
 有効にするかどうかは人間が判断する。
 

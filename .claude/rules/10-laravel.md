@@ -42,7 +42,7 @@ Controllerは**以下を行ってはならない**:
 - トランザクションはServiceレイヤーで管理
 
 ### Model
-- `$fillable` を明示する（`$guarded = []` 禁止）
+- 一括代入できる属性を明示する — `$fillable`、または Laravel 13 では `#[Fillable([...])]`（`$guarded = []` と `#[Unguarded]` は禁止）
 - 本番以外ではEloquentを厳格モードにする：`AppServiceProvider::boot()` に `Model::shouldBeStrict(! $this->app->isProduction())` を書くと、遅延ロード（N+1）、`$fillable` にない属性、未ロード属性の読み取りが例外になり、テストで検出できる（`isLocal()` は使わない——`APP_ENV=testing` では false になる）
 - スコープはModelに定義する
 - リレーションは積極的に定義する
@@ -82,6 +82,6 @@ Controllerは**以下を行ってはならない**:
 ## 禁止事項
 
 - `.claude/rules/20-mysql.md`（クエリ方針）のルールに反する生SQL
-- `$guarded = []`
+- `$guarded = []` / `#[Unguarded]`
 - Controllerでのビジネスロジック
 - N+1クエリ（`with()` で積極的にEager Loading。上記の厳格モードによりテストで失敗する）

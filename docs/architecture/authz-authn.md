@@ -20,7 +20,7 @@ POST /login
 
 ### セキュリティ設定
 - セッション: HttpOnly + Secure + SameSite=Strict
-- CSRF: `VerifyCsrfToken` ミドルウェア有効
+- CSRF: `ValidateCsrfToken` ミドルウェア有効（Laravel 11以降。旧 `VerifyCsrfToken`）
 - レート制限: `/login` エンドポイントに `throttle:5,1` 適用
 - パスワードリセット: 署名付きURL + 1時間有効期限
 

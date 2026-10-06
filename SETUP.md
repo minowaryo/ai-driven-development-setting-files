@@ -188,6 +188,8 @@ docs/adr/ADR-xxxx-[title].md     ← 技術選定の都度作成
 ```php
 // app/Providers/AppServiceProvider.php — boot(): N+1, unfillable attributes, unloaded attributes throw
 Model::shouldBeStrict(! $this->app->isProduction());
+// ...and in production, db:wipe / migrate:fresh / refresh / reset / rollback refuse to run
+DB::prohibitDestructiveCommands($this->app->isProduction());
 
 // tests/TestCase.php — setUp(), after parent::setUp(): unfaked outbound HTTP fails the test
 Http::preventStrayRequests();
@@ -200,6 +202,8 @@ Http::preventStrayRequests();
   MySQL のテストデータベースを用意できない場合は SQLite の既定のままでよい——テストは動き、上の2行も効くが、
   MySQL 固有の差は検出できない。専用のテストデータベースなしに MySQL へ向けてはならない：`RefreshDatabase` が
   開発用のデータを消してしまう
+- 本番での禁止を入れると、スキーマ変更を戻すのは `migrate:rollback` ではなく、戻すための新しいマイグレーションになる
+  （`.claude/rules/20-mysql.md` の方針どおり）。本番でロールバックするデプロイ手順がある場合は、先にその手順を直す
 - 既存コードベース導入パス: これらは既存テストを失敗させたりステージング環境で例外を発生させたりしうるため、
   `/onboard-existing-codebase` が出力する Backlog 項目として扱う——有効にするのは人間が決めたときだけである
 

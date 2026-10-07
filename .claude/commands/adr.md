@@ -1,3 +1,7 @@
+---
+disable-model-invocation: true
+---
+
 # /adr — ADR作成コマンド
 
 新しいArchitecture Decision Record（ADR）を作成します。

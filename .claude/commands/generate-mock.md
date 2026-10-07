@@ -1,3 +1,7 @@
+---
+disable-model-invocation: true
+---
+
 # /generate-mock — モック生成コマンド
 
 引数で指定したUC番号のHTMLモックを生成して `docs/product/mockups/` に保存してください。

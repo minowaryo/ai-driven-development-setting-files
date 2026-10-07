@@ -4,6 +4,15 @@
 Accepted（`.claude/commands/adr.md` の「見送り（不採用）を記録する場合のバリエーション」に基づく——
 承認されているのは各項目を今は採用しないという決定自体であり、いずれかのツール導入そのものではない）
 
+> 2026-10-05 更新（ADR-0016 の調査）: **Laravel Boost** — 見送りの理由が一部なくなった。v2.10
+> （2026-09-23）から `php artisan boost:install --mcp --no-interaction` で MCP の設定だけをインストール
+> でき、ガイドラインの書き込みも `CLAUDE.md` を上書きせず、自身の `<laravel-boost-guidelines>` ブロック
+> だけを置き換えるようになった。ただし `boost.json` / `.mcp.json` は書き込み、新しい「Project Rules」
+> 機能ではエージェントが `.ai/rules/*` を自分で書ける（ドキュメントファーストと衝突するので
+> `BOOST_RULES_ENABLED=false` で無効にする）。判定は「見送り、不採用ではない」のまま。プロジェクトが
+> 採用するなら、ルールを無効にして MCP のみの方法を使う。**hookify** — 見送りのまま: フックの
+> `agent_type` で条件分岐できないので、ADR-0016 の実装者だけのロックを実装できない。
+
 ## Date
 2026-09-28
 

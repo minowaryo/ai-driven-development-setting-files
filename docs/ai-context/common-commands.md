@@ -3,7 +3,9 @@
 ## Claude Code エントリポイント（`.claude/commands/` と `.claude/skills/`）
 
 > どちらに置くかは `meta/adr/ADR-0012-skills-vs-commands.md` の基準に従う：AIが自己判断で
-> 発動してよいならスキル、人間が明示的にタイプした時のみ実行すべきならコマンド。
+> 発動してよいならスキル、人間が明示的にタイプした時のみ実行すべきならコマンド（すべてのコマンドは
+> `disable-model-invocation: true` を持つ——「レビューして」のような言葉での依頼では始まらないので、
+> コマンドを入力する）。
 
 | エントリポイント | いつ実行するか | 実行の起点 |
 |---|---|---|
@@ -11,7 +13,7 @@
 | `/generate-mock UC-XXX` | Gate 1通過後〜Gate 2の間。ビジネス側レビュー用のHTMLモックを生成 | 人間 |
 | `/adr` | 技術的な意思決定をしたとき。ADRのひな形を生成し、人間が決定を確定させる | 人間（AIが提案する） |
 | `/tdd UC-XXX 機能名` | 機能・UCの実装ごと。Red → Gate 4承認 → Green → Refactor | 人間 |
-| `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 自動 — 該当時に `/tdd` の手順6から実行される |
+| `/generate-e2e-test UC-XXX` | UCのクリティカルフローかつUI変更を含む場合 | 人間 — または該当時に `/tdd` の手順6がその手順に従う |
 | `/review` | マージ前、マージ前チェックで求められた場合（`docs/development/git-workflow.md` §6 マージ前チェック）。Step 0でブランチ差分をスコアリングしレビュー強度を自動判定 | 人間 — `/tdd` と `prepare-merge` は案内するのみ（実行自体を自動化しない設計。`meta/adr/ADR-0009-review-escalation-mechanism.md` 参照） |
 | `/commit` | 作業をコミットできる状態になったとき——コミット分割とメッセージを提案し、承認1回でコミットする。pushはしない | 人間 |
 | `prepare-merge`（Trial） | ブランチの作業が完了したとき（「merge this」/「マージして」）——マージ前チェック、マージメッセージの起草、指示があった場合のみ `--no-ff` マージ | AIまたは人間 — スキルのため。`meta/adr/ADR-0015` 参照 |
@@ -108,6 +110,19 @@ bash .claude/hooks/spec-lint.sh
 
 # Gate 1 の前: requirements.md のみ
 bash .claude/hooks/spec-lint.sh --requirements
+```
+
+## TDDガード（tdd-implementer に対してテストと仕様をロック）
+
+`/tdd` が自分で実行する（`docs/development/tdd-guard.md`）。確認したいときは手で実行してよい。
+
+```bash
+# tests/ と docs/product/ を Gate 4 承認時に保存したスナップショットと比較し、
+# それ以降の tdd-implementer のブロックされた試みを表示する（logs/audit.jsonl から）
+bash .claude/hooks/tdd-snapshot.sh verify
+
+# 新しいスナップショットを保存する（Gate 4 の承認が行うこと）
+bash .claude/hooks/tdd-snapshot.sh record
 ```
 
 ## データベース

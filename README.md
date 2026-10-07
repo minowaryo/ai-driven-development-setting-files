@@ -65,10 +65,12 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
 │   │   └── prepare-merge/             # Trial（meta/adr/ADR-0015）— マージ前チェック + 指示時のみ --no-ff マージ
 │   ├── hooks/
+│   │   ├── agent-guard.sh             # PreToolUse フック: tdd-implementer は tests/・docs/product/・logs/・スナップショットに書き込めず、git のステージ/コミット/設定もできない（ADR-0016）
 │   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0 と prepare-merge で実行。--audit-all でリポジトリ全体監査）
 │   │   ├── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
-│   │   └── spec-lint.sh               # 要件定義・ユースケース・モックの構造チェック（Gate 1 / Gate 2 の前に実行）
-│   └── settings.json                  # プロジェクトのパーミッション: git push は ask、force push は deny（docs/development/git-workflow.md §4 権限 参照）
+│   │   ├── spec-lint.sh               # 要件定義・ユースケース・モックの構造チェック（Gate 1 / Gate 2 の前に実行）
+│   │   └── tdd-snapshot.sh            # /tdd: Gate 4 承認時に tests/ + docs/product/ を保存し、Green 後に比較してログからブロックされた試みを表示（ADR-0016）
+│   └── settings.json                  # プロジェクトのパーミッション（git push は ask、force push は deny——docs/development/git-workflow.md §4 権限）、agent-guard フック、/code-review は人間のみ
 │
 ├── meta/
 │   ├── adr/                           # テンプレート/ハーネス自身のADR（プロジェクトのADRとは別管理。編集・リナンバリング不要）
@@ -89,7 +91,7 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── ADR-0014-third-party-integrations-deferred.md
 │   │   └── ADR-0015-git-workflow.md
 │   ├── history/                       # テンプレート自身の PLAN.md のアーカイブ — テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
-│   ├── tests/                         # テンプレート自身のスクリプトのテスト（review-score.test.sh、domain-boundary-check.test.sh、spec-lint.test.sh）— テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
+│   ├── tests/                         # テンプレート自身のスクリプトのテスト（review-score、domain-boundary-check、spec-lint、agent-guard、tdd-snapshot）— テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
 │   └── traceability-matrix.md         # .claude/hooks/ の各スクリプト: 実行元・コスト・ADR・テスト・EN/JP/社内版の同期状況 — テンプレート内部用（APPLY_TEMPLATE ではコピーせず、SETUP.md で削除）
 │
 └── docs/
@@ -129,6 +131,7 @@ AI向け要約層        → docs/ai-context/
     │   ├── git-workflow.md            # Gitワークフローの全ルール（ブランチ作成・コミット・マージの前に読む）
     │   ├── git-troubleshooting.md     # Gitで困ったとき——AIへ何を依頼するか（人向け）
     │   ├── plan-archiving.md          # PLAN.md のアーカイブ手順（PLAN.md が300行に近づいたら読む）
+    │   ├── tdd-guard.md               # /tdd の間に tdd-implementer に対して何がロックされるか、テストや仕様を正当に変える方法
     │   └── ai-workflow.md
     ├── security/
     │   └── secrets-handling.md

@@ -51,7 +51,7 @@
 
 ### 監査ログチャンネル
 
-特権操作・破壊的操作の監査エントリは、通常のアプリケーションログではなく**専用の `audit` チャンネル**に記録する。
+特権操作・破壊的操作の監査エントリは、通常のアプリケーションログではなく**専用の `audit` チャンネル**に記録する。（プロジェクトルートの `logs/audit.jsonl` とは別物。そちらはAIエージェントの活動を記録する——`docs/development/tdd-guard.md`。）
 
 - `config/logging.php` に `audit` チャンネルを定義する（`storage/logs/audit.log`、daily rotation、保持期間は `LOG_AUDIT_DAYS` 環境変数で制御。`.env.example` にキーを追加する）
 - チャンネルの `level` は `LOG_LEVEL` から**独立して** `info` に固定する。本番でアプリケーションログレベルを引き上げても監査証跡が消えないようにするため

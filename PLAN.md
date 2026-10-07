@@ -2,6 +2,37 @@
 
 > 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまでと、2026-09-28 のADR番号繰り下げエントリ（保留中の 2026-08-19 エントリと 2026-09-28 のサードパーティ製スキル概念エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05、2026-10-06）
 
+## Loop Engineering 段階1の移植（ENリポジトリから、2026-10-07 の証跡ロックを含む） (2026-10-07)
+
+### Decision
+
+- ユーザー判断（2026-10-07）: ADR-0016 の方針（JP は段階4で移植）を前倒しし、段階1を今移植する。
+  EN の段階1（`4fc02cf`）と、その追記（`c3db263`: サイクルの記録のロック + 拒否をログから表示）を対象にする。
+  段階2以降と EN の `meta/design/` は移植しない（ADR-0016 では「EN版の `meta/design/`」として参照する）。
+- `meta/adr/ADR-0016-loop-engineering-stage1.md` を番号確保の仮ファイルから本文の翻訳に置き換える。
+  `ADR-0007` / `ADR-0012` / `ADR-0014` に EN と同じ 2026-10-05 の更新メモを付ける。
+- スクリプトとテスト（`agent-guard.sh`、`tdd-snapshot.sh`、`meta/tests/` の2本）は EN からバイト単位で
+  コピーする（言語に依存しない）。それ以外は JP の文面に合わせて翻訳して反映する。
+- 新しい依存関係はない（Bash + POSIX ツール + Git）。
+
+### Checklist
+
+- [x] Docs: ADR-0016 本文、ADR-0007 / 0012 / 0014 の更新メモ、`meta/adr/README.md`、
+      `docs/development/tdd-guard.md`（新規）、このエントリ
+- [x] スクリプト2本 + テスト2本を EN からコピー（バイト単位で一致を確認）。`.claude/settings.json` も EN と一致
+- [x] `tdd-implementer.md`（ロック・SPEC_CONFLICT・試行回数・git の制限）、`tdd.md`（スナップショット・
+      停止条件・拒否の表示・E2E はファイルを読む）、全7コマンドに `disable-model-invocation: true`、
+      `prepare-merge` ステップ1
+- [x] `30-testing.md` / `40-security.md` の1行、`.gitignore` の `/logs/`、`APPLY_TEMPLATE.md` class C、
+      `README.md` のツリー、`common-commands.md`、`meta/traceability-matrix.md`
+- [x] `meta/tests/*.test.sh` がすべて通る（agent-guard 60、domain-boundary 31、review-score 27、spec-lint 43、tdd-snapshot 22）
+- [x] EN 側: ADR-0016 の「どこに置くか」と `meta/traceability-matrix.md` の JP 列を更新（EN の `main` に docs コミット）
+
+### Status
+
+ユーザーが Docs を承認（2026-10-07）。`feat/loop-stage1-port` で実装済み、未コミット。未実施: `claude -p` による
+エンドツーエンド実行（スクリプトと設定は EN と同一で、EN では 2.1.288 で確認済み）。
+
 ## ハーネスのトレーサビリティマトリクス + spec-lint の ADR-0018（ENリポジトリからの移植） (2026-10-06)
 
 ### Decision

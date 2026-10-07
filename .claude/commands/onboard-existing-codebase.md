@@ -1,3 +1,7 @@
+---
+disable-model-invocation: true
+---
+
 # /onboard-existing-codebase — 既存コードベース導入コマンド
 
 `SETUP.md` の既存コードベース導入パス（Step 1B〜3B）を一気通貫で実行する：実際のスタックを検出し、

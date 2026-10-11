@@ -26,6 +26,7 @@ from `ADR-0001`.
 | ADR-0014 | Third-party integrations considered and deferred (Laravel Boost, cc-sdd, hookify, Superpowers) |
 | ADR-0015 | Git workflow — short-lived branches, `--no-ff` merge record, merge-check tiers |
 | ADR-0016 | Loop Engineering roadmap and Stage 1 (mechanical TDD enforcement) (Trial) — Stage 1 applied here 2026-10-07; Stages 2-5 are EN-only |
+| ADR-0017 | Loop Engineering Stage 2a outcome — only the fixture-literal check and the agent-guard PHP-arrow fix are applied here; the experiments are EN-only (Trial) |
 | ADR-0018 | Structural pre-check of the spec documents — `spec-lint` (Trial) |
 | ADR-XXXX | Skill-ification criteria and detection mechanism (draft, uncommitted, on hold — see `PLAN.md`). Left unnumbered rather than reserving a slot — now that 0010-0014 are all assigned, it will take whatever the next number is when resumed |
 

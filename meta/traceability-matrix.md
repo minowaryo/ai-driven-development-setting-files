@@ -13,6 +13,7 @@
 |---|---|---|---|---|---|---|
 | `agent-guard.sh` | `tdd-implementer` による `tests/` / `docs/product/`、サイクルの記録（`logs/`、承認スナップショット）への書き込みと、インデックスを変える git コマンドを止める | `.claude/settings.json` の PreToolUse フック（Write、Edit、MultiEdit、NotebookEdit、Bash、PowerShell） | すべてのセッションの、該当するすべてのツール呼び出し | 約70ms（うち約40msは bash の起動）。許可するときは何も出力しない | ADR-0016 段階1 項目3（+ 2026-10-07 の追記） | `meta/tests/agent-guard.test.sh` |
 | `tdd-snapshot.sh` | Gate 4 承認時に `tests/` + `docs/product/` をコピーし、Green 後に差分を取る。承認後の実装者のブロックされた試みを `logs/audit.jsonl` から表示する | `/tdd` ステップ2（`record`）、ステップ4（`verify`） | `/tdd` のサイクルごとに2回 | `record` 0.6〜0.9秒、`verify` 0.4〜0.5秒（テストファイル100〜500個）。拒否の表示で `verify` が約0.2秒増える（2,000行のログ、2026-10-07） | ADR-0016 段階1 項目5（+ 2026-10-07 の追記） | `meta/tests/tdd-snapshot.test.sh` |
+| `fixture-literal-check.sh` | 承認済みテストにしか含まれない引用符付きの値と比較しているアプリケーションコードを検出する（通すためにテストのデータをハードコードしたもの） | `/tdd` ステップ4、`tdd-snapshot.sh verify` の後 | `/tdd` のサイクルごとに1回 | 0.2秒（ラボアプリ）、1.1秒（実プロジェクト、アプリのファイル86個、2026-10-08。EN での計測） | ADR-0017 の結果、前提条件1（設計メモは EN版の `meta/design/fixture-literal-check.md`） | `meta/tests/fixture-literal-check.test.sh` |
 | `review-score.sh` | ブランチの差分をスコアリングする: レビュー強度 + マージ前チェックの区分 | `/review` Step 0、`prepare-merge` ステップ2 | `/review` のたび、マージのたび | 約1.1秒 | ADR-0009、ADR-0015 | `meta/tests/review-score.test.sh` |
 | `domain-boundary-check.sh` | Domain Boundary を越えるControllerを検出する | `/review` Step 0、`prepare-merge` ステップ2、`/onboard-existing-codebase` Step 1B（`--audit-all`） | `/review` のたび、マージのたび、オンボーディング時に1回 | ブランチあたり約0.4秒、`--audit-all` で54,000行あたり約2.9秒 | ADR-0010（+ 2026-10-03 の更新メモ）、ADR-0015 の更新メモ | `meta/tests/domain-boundary-check.test.sh` |
 | `spec-lint.sh` | 要件定義・ユースケース・モックの構造チェック（EN版・JP版のテンプレート両方） | AIが Gate 1 / Gate 2 / Gate 0〜3 の一括承認の前に実行（`CLAUDE.md`、`AGENTS.md`、`SETUP.md` Step 2 / 2B、`/onboard-existing-codebase` Step 2B） | プロジェクトあたり数回 | 約1秒 | ADR-0018 | `meta/tests/spec-lint.test.sh` |
@@ -27,8 +28,9 @@ EN = `ai-driven-development-setting-files-en`、社内版 = `ai-driven-developme
 
 | スクリプト | 追加（JP） | 最終変更（JP） | EN | 社内版 |
 |---|---|---|---|---|
-| `agent-guard.sh` | 2026-10-07（EN `c3db263` から移植） | 同左 | 一致 | EN より遅れ（証跡ロック未移植） |
+| `agent-guard.sh` | 2026-10-07（EN `c3db263` から移植） | 2026-10-11（EN `4365586` の PHP 矢印の修正を移植） | 一致 | EN より遅れ（証跡ロック・PHP 矢印の修正未移植） |
 | `tdd-snapshot.sh` | 2026-10-07（EN `c3db263` から移植） | 同左 | 一致 | EN より遅れ（拒否の表示未移植） |
+| `fixture-literal-check.sh` | 2026-10-11（EN `8dc6e13` から移植） | 同左 | 一致 | 未移植 |
 | `review-score.sh` | `3c2332c` | `140f3c1` | 一致 | 一致 |
 | `domain-boundary-check.sh` | `37017ca` | `12085ed` | 一致 | 一致 |
 | `spec-lint.sh` | `b1c13a6` | `b1c13a6` | 一致 | 一致 |

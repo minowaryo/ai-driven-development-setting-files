@@ -121,6 +121,10 @@ bash .claude/hooks/spec-lint.sh --requirements
 # それ以降の tdd-implementer のブロックされた試みを表示する（logs/audit.jsonl から）
 bash .claude/hooks/tdd-snapshot.sh verify
 
+# æ¿èªæ¸ã¿ãã¹ãã«ããå«ã¾ããªãå¤ã¨æ¯è¼ãã¦ããã¢ããªã±ã¼ã·ã§ã³ã³ã¼ããæ¤åºãã
+# ï¼exit 2 = æ¤åºãGreen ã®å¾ããã­ã¸ã§ã¯ãã®ã«ã¼ãã§å®è¡ããï¼
+bash .claude/hooks/fixture-literal-check.sh
+
 # 新しいスナップショットを保存する（Gate 4 の承認が行うこと）
 bash .claude/hooks/tdd-snapshot.sh record
 ```

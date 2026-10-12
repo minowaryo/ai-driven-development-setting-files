@@ -67,6 +67,7 @@ AI向け要約層        → docs/ai-context/
 │   ├── hooks/
 │   │   ├── agent-guard.sh             # PreToolUse フック: tdd-implementer は tests/・docs/product/・logs/・スナップショットに書き込めず、git のステージ/コミット/設定もできない（ADR-0016）
 │   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0 と prepare-merge で実行。--audit-all でリポジトリ全体監査）
+│   │   ├── fixture-literal-check.sh   # /tdd: Green 後に、承認済みテストにしか含まれない値と比較しているアプリケーションコードを検出（ADR-0017）
 │   │   ├── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
 │   │   ├── spec-lint.sh               # 要件定義・ユースケース・モックの構造チェック（Gate 1 / Gate 2 の前に実行）
 │   │   └── tdd-snapshot.sh            # /tdd: Gate 4 承認時に tests/ + docs/product/ を保存し、Green 後に比較してログからブロックされた試みを表示（ADR-0016）

@@ -2,6 +2,23 @@
 
 > 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまでと、2026-09-28 のADR番号繰り下げエントリ（保留中の 2026-08-19 エントリと 2026-09-28 のサードパーティ製スキル概念エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05、2026-10-06）
 
+## Loop Engineering 段階2a の成果物の移植（ENリポジトリから、2026-10-11） (2026-10-11)
+
+### Decision
+
+- ユーザー判断（2026-10-11）: EN にだけある変更を JP に取り込み、プロジェクト（`stock_auto_order`）へはその JP から反映する。
+- 取り込む: `fixture-literal-check.sh`（`/tdd` ステップ4）、`agent-guard.sh` の PHP 矢印の修正、`test-writer` の観点、422/302 の注記、関連ドキュメント。
+- ADR-0017 は全文を翻訳せず、取り込んだ部分だけを日本語の短い形にした（実験の環境・手順は EN 固有。段階2〜5は EN のみ）。
+- スクリプトとテスト（`agent-guard.sh`、`fixture-literal-check.sh`、`meta/tests/` の2本）は EN からバイト単位でコピーした。
+
+### Files touched
+
+- hooks（`agent-guard.sh`、`fixture-literal-check.sh` 新規）、`tdd.md`、`test-writer.md`、`tdd-guard.md`、`coding-standards.md`、`common-commands.md`、`README.md`、ADR-0017（新規）と索引、`meta/traceability-matrix.md`、`meta/tests/` の2本
+
+### Status
+
+- 完了（`feat/stage2a-fixture-literal-port`。`main` へのマージは未）
+
 ## Loop Engineering 段階1の移植（ENリポジトリから、2026-10-07 の証跡ロックを含む） (2026-10-07)
 
 ### Decision

@@ -2,7 +2,100 @@
 
 > Template-internal archive of this repository's own `PLAN.md` entries (newest first). Moved verbatim per `.claude/rules/60-docs.md`.
 > Not copied into target projects (`APPLY_TEMPLATE.md` class X).
-> Covers: 2026-08-03 – 2026-09-28 (through the 2026-09-28 skills-vs-commands / `/regenerate-traceability` entry, plus the 2026-09-28 ADR renumbering entry), except the on-hold 2026-08-19 entry and the 2026-09-28 third-party skill entry, which stay in `PLAN.md` (archived 2026-09-29, 2026-09-30, 2026-10-01, 2026-10-05, 2026-10-06).
+> Covers: 2026-08-03 – 2026-09-30 (through the 2026-09-28 skills-vs-commands / `/regenerate-traceability` entry, plus the 2026-09-28 ADR renumbering entry and the 2026-09-29 / 2026-09-30 Git workflow entries), except the on-hold 2026-08-19 entry and the 2026-09-28 third-party skill entry, which stay in `PLAN.md` (archived 2026-09-29, 2026-09-30, 2026-10-01, 2026-10-05, 2026-10-06, 2026-10-12).
+
+## Gitワークフロー: `lite` プロファイル（デフォルト）と `standard` の併設、1行で切り替え（ENリポジトリからの移植） (2026-09-30)
+
+### Decision
+
+- ENリポジトリ（`C:\workspace\ai-driven-development-setting-files-en`、`1107126..cca4b36`）で実装済みの
+  変更を本リポジトリに移植した。根拠は `meta/adr/ADR-0015-git-workflow.md` の2026-09-30更新注記に記録。
+- プロファイルの切り替え: `.claude/rules/70-git.md` の `Profile: lite`（デフォルト）または `standard` の
+  1行を編集する（ユーザーが自然文で依頼し、AIが編集・コミットする。AIが自発的に切り替えることはない）。
+  違いは `docs/development/git-workflow.md` §0 プロファイル の表の行だけで、安全ルールを含むそれ以外は共通。
+- `lite`: AIがブランチ名を決めて待たずに作成する。`/tdd` 1サイクルにつき1コミット。`/review` は機密パスに
+  触れた場合のみ尋ねる（規模は情報として示す）。コミット・ファイル・スコア・区分・テストを示した計画への
+  1回の承認で commit → merge → push を実行してよい——いずれかが失敗したら残りは行わない。
+- `standard`: 2026-09-29 のルールセットそのまま。選択基準: 実データを扱う本番システム、または2人以上の
+  並行開発なら `standard`、それ以外は `lite`。
+- `docs/ai-context/common-commands.md` に「Gitで困ったとき」（状況 → AIへの依頼）を追加した。
+- 読み込みコスト: 全ルールを `docs/development/git-workflow.md`（Git操作の前に読む）に移し、
+  `.claude/rules/70-git.md` は19行の常時読み込みコア（プロファイル行 + 全ルールを読まなくても適用する
+  安全ルール）にした。コアのコミットメッセージ規定は英語のみ（2026-09-30 の決定を維持）。すべての
+  ポインタを `docs/development/git-workflow.md` §N <日本語見出し> に付け替えた。CLAUDE.md の
+  「Read when relevant」行は追加しない（ENと同じく、コア自身がいつ読むかを示すため）。
+- `.claude/hooks/review-score.sh` はコメントのみの変更のため、ENからそのままコピーした。
+
+### Files touched
+
+新規: `docs/development/git-workflow.md`。
+変更: `.claude/rules/70-git.md`、`.claude/commands/commit.md`、`.claude/commands/tdd.md`、
+`.claude/skills/prepare-merge/SKILL.md`、`.claude/hooks/review-score.sh`（ENからそのままコピー）、
+`.claude/rules/00-global.md`、`.claude/rules/30-testing.md`、`.claude/rules/50-review.md`、
+`.claude/rules/60-docs.md`、`.gitignore`、`AGENTS.md`、`APPLY_TEMPLATE.md`、`CLAUDE.md`、`README.md`、
+`SETUP.md`、`docs/ai-context/common-commands.md`、`docs/development/ai-workflow.md`、
+`docs/development/coding-standards.md`、`meta/adr/ADR-0015-git-workflow.md`、`PLAN.md`、
+`meta/history/plan-archive.md`（300行超過のため最も古い完了エントリを原文のまま移動。保留中の
+ADR-XXXX エントリは移動しない）。
+
+### Status
+
+実装済み（未コミット）。`feat/git-lite-profile` 上。次: 明示的な指示を受けてコミット・マージする。
+
+## Gitワークフローのルール: ブランチ・コミット単位・権限・--no-ff マージ記録・マージ前チェック区分（ENリポジトリからの移植） (2026-09-29)
+
+### Decision
+
+- ENリポジトリ（`C:\workspace\ai-driven-development-setting-files-en`、ブランチ `feat/git-workflow-rules`）で
+  実装済みの変更を本リポジトリに移植した。根拠・不採用案は `meta/adr/ADR-0015-git-workflow.md` に記録。
+- 主なホスティングはGitLab（GitHubでも動くこと）。MR/PRプロセス・CI・ブランチ保護は見送り、
+  ブランチ + コミット + `--no-ff` マージコミットだけで記録を残す。
+- GitHub Flow風の短命ブランチ（`<type>/<issue-no>-<slug>`）。`main` への直接コミットはdocs/誤字修正のみ。
+- コミット単位: 一文で言える・常にGreen・振る舞いの変更 / リファクタ / 整形を分ける。`/tdd` は
+  Red + Green で1コミット、Refactorは別コミット、マイグレーションは単独コミット。
+- 権限: AIのコミットは `/commit`（分割案 → 人間の承認1回）経由のみ。pushは明示的な指示時のみ（`ask`）、
+  force pushは拒否。マージは新設の `prepare-merge` スキルが準備し、明示的な指示時のみ実行。
+- マージコミットをMRの軽量な代替とする: gitのデフォルト件名 + 短い「なぜ」 + `Merge-Check:` /
+  `Review:` / `Tests:` トレーラー。
+- マージ前チェックは `review-score.sh` を再利用: `light`（< 10、テストのみ）/ `recommended`
+  （10〜29、`/review` 推奨）/ `required`（≥ 30 または機密パスあり、`/review` 必須）。閾値は社内の
+  Laravelプロジェクト4件の履歴と Google「Small CLs」/ SmartBear の知見で較正したTrial。
+- worktreeは並行セッションの場合のみ。タスクごとのサブエージェントレビューループは行わない。
+  本プロジェクトのルールはSuperpowersのGitスキルより優先する。
+- `.claude/rules/70-git.md` がGitルールの唯一の記述場所であり、他のファイルは1行のポインタまで。
+  §N の番号はENと共通、見出しは日本語（§1 ブランチ / §2 コミット単位 / §3 コミットメッセージ /
+  §4 権限 / §5 マージ / §6 マージ前チェック / §7 並行セッションとworktree / §8 プラグインスキルに対する優先）。
+- コミットメッセージの言語: 移植時は従来の `coding-standards.md` の方針（日本語または英語）を §3 に
+  引き継いだが、2026-09-30 にユーザーの判断で **英語のみ** に統一した（ENと同じ。`GLOBAL_CLAUDE.md` とも一致）。
+- 「PR」の表記は、PRプロセスが存在しないため「コミット」「マージ前」に置き換えた（`40-security.md` と
+  `docs/credentials/README.md` の「PR説明」はEN同様に残す）。
+
+### Files touched
+
+新規: `.claude/rules/70-git.md`、`.claude/commands/commit.md`、`.claude/skills/prepare-merge/SKILL.md`、
+`meta/adr/ADR-0015-git-workflow.md`、`.claude/settings.json`（ENからそのままコピー）、
+`meta/tests/review-score.test.sh`（ENからそのままコピー——テンプレート内部用、`APPLY_TEMPLATE.md` のクラスX）。
+
+変更: `.claude/hooks/review-score.sh`（ENからそのままコピー）、`.claude/commands/review.md`、
+`.claude/commands/tdd.md`、`.claude/rules/00-global.md`、`.claude/rules/30-testing.md`、
+`.claude/rules/50-review.md`、`.claude/rules/60-docs.md`、`.gitignore`、`AGENTS.md`、`APPLY_TEMPLATE.md`、
+`CLAUDE.md`、`README.md`、`docs/ai-context/common-commands.md`、`docs/development/ai-workflow.md`、
+`docs/development/coding-standards.md`、`docs/development/review-checklist.md`、
+`docs/product/org-permission-philosophy.md`、`docs/product/user-guide.md`、
+`docs/security/secrets-handling.md`、`meta/adr/ADR-0009-review-escalation-mechanism.md`、
+`meta/adr/README.md`、`PLAN.md`。
+
+### Status
+
+完了。`feat/git-workflow-rules` でコミットし、`/review`（強化レベル）の指摘を修正したうえで、
+`prepare-merge` により `main` へ `--no-ff` でマージ。`bash meta/tests/review-score.test.sh` → 27/27。
+テンプレートからコピーした新規プロジェクトも `SETUP.md`「Step 1 の前に」で `PLAN.md` をまっさらにし、
+`meta/tests/`・`meta/history/`・`APPLY_TEMPLATE.md` を削除する。フォローアップ: Trial の閾値を実運用後に見直す（ADR-0015）。
+あわせて、テンプレート自身の PLAN.md のアーカイブ先を `meta/history/plan-archive.md`（class X、導入先に
+コピーしない）と定め、300行超過のため 2026-08-03 / 2026-08-15 の完了エントリを原文のまま移動した
+（`.claude/rules/60-docs.md`、`APPLY_TEMPLATE.md`、`README.md` も更新）。
+`APPLY_TEMPLATE.md` の class D で、対象リポジトリの `PLAN.md` はタイトル行のみのまっさらな状態で作成するよう変更
+（テンプレート側の冒頭注記が漏れないように）。
 
 ## meta/adr のADR番号をENリポジトリに完全一致させる繰り下げ (2026-09-28)
 

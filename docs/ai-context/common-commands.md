@@ -64,6 +64,9 @@ npx playwright test --ui
 
 # 直近の失敗レポート表示
 npx playwright show-report
+
+# 新規・変更画面のスクリーンショット（新規画面は prepare-merge が撮る。e2e-testing.md 参照）
+rm -rf tests/e2e/.screenshots && CAPTURE_SCREENS="Schedules/Index" npx playwright test tests/e2e/screen-capture.spec.ts --reporter=line
 ```
 
 ## Playwright MCP（ブラウザ操作ツール・任意導入）

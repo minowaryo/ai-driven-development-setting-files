@@ -2,6 +2,24 @@
 
 > 300行未満を維持する（`.claude/rules/60-docs.md`）。アーカイブ済み: 2026-08-03 – 2026-09-28 のスキル/コマンド使い分け基準エントリまでと、2026-09-28 のADR番号繰り下げエントリ、2026-09-29 / 2026-09-30 のGitワークフローのエントリ（保留中の 2026-08-19 エントリと 2026-09-28 のサードパーティ製スキル概念エントリを除く）→ `meta/history/plan-archive.md`（2026-09-29、2026-09-30、2026-10-01、2026-10-05、2026-10-06、2026-10-12）
 
+## 実装者の起動回数・呼び出し回数の上限 S5 / S9（ENリポジトリからの移植、フック部分のみ） (2026-10-13)
+
+### Decision
+
+- EN `783ff32`（マージ `d2bf79e`）のうちフック部分だけを移植（ユーザー判断 2026-10-13）。設計は EN版の
+  `meta/design/stretch-chaining-limits.md`、決定は EN版の ADR-0019（JP は番号 0019 を空けたまま、未移植）。
+- `agent-guard.sh` が Gate 4 の承認ごとに、3回目の `tdd-implementer` の起動と、60回を超える実装者の
+  書き込み・コマンドを拒否する。`tdd-snapshot.sh record` で数え直し。matcher に `Agent|Task` を追加。
+- `agent-guard.sh`・そのテスト・`settings.json` は EN と同一ファイル。説明文（`tdd-guard.md`、
+  `traceability-matrix.md`、`README.md`、`APPLY_TEMPLATE.md`）は翻訳。
+- 移植しないもの（今回）: `/tdd` のチェイニングと完了報告（EN `cc1a523`）。前提の S7・サイクルレビューが
+  JP に未移植で、`tdd.md` は別セッション（`chore/test-run-budget-port`）が編集中のため、まとめて後で移植する。
+  社内版には入れない（ユーザー判断 2026-10-13）。
+
+### Status
+
+ブランチ `feat/stretch-limits-port` で移植済み、未コミット。テスト: `agent-guard.test.sh` 83/83、`meta/tests` 全件成功。
+
 ## マージ計画に変わった画面とスクリーンショット（ENリポジトリからの移植） (2026-10-12)
 
 ### Decision

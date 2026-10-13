@@ -11,7 +11,7 @@
 
 | スクリプト | 役割 | 実行元 | 頻度 | 1回あたりのコスト | 決定 | テスト |
 |---|---|---|---|---|---|---|
-| `agent-guard.sh` | `tdd-implementer` による `tests/` / `docs/product/`、サイクルの記録（`logs/`、承認スナップショット）への書き込みと、インデックスを変える git コマンドを止める | `.claude/settings.json` の PreToolUse フック（Write、Edit、MultiEdit、NotebookEdit、Bash、PowerShell） | すべてのセッションの、該当するすべてのツール呼び出し | 約70ms（うち約40msは bash の起動）。許可するときは何も出力しない | ADR-0016 段階1 項目3（+ 2026-10-07 の追記） | `meta/tests/agent-guard.test.sh` |
+| `agent-guard.sh` | `tdd-implementer` による `tests/` / `docs/product/`、サイクルの記録（`logs/`、承認スナップショット）への書き込みと、インデックスを変える git コマンドを止める。Gate 4 の承認ごとに、3回目の実装者の起動（S5）と、60回を超える実装者の書き込み・コマンド（S9）を拒否する | `.claude/settings.json` の PreToolUse フック（Write、Edit、MultiEdit、NotebookEdit、Bash、PowerShell、Agent、Task） | すべてのセッションの、該当するすべてのツール呼び出し | 約70ms（うち約40msは bash の起動）。許可するときは何も出力しない。2026-10-13 の S5 / S9 のカウンタは、EN の同一マシン A/B で変更前と差なし | ADR-0016 段階1 項目3（+ 2026-10-07 の追記）、EN版の ADR-0019（JP は未移植）と `meta/design/stretch-chaining-limits.md` | `meta/tests/agent-guard.test.sh` |
 | `tdd-snapshot.sh` | Gate 4 承認時に `tests/` + `docs/product/` をコピーし、Green 後に差分を取る。承認後の実装者のブロックされた試みを `logs/audit.jsonl` から表示する | `/tdd` ステップ2（`record`）、ステップ4（`verify`） | `/tdd` のサイクルごとに2回 | `record` 0.6〜0.9秒、`verify` 0.4〜0.5秒（テストファイル100〜500個）。拒否の表示で `verify` が約0.2秒増える（2,000行のログ、2026-10-07） | ADR-0016 段階1 項目5（+ 2026-10-07 の追記） | `meta/tests/tdd-snapshot.test.sh` |
 | `fixture-literal-check.sh` | 承認済みテストにしか含まれない引用符付きの値と比較しているアプリケーションコードを検出する（通すためにテストのデータをハードコードしたもの） | `/tdd` ステップ4、`tdd-snapshot.sh verify` の後 | `/tdd` のサイクルごとに1回 | 0.2秒（ラボアプリ）、1.1秒（実プロジェクト、アプリのファイル86個、2026-10-08。EN での計測） | ADR-0017 の結果、前提条件1（設計メモは EN版の `meta/design/fixture-literal-check.md`） | `meta/tests/fixture-literal-check.test.sh` |
 | `review-score.sh` | ブランチの差分をスコアリングする: レビュー強度 + マージ前チェックの区分 | `/review` Step 0、`prepare-merge` ステップ2 | `/review` のたび、マージのたび | 約1.1秒 | ADR-0009、ADR-0015 | `meta/tests/review-score.test.sh` |
@@ -28,7 +28,7 @@ EN = `ai-driven-development-setting-files-en`、社内版 = `ai-driven-developme
 
 | スクリプト | 追加（JP） | 最終変更（JP） | EN | 社内版 |
 |---|---|---|---|---|
-| `agent-guard.sh` | 2026-10-07（EN `c3db263` から移植） | 2026-10-11（EN `4365586` の PHP 矢印の修正を移植） | 一致 | EN より遅れ（証跡ロック・PHP 矢印の修正未移植） |
+| `agent-guard.sh` | 2026-10-07（EN `c3db263` から移植） | 2026-10-13（EN `783ff32` の S5 / S9 を移植） | 一致 | EN より遅れ（S5 / S9 未移植） |
 | `tdd-snapshot.sh` | 2026-10-07（EN `c3db263` から移植） | 同左 | 一致 | EN より遅れ（拒否の表示未移植） |
 | `fixture-literal-check.sh` | 2026-10-11（EN `8dc6e13` から移植） | 同左 | 一致 | 未移植 |
 | `review-score.sh` | `3c2332c` | `140f3c1` | 一致 | 一致 |

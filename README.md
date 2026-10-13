@@ -65,7 +65,7 @@ AI向け要約層        → docs/ai-context/
 │   │   ├── grill-me/                  # Trial（meta/adr/ADR-0013）— 要件定義の一問一答インタビュー
 │   │   └── prepare-merge/             # Trial（meta/adr/ADR-0015）— マージ前チェック + 指示時のみ --no-ff マージ
 │   ├── hooks/
-│   │   ├── agent-guard.sh             # PreToolUse フック: tdd-implementer は tests/・docs/product/・logs/・スナップショットに書き込めず、git のステージ/コミット/設定もできない（ADR-0016）
+│   │   ├── agent-guard.sh             # PreToolUse フック: tdd-implementer は tests/・docs/product/・logs/・スナップショットに書き込めず、git のステージ/コミット/設定もできない（ADR-0016）。Gate 4 の承認ごとに起動回数・呼び出し回数の上限あり（EN版の ADR-0019）
 │   │   ├── domain-boundary-check.sh   # ドメイン境界契約チェック（/review Step 0 と prepare-merge で実行。--audit-all でリポジトリ全体監査）
 │   │   ├── fixture-literal-check.sh   # /tdd: Green 後に、承認済みテストにしか含まれない値と比較しているアプリケーションコードを検出（ADR-0017）
 │   │   ├── review-score.sh            # ブランチ差分をスコアリング: レビュー強度（/review Step 0）+ マージ前チェック区分（prepare-merge）
